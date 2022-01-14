@@ -1,11 +1,16 @@
 import { useQuery, useQueryClient } from "react-query";
 import * as api from "../api";
 
-const useComments = (id: string) => {
-  const queryClient = useQueryClient();
-  return useQuery(["comments", id], () => {
-    return api.getComment(id);
-  });
+const useComment = (id: string) => {
+  return useQuery(
+    ["comments", id],
+    () => {
+      return api.getComment(id);
+    },
+    {
+      staleTime: Infinity,
+    }
+  );
 };
 
-export default useComments;
+export default useComment;
