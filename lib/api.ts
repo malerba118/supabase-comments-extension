@@ -5,6 +5,19 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string
 );
 
+interface CommentReactionMetadata {
+  comment_id: string;
+  reaction_type: string;
+  reaction_count: string;
+  active_for_user: boolean;
+}
+
+interface DisplayUser {
+  id: string;
+  name: string;
+  avatar: string;
+}
+
 interface Comment {
   id: string;
   user_id: string;
@@ -13,6 +26,22 @@ interface Comment {
   comment: string;
   created_at: string;
   replies_count: number;
+  reactions_metadata: CommentReactionMetadata[];
+  user: DisplayUser;
+}
+
+interface Reaction {
+  type: string;
+  created_at: string;
+  metadata: any;
+}
+
+interface CommentReaction {
+  id: string;
+  user_id: string;
+  comment_id: string;
+  reaction_type: string;
+  created_at: string;
 }
 
 export const assertResponseOk = (response: { error: any }) => {
@@ -38,19 +67,24 @@ export class ApiError extends Error {
 
 interface GetCommentsOptions {
   topic: string;
-  parentId?: string | null;
+  parentId: string | null;
 }
 
 export const getComments = async ({
   topic,
-  parentId,
+  parentId = null,
 }: GetCommentsOptions): Promise<Comment[]> => {
   const query = supabase
     .from<Comment>("comments_with_metadata")
-    .select("*")
+    .select(
+      "*,user:display_users!user_id(*),reactions_metadata:comment_reactions_metadata(*)"
+    )
     .eq("topic", topic);
+
   if (parentId) {
     query.eq("parent_id", parentId);
+  } else {
+    query.is("parent_id", null);
   }
   const response = await query;
   assertResponseOk(response);
@@ -60,11 +94,74 @@ export const getComments = async ({
 export const getComment = async (id: string): Promise<Comment> => {
   const query = supabase
     .from<Comment>("comments_with_metadata")
-    .select("*")
+    .select(
+      "*,user:display_users!user_id(*),reactions_metadata:comment_reactions_metadata(*)"
+    )
     .eq("id", id)
     .single();
 
   const response = await query;
   assertResponseOk(response);
   return response.data as Comment;
+};
+
+export const getReactions = async (): Promise<Reaction[]> => {
+  const query = supabase.from<Reaction>("reactions").select("*");
+
+  const response = await query;
+  assertResponseOk(response);
+  return response.data as Reaction[];
+};
+
+export const getReaction = async (type: string): Promise<Reaction> => {
+  const query = supabase
+    .from<Reaction>("reactions")
+    .select("*")
+    .eq("type", type)
+    .single();
+
+  const response = await query;
+  assertResponseOk(response);
+  return response.data as Reaction;
+};
+
+interface AddCommentReactionPayload {
+  reaction_type: string;
+  comment_id: string;
+}
+
+export const addCommentReaction = async (
+  payload: AddCommentReactionPayload
+): Promise<CommentReaction> => {
+  const query = supabase
+    .from("comment_reactions")
+    .insert({
+      ...payload,
+      user_id: supabase.auth.user()?.id,
+    })
+    .single();
+
+  const response = await query;
+  assertResponseOk(response);
+  return response.data as CommentReaction;
+};
+
+interface GetCommentReactionMetadataOptions {
+  commentId: string;
+  reactionType: string;
+}
+
+export const getCommentReactionMetadata = async ({
+  commentId,
+  reactionType,
+}: GetCommentReactionMetadataOptions): Promise<CommentReactionMetadata> => {
+  const query = supabase
+    .from<CommentReactionMetadata>("comment_reactions_metadata")
+    .select("*")
+    .eq("comment_id", commentId)
+    .eq("reaction_type", reactionType)
+    .single();
+  const response = await query;
+  assertResponseOk(response);
+  return response.data as CommentReactionMetadata;
 };

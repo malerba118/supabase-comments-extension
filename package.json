@@ -10,6 +10,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^1.29.1",
     "@supabase/ui": "^0.36.2",
+    "clsx": "^1.1.1",
     "next": "12.0.8",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -18,8 +19,11 @@
   "devDependencies": {
     "@types/node": "17.0.8",
     "@types/react": "17.0.38",
+    "autoprefixer": "^10.4.2",
     "eslint": "8.6.0",
     "eslint-config-next": "12.0.8",
+    "postcss": "^8.4.5",
+    "tailwindcss": "^3.0.14",
     "typescript": "4.5.4"
   }
 }
