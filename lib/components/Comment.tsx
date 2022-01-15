@@ -2,7 +2,10 @@ import { Badge, Image, Loading } from "@supabase/ui";
 import { FC, useState } from "react";
 import { Comments } from ".";
 import { useComment } from "../hooks";
+import useAddReaction from "../hooks/useAddReaction";
+import useRemoveReaction from "../hooks/useRemoveReaction";
 import CommentReaction from "./CommentReaction";
+import ReactionSelector from "./ReactionSelector";
 
 interface CommentProps {
   id: string;
@@ -11,6 +14,37 @@ interface CommentProps {
 const Comment: FC<CommentProps> = ({ id }) => {
   const [repliesVisible, setRepliesVisible] = useState(false);
   const query = useComment(id);
+  const mutations = {
+    addReaction: useAddReaction(),
+    removeReaction: useRemoveReaction(),
+  };
+
+  const activeReactions = query.data?.reactions_metadata.reduce(
+    (set, reactionMetadata) => {
+      if (reactionMetadata.active_for_user) {
+        set.add(reactionMetadata.reaction_type);
+      }
+      return set;
+    },
+    new Set<string>()
+  );
+
+  const toggleReaction = (reactionType: string) => {
+    if (!activeReactions) {
+      return;
+    }
+    if (!activeReactions.has(reactionType)) {
+      mutations.addReaction.mutate({
+        commentId: id,
+        reactionType,
+      });
+    } else {
+      mutations.removeReaction.mutate({
+        commentId: id,
+        reactionType,
+      });
+    }
+  };
 
   return (
     <div className=" space-y-1">
@@ -19,7 +53,7 @@ const Comment: FC<CommentProps> = ({ id }) => {
           <Loading active>{null}</Loading>
         </div>
       )}
-      {query.data && (
+      {query.data && activeReactions && (
         <div className="flex space-x-2">
           <div className="min-w-fit">
             <Image
@@ -36,32 +70,33 @@ const Comment: FC<CommentProps> = ({ id }) => {
             </div>
             <div className="flex justify-between items-center">
               <div className="flex space-x-2">
-                <div className="flex space-x-1 p-1 bg-black bg-opacity-5 rounded-full">
-                  <div className="h-4 w-4 rounded-full bg-black bg-opacity-5 text-xs grid items-center justify-center">
-                    <span>+</span>
-                  </div>
-                </div>
-                {query.data?.reactions_metadata.map((reactionMetadata) => (
+                <ReactionSelector
+                  activeReactions={activeReactions}
+                  toggleReaction={toggleReaction}
+                />
+                {query.data.reactions_metadata.map((reactionMetadata) => (
                   <CommentReaction
                     key={reactionMetadata.reaction_type}
-                    commentId={reactionMetadata.comment_id}
-                    reactionType={reactionMetadata.reaction_type}
+                    metadata={reactionMetadata}
+                    toggleReaction={toggleReaction}
                   />
                 ))}
               </div>
-              <div
-                onClick={() => setRepliesVisible((prev) => !prev)}
-                className="text-sm text-gray-500 cursor-pointer"
-                tabIndex={0}
-              >
-                {!repliesVisible && (
-                  <p>view replies ({query.data.replies_count})</p>
-                )}
-                {repliesVisible && <p>hide replies</p>}
-              </div>
+              {query.data.replies_count > 0 && (
+                <div
+                  onClick={() => setRepliesVisible((prev) => !prev)}
+                  className="text-sm text-gray-500 cursor-pointer"
+                  tabIndex={0}
+                >
+                  {!repliesVisible && (
+                    <p>view replies ({query.data.replies_count})</p>
+                  )}
+                  {repliesVisible && <p>hide replies</p>}
+                </div>
+              )}
             </div>
             <div>
-              {repliesVisible && query.data && query.data.replies_count > 0 && (
+              {repliesVisible && query.data.replies_count > 0 && (
                 <Comments topic={query.data.topic} parentId={query.data.id} />
               )}
             </div>

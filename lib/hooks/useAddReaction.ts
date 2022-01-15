@@ -18,10 +18,7 @@ const useAddReaction = () => {
     },
     {
       onSuccess: (data, params) => {
-        queryClient.invalidateQueries([
-          "comment-reactions-metadata",
-          { commentId: params.commentId, reactionType: params.reactionType },
-        ]);
+        queryClient.invalidateQueries(["comments", params.commentId]);
       },
     }
   );

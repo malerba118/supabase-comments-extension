@@ -31,7 +31,7 @@ const Comments: FC<CommentsProps> = ({ topic, parentId = null }) => {
   }
 
   return (
-    <div className="p-3 space-y-3 bg-black bg-opacity-5 rounded-md">
+    <div className="space-y-3  rounded-md">
       <div className="space-y-1">
         {queries.comments.data?.map((comment) => (
           <Comment key={comment.id} id={comment.id} />

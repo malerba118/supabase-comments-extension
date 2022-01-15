@@ -5,20 +5,20 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string
 );
 
-interface CommentReactionMetadata {
+export interface CommentReactionMetadata {
   comment_id: string;
   reaction_type: string;
   reaction_count: string;
   active_for_user: boolean;
 }
 
-interface DisplayUser {
+export interface DisplayUser {
   id: string;
   name: string;
   avatar: string;
 }
 
-interface Comment {
+export interface Comment {
   id: string;
   user_id: string;
   parent_id: string | null;
@@ -30,13 +30,13 @@ interface Comment {
   user: DisplayUser;
 }
 
-interface Reaction {
+export interface Reaction {
   type: string;
   created_at: string;
   metadata: any;
 }
 
-interface CommentReaction {
+export interface CommentReaction {
   id: string;
   user_id: string;
   comment_id: string;
@@ -139,6 +139,26 @@ export const addCommentReaction = async (
       ...payload,
       user_id: supabase.auth.user()?.id,
     })
+    .single();
+
+  const response = await query;
+  assertResponseOk(response);
+  return response.data as CommentReaction;
+};
+
+interface RemoveCommentReactionPayload {
+  reaction_type: string;
+  comment_id: string;
+}
+
+export const removeCommentReaction = async ({
+  reaction_type,
+  comment_id,
+}: RemoveCommentReactionPayload): Promise<CommentReaction> => {
+  const query = supabase
+    .from("comment_reactions")
+    .delete({ returning: "representation" })
+    .match({ reaction_type, comment_id, user_id: supabase.auth.user()?.id })
     .single();
 
   const response = await query;

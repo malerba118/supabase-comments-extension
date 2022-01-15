@@ -1,44 +1,34 @@
 import { FC } from "react";
-import { useComment, useCommentReactionMetadata } from "../hooks";
-import { Badge } from "@supabase/ui";
 import Reaction from "./Reaction";
 import useAddReaction from "../hooks/useAddReaction";
 import clsx from "clsx";
+import { CommentReactionMetadata } from "../api";
+import useRemoveReaction from "../hooks/useRemoveReaction";
 
 interface CommentReactionProps {
-  commentId: string;
-  reactionType: string;
+  metadata: CommentReactionMetadata;
+  toggleReaction: (reactionType: string) => void;
 }
 
 const CommentReaction: FC<CommentReactionProps> = ({
-  commentId,
-  reactionType,
+  metadata,
+  toggleReaction,
 }) => {
-  const query = useCommentReactionMetadata({ commentId, reactionType });
-  const mutations = {
-    addReaction: useAddReaction(),
-  };
   return (
-    <div className="flex space-x-2 p-1 bg-black bg-opacity-5 rounded-full">
+    <div className="flex space-x-2 p-0.5 bg-black bg-opacity-5 rounded-full items-center">
       <div
         tabIndex={0}
-        className={clsx(
-          query.data?.active_for_user
-            ? "bg-green-400"
-            : "bg-black bg-opacity-5",
-          "h-4 w-4 rounded-full cursor-pointer"
-        )}
+        className={"cursor-pointer"}
         onClick={() => {
-          if (!query.data?.active_for_user) {
-            mutations.addReaction.mutate({ commentId, reactionType });
-          }
+          toggleReaction(metadata.reaction_type);
         }}
       >
-        {query.data?.reaction_type && (
-          <Reaction type={query.data?.reaction_type} />
-        )}
+        <Reaction
+          isActive={metadata.active_for_user}
+          type={metadata.reaction_type}
+        />
       </div>
-      <p className="text-xs pr-1">{query.data?.reaction_count || ""}</p>
+      <p className="text-xs pr-1.5">{metadata.reaction_count}</p>
     </div>
   );
 };
