@@ -1,35 +1,12 @@
-import supabase from "@/services/supabase";
-import { Auth, Button } from "@supabase/ui";
 import type { NextPage } from "next";
-import styles from "../styles/Home.module.css";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { Comments } from "@/lib";
-import { FC, useEffect } from "react";
+import dynamic from "next/dynamic";
 
-const queryClient = new QueryClient();
+const Home = dynamic(() => import("../components/Home"), {
+  ssr: false,
+});
 
-const Home: NextPage = () => {
-  const auth = Auth.useUser();
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      <div className={styles.container}>
-        {!auth.user && <Auth supabaseClient={supabase} />}
-        {auth.user && (
-          <div>
-            <Button
-              onClick={() =>
-                supabase.auth.signOut().then(() => window.location.reload())
-              }
-            >
-              Log Out
-            </Button>
-            <Comments topic="tutorial-one" />
-          </div>
-        )}
-      </div>
-    </QueryClientProvider>
-  );
+const IndexPage: NextPage = () => {
+  return <Home />;
 };
 
-export default Home;
+export default IndexPage;
