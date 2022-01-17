@@ -17,18 +17,6 @@ const useComments = ({ topic, parentId = null }: UseCommentsOptions) => {
       onSuccess: (data) => {
         data?.forEach((comment) => {
           queryClient.setQueryData(["comments", comment.id], comment);
-          comment.reactions_metadata.forEach((reactionMetadata) => {
-            queryClient.setQueryData(
-              [
-                "comment-reactions-metadata",
-                {
-                  commentId: reactionMetadata.comment_id,
-                  reactionType: reactionMetadata.reaction_type,
-                },
-              ],
-              reactionMetadata
-            );
-          });
         });
       },
     }

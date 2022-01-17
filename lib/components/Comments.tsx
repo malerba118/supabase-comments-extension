@@ -1,26 +1,37 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useComments } from "../hooks";
 import Comment from "./Comment";
 import { Loading, Input, Button } from "@supabase/ui";
 import { useMutation } from "react-query";
 import useReactions from "../hooks/useReactions";
+import useAddComment from "../hooks/useAddComment";
 
 interface CommentsProps {
   topic: string;
   parentId?: string | null;
+  autoFocusInput?: boolean;
 }
 
-const Comments: FC<CommentsProps> = ({ topic, parentId = null }) => {
+const Comments: FC<CommentsProps> = ({
+  topic,
+  parentId = null,
+  autoFocusInput = false,
+}) => {
   const [draft, setDraft] = useState("");
   const queries = {
     comments: useComments({ topic, parentId }),
   };
 
   const mutations = {
-    addComment: useMutation(async () => {}),
+    addComment: useAddComment(),
   };
-
   useReactions();
+
+  useEffect(() => {
+    if (mutations.addComment.isSuccess) {
+      setDraft("");
+    }
+  }, [mutations.addComment.isSuccess]);
 
   if (queries.comments.isLoading) {
     return (
@@ -39,11 +50,22 @@ const Comments: FC<CommentsProps> = ({ topic, parentId = null }) => {
       </div>
       <div className="space-y-2">
         <Input.TextArea
+          autofocus={autoFocusInput}
           placeholder="Comment..."
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
         />
-        <Button>Submit</Button>
+        <Button
+          onClick={() => {
+            mutations.addComment.mutate({
+              topic,
+              parentId,
+              comment: draft,
+            });
+          }}
+        >
+          Submit
+        </Button>
       </div>
     </div>
   );

@@ -13,6 +13,8 @@ interface CommentProps {
 
 const Comment: FC<CommentProps> = ({ id }) => {
   const [repliesVisible, setRepliesVisible] = useState(false);
+  const [replying, setReplying] = useState(false);
+
   const query = useComment(id);
   const mutations = {
     addReaction: useAddReaction(),
@@ -82,22 +84,43 @@ const Comment: FC<CommentProps> = ({ id }) => {
                   />
                 ))}
               </div>
-              {query.data.replies_count > 0 && (
-                <div
-                  onClick={() => setRepliesVisible((prev) => !prev)}
-                  className="text-sm text-gray-500 cursor-pointer"
+              <div className="flex space-x-3 text-sm text-gray-500 ">
+                {query.data.replies_count > 0 && (
+                  <div
+                    onClick={() => setRepliesVisible((prev) => !prev)}
+                    className="cursor-pointer"
+                    tabIndex={0}
+                  >
+                    {!repliesVisible && (
+                      <p>view replies ({query.data.replies_count})</p>
+                    )}
+                    {repliesVisible && <p>hide replies</p>}
+                  </div>
+                )}
+                <p
                   tabIndex={0}
+                  className="cursor-pointer"
+                  onClick={() => {
+                    if (!replying) {
+                      setRepliesVisible(true);
+                      setReplying(true);
+                    } else {
+                      setRepliesVisible(false);
+                      setReplying(false);
+                    }
+                  }}
                 >
-                  {!repliesVisible && (
-                    <p>view replies ({query.data.replies_count})</p>
-                  )}
-                  {repliesVisible && <p>hide replies</p>}
-                </div>
-              )}
+                  {replying ? "cancel" : "reply"}
+                </p>
+              </div>
             </div>
             <div>
-              {repliesVisible && query.data.replies_count > 0 && (
-                <Comments topic={query.data.topic} parentId={query.data.id} />
+              {repliesVisible && (
+                <Comments
+                  autoFocusInput={replying}
+                  topic={query.data.topic}
+                  parentId={query.data.id}
+                />
               )}
             </div>
           </div>

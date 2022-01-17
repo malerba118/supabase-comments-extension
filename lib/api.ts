@@ -105,6 +105,28 @@ export const getComment = async (id: string): Promise<Comment> => {
   return response.data as Comment;
 };
 
+interface AddCommentPayload {
+  comment: string;
+  topic: string;
+  parent_id: string | null;
+}
+
+export const addComment = async (
+  payload: AddCommentPayload
+): Promise<Comment> => {
+  const query = supabase
+    .from("comments")
+    .insert({
+      ...payload,
+      user_id: supabase.auth.user()?.id,
+    })
+    .single();
+
+  const response = await query;
+  assertResponseOk(response);
+  return response.data as Comment;
+};
+
 export const getReactions = async (): Promise<Reaction[]> => {
   const query = supabase.from<Reaction>("reactions").select("*");
 
