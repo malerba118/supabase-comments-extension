@@ -5,6 +5,7 @@ import { useComment } from "../hooks";
 import useAddReaction from "../hooks/useAddReaction";
 import useRemoveReaction from "../hooks/useRemoveReaction";
 import CommentReaction from "./CommentReaction";
+import Editor from "./Editor";
 import ReactionSelector from "./ReactionSelector";
 
 interface CommentProps {
@@ -68,7 +69,9 @@ const Comment: FC<CommentProps> = ({ id }) => {
           <div className="space-y-2 flex-1">
             <div className="bg-black bg-opacity-5 p-2 py-1 rounded-md">
               <p className="font-bold">{query.data.user.name}</p>
-              <p>{query.data?.comment}</p>
+              <p>
+                <Editor defaultValue={query.data.comment} readOnly />
+              </p>
             </div>
             <div className="flex justify-between items-center">
               <div className="flex space-x-2">

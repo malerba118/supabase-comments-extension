@@ -5,6 +5,7 @@ import { Loading, Input, Button } from "@supabase/ui";
 import { useMutation } from "react-query";
 import useReactions from "../hooks/useReactions";
 import useAddComment from "../hooks/useAddComment";
+import Editor from "./Editor";
 
 interface CommentsProps {
   topic: string;
@@ -49,11 +50,16 @@ const Comments: FC<CommentsProps> = ({
         ))}
       </div>
       <div className="space-y-2">
-        <Input.TextArea
+        {/* <Input.TextArea
           autofocus={autoFocusInput}
           placeholder="Comment..."
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
+        /> */}
+        <Editor
+          defaultValue={draft}
+          onChange={(val) => setDraft(val)}
+          autoFocus={autoFocusInput}
         />
         <Button
           onClick={() => {
