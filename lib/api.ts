@@ -1,9 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL as string,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string
-);
+import { SupabaseClient } from "@supabase/supabase-js";
 
 export interface CommentReactionMetadata {
   comment_id: string;
@@ -70,140 +65,142 @@ interface GetCommentsOptions {
   parentId: string | null;
 }
 
-export const getComments = async ({
-  topic,
-  parentId = null,
-}: GetCommentsOptions): Promise<Comment[]> => {
-  const query = supabase
-    .from<Comment>("comments_with_metadata")
-    .select(
-      "*,user:display_users!user_id(*),reactions_metadata:comment_reactions_metadata(*)"
-    )
-    .eq("topic", topic);
-
-  if (parentId) {
-    query.eq("parent_id", parentId);
-  } else {
-    query.is("parent_id", null);
-  }
-  const response = await query;
-  assertResponseOk(response);
-  return response.data as Comment[];
-};
-
-export const getComment = async (id: string): Promise<Comment> => {
-  const query = supabase
-    .from<Comment>("comments_with_metadata")
-    .select(
-      "*,user:display_users!user_id(*),reactions_metadata:comment_reactions_metadata(*)"
-    )
-    .eq("id", id)
-    .single();
-
-  const response = await query;
-  assertResponseOk(response);
-  return response.data as Comment;
-};
-
 interface AddCommentPayload {
   comment: string;
   topic: string;
   parent_id: string | null;
 }
 
-export const addComment = async (
-  payload: AddCommentPayload
-): Promise<Comment> => {
-  const query = supabase
-    .from("comments")
-    .insert({
-      ...payload,
-      user_id: supabase.auth.user()?.id,
-    })
-    .single();
-
-  const response = await query;
-  assertResponseOk(response);
-  return response.data as Comment;
-};
-
-export const getReactions = async (): Promise<Reaction[]> => {
-  const query = supabase.from<Reaction>("reactions").select("*");
-
-  const response = await query;
-  assertResponseOk(response);
-  return response.data as Reaction[];
-};
-
-export const getReaction = async (type: string): Promise<Reaction> => {
-  const query = supabase
-    .from<Reaction>("reactions")
-    .select("*")
-    .eq("type", type)
-    .single();
-
-  const response = await query;
-  assertResponseOk(response);
-  return response.data as Reaction;
-};
-
 interface AddCommentReactionPayload {
   reaction_type: string;
   comment_id: string;
 }
-
-export const addCommentReaction = async (
-  payload: AddCommentReactionPayload
-): Promise<CommentReaction> => {
-  const query = supabase
-    .from("comment_reactions")
-    .insert({
-      ...payload,
-      user_id: supabase.auth.user()?.id,
-    })
-    .single();
-
-  const response = await query;
-  assertResponseOk(response);
-  return response.data as CommentReaction;
-};
 
 interface RemoveCommentReactionPayload {
   reaction_type: string;
   comment_id: string;
 }
 
-export const removeCommentReaction = async ({
-  reaction_type,
-  comment_id,
-}: RemoveCommentReactionPayload): Promise<CommentReaction> => {
-  const query = supabase
-    .from("comment_reactions")
-    .delete({ returning: "representation" })
-    .match({ reaction_type, comment_id, user_id: supabase.auth.user()?.id })
-    .single();
+export const createApiClient = (supabase: SupabaseClient) => {
+  const getComments = async ({
+    topic,
+    parentId = null,
+  }: GetCommentsOptions): Promise<Comment[]> => {
+    const query = supabase
+      .from<Comment>("comments_with_metadata")
+      .select(
+        "*,user:display_users!user_id(*),reactions_metadata:comment_reactions_metadata(*)"
+      )
+      .eq("topic", topic);
 
-  const response = await query;
-  assertResponseOk(response);
-  return response.data as CommentReaction;
-};
+    if (parentId) {
+      query.eq("parent_id", parentId);
+    } else {
+      query.is("parent_id", null);
+    }
+    const response = await query;
+    assertResponseOk(response);
+    return response.data as Comment[];
+  };
 
-interface GetCommentReactionMetadataOptions {
-  commentId: string;
-  reactionType: string;
-}
+  const getComment = async (id: string): Promise<Comment> => {
+    const query = supabase
+      .from<Comment>("comments_with_metadata")
+      .select(
+        "*,user:display_users!user_id(*),reactions_metadata:comment_reactions_metadata(*)"
+      )
+      .eq("id", id)
+      .single();
 
-export const getCommentReactionMetadata = async ({
-  commentId,
-  reactionType,
-}: GetCommentReactionMetadataOptions): Promise<CommentReactionMetadata> => {
-  const query = supabase
-    .from<CommentReactionMetadata>("comment_reactions_metadata")
-    .select("*")
-    .eq("comment_id", commentId)
-    .eq("reaction_type", reactionType)
-    .single();
-  const response = await query;
-  assertResponseOk(response);
-  return response.data as CommentReactionMetadata;
+    const response = await query;
+    assertResponseOk(response);
+    return response.data as Comment;
+  };
+
+  const addComment = async (payload: AddCommentPayload): Promise<Comment> => {
+    const query = supabase
+      .from("comments")
+      .insert({
+        ...payload,
+        user_id: supabase.auth.user()?.id,
+      })
+      .single();
+
+    const response = await query;
+    assertResponseOk(response);
+    return response.data as Comment;
+  };
+
+  const getReactions = async (): Promise<Reaction[]> => {
+    const query = supabase.from<Reaction>("reactions").select("*");
+
+    const response = await query;
+    assertResponseOk(response);
+    return response.data as Reaction[];
+  };
+
+  const getReaction = async (type: string): Promise<Reaction> => {
+    const query = supabase
+      .from<Reaction>("reactions")
+      .select("*")
+      .eq("type", type)
+      .single();
+
+    const response = await query;
+    assertResponseOk(response);
+    return response.data as Reaction;
+  };
+
+  const addCommentReaction = async (
+    payload: AddCommentReactionPayload
+  ): Promise<CommentReaction> => {
+    const query = supabase
+      .from("comment_reactions")
+      .insert({
+        ...payload,
+        user_id: supabase.auth.user()?.id,
+      })
+      .single();
+
+    const response = await query;
+    assertResponseOk(response);
+    return response.data as CommentReaction;
+  };
+
+  const removeCommentReaction = async ({
+    reaction_type,
+    comment_id,
+  }: RemoveCommentReactionPayload): Promise<CommentReaction> => {
+    const query = supabase
+      .from("comment_reactions")
+      .delete({ returning: "representation" })
+      .match({ reaction_type, comment_id, user_id: supabase.auth.user()?.id })
+      .single();
+
+    const response = await query;
+    assertResponseOk(response);
+    return response.data as CommentReaction;
+  };
+
+  const searchUsers = async (search: string): Promise<DisplayUser[]> => {
+    const query = supabase
+      .from<DisplayUser>("display_users")
+      .select("*")
+      .ilike("name", `%${search}%`);
+
+    const response = await query;
+    assertResponseOk(response);
+    return response.data as DisplayUser[];
+  };
+
+  return {
+    getComments,
+    getComment,
+    addComment,
+    getReactions,
+    getReaction,
+    addCommentReaction,
+    removeCommentReaction,
+    searchUsers,
+  };
 };

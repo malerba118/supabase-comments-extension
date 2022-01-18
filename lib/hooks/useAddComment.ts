@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "react-query";
-import * as api from "../api";
+import useApi from "./useApi";
 
 interface UseAddCommentPayload {
   comment: string;
@@ -9,6 +9,7 @@ interface UseAddCommentPayload {
 
 const useAddComment = () => {
   const queryClient = useQueryClient();
+  const api = useApi();
 
   return useMutation(
     ({ comment, topic, parentId }: UseAddCommentPayload) => {

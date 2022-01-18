@@ -22,10 +22,12 @@ const ReactionSelector: FC<ReactionSelectorProps> = ({
             toggleReaction(reaction.type);
           }}
           icon={
-            <Reaction
-              isActive={activeReactions.has(reaction.type)}
-              type={reaction.type}
-            />
+            <div className="-ml-2">
+              <Reaction
+                isActive={activeReactions.has(reaction.type)}
+                type={reaction.type}
+              />
+            </div>
           }
         >
           <Typography.Text>{reaction.metadata.label}</Typography.Text>

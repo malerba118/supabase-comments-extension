@@ -1,24 +1,24 @@
 import { useQuery, useQueryClient } from "react-query";
 import useApi from "./useApi";
 
-const useReactions = () => {
+const useSearchUsers = (search: string) => {
   const api = useApi();
   const queryClient = useQueryClient();
 
   return useQuery(
-    ["reactions"],
+    ["users", { search }],
     () => {
-      return api.getReactions();
+      return api.searchUsers(search);
     },
     {
       staleTime: Infinity,
       onSuccess: (data) => {
-        data?.forEach((reaction) => {
-          queryClient.setQueryData(["reactions", reaction.type], reaction);
+        data?.forEach((user) => {
+          queryClient.setQueryData(["users", user.id], user);
         });
       },
     }
   );
 };
 
-export default useReactions;
+export default useSearchUsers;

@@ -1,7 +1,8 @@
 import { useQuery, useQueryClient } from "react-query";
-import * as api from "../api";
+import useApi from "./useApi";
 
 const useComment = (id: string) => {
+  const api = useApi();
   const queryClient = useQueryClient();
 
   return useQuery(

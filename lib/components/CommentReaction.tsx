@@ -1,9 +1,6 @@
 import { FC } from "react";
 import Reaction from "./Reaction";
-import useAddReaction from "../hooks/useAddReaction";
-import clsx from "clsx";
 import { CommentReactionMetadata } from "../api";
-import useRemoveReaction from "../hooks/useRemoveReaction";
 
 interface CommentReactionProps {
   metadata: CommentReactionMetadata;

@@ -1,7 +1,9 @@
 import { useQuery } from "react-query";
-import * as api from "../api";
+import useApi from "./useApi";
 
 const useReaction = (type: string) => {
+  const api = useApi();
+
   return useQuery(
     ["reactions", type],
     () => {

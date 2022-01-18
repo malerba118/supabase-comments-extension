@@ -7,6 +7,7 @@ import useRemoveReaction from "../hooks/useRemoveReaction";
 import CommentReaction from "./CommentReaction";
 import Editor from "./Editor";
 import ReactionSelector from "./ReactionSelector";
+import TimeAgo from "./TimeAgo";
 
 interface CommentProps {
   id: string;
@@ -50,7 +51,7 @@ const Comment: FC<CommentProps> = ({ id }) => {
   };
 
   return (
-    <div className=" space-y-1">
+    <div className="space-y-1">
       {query.isLoading && (
         <div className="h-12 grid place-items-center">
           <Loading active>{null}</Loading>
@@ -67,10 +68,13 @@ const Comment: FC<CommentProps> = ({ id }) => {
             />
           </div>
           <div className="space-y-2 flex-1">
-            <div className="bg-black bg-opacity-5 p-2 py-1 rounded-md">
+            <div className=" text-black text-opacity-90 bg-black bg-opacity-[0.075] p-2 py-1 rounded-md dark:text-white dark:text-opacity-90 dark:bg-white dark:bg-opacity-[0.075]">
               <p className="font-bold">{query.data.user.name}</p>
               <p>
                 <Editor defaultValue={query.data.comment} readOnly />
+              </p>
+              <p className="text-sm text-gray-500">
+                <TimeAgo date={query.data.created_at} locale="en-US" />
               </p>
             </div>
             <div className="flex justify-between items-center">
@@ -119,11 +123,13 @@ const Comment: FC<CommentProps> = ({ id }) => {
             </div>
             <div>
               {repliesVisible && (
-                <Comments
-                  autoFocusInput={replying}
-                  topic={query.data.topic}
-                  parentId={query.data.id}
-                />
+                <div className="my-3">
+                  <Comments
+                    autoFocusInput={replying}
+                    topic={query.data.topic}
+                    parentId={query.data.id}
+                  />
+                </div>
               )}
             </div>
           </div>

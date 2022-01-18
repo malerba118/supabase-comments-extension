@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from "react-query";
-import * as api from "../api";
+import useApi from "./useApi";
 
 interface UseCommentsOptions {
   topic: string;
@@ -7,7 +7,9 @@ interface UseCommentsOptions {
 }
 
 const useComments = ({ topic, parentId = null }: UseCommentsOptions) => {
+  const api = useApi();
   const queryClient = useQueryClient();
+
   return useQuery(
     ["comments", { topic, parentId }],
     () => {

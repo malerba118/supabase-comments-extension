@@ -1,6 +1,8 @@
 import { FC } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import { suggestionConfig } from "./Mentions";
+import Mention from "@tiptap/extension-mention";
 
 interface EditorProps {
   defaultValue: string;
@@ -17,12 +19,20 @@ const Editor: FC<EditorProps> = ({
 }) => {
   const editor = useEditor({
     editable: !readOnly,
-    extensions: [StarterKit],
+    extensions: [
+      StarterKit,
+      Mention.configure({
+        HTMLAttributes: {
+          class: "mention",
+        },
+        suggestion: suggestionConfig,
+      }),
+    ],
     content: defaultValue,
     onUpdate: ({ editor }) => {
       onChange?.(editor.getHTML());
     },
-    autofocus: autoFocus ? "end" : null,
+    autofocus: autoFocus ? "end" : false,
     editorProps: {
       attributes: {
         class: "tiptap-editor",

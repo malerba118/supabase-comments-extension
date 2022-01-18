@@ -2,7 +2,6 @@ import { FC, useEffect, useState } from "react";
 import { useComments } from "../hooks";
 import Comment from "./Comment";
 import { Loading, Input, Button } from "@supabase/ui";
-import { useMutation } from "react-query";
 import useReactions from "../hooks/useReactions";
 import useAddComment from "../hooks/useAddComment";
 import Editor from "./Editor";
@@ -36,20 +35,20 @@ const Comments: FC<CommentsProps> = ({
 
   if (queries.comments.isLoading) {
     return (
-      <div className="h-12 grid place-items-center">
+      <div className="grid h-12 place-items-center">
         <Loading active>{null}</Loading>
       </div>
     );
   }
 
   return (
-    <div className="space-y-3  rounded-md">
+    <div className="space-y-3 rounded-md">
       <div className="space-y-1">
         {queries.comments.data?.map((comment) => (
           <Comment key={comment.id} id={comment.id} />
         ))}
       </div>
-      <div className="space-y-2">
+      <div className="ml-10 space-y-2">
         {/* <Input.TextArea
           autofocus={autoFocusInput}
           placeholder="Comment..."

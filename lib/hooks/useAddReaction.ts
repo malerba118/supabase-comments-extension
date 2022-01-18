@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "react-query";
-import * as api from "../api";
+import useApi from "./useApi";
 
 interface UseAddReactionPayload {
   reactionType: string;
@@ -7,6 +7,7 @@ interface UseAddReactionPayload {
 }
 
 const useAddReaction = () => {
+  const api = useApi();
   const queryClient = useQueryClient();
 
   return useMutation(

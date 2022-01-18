@@ -1,16 +1,13 @@
 import supabase from "@/services/supabase";
 import { Auth, Button } from "@supabase/ui";
 import styles from "../styles/Home.module.css";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { Comments } from "@/lib";
-
-const queryClient = new QueryClient();
+import { Comments, CommentsProvider } from "@/lib";
 
 const Home = () => {
   const auth = Auth.useUser();
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <CommentsProvider supabaseClient={supabase}>
       <div className={styles.container}>
         {!auth.user && <Auth supabaseClient={supabase} />}
         {auth.user && (
@@ -26,13 +23,13 @@ const Home = () => {
                 </Button>
               </div>
             </nav>
-            <div className="max-w-xl mx-auto my-12">
+            <div className="max-w-lg mx-auto my-12">
               <Comments topic="tutorial-one" />
             </div>
           </div>
         )}
       </div>
-    </QueryClientProvider>
+    </CommentsProvider>
   );
 };
 
