@@ -1,5 +1,8 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 
+const timeout = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
+
 export interface CommentReactionMetadata {
   comment_id: string;
   reaction_type: string;
@@ -99,6 +102,8 @@ export const createApiClient = (supabase: SupabaseClient) => {
       query.is('parent_id', null);
     }
     const response = await query;
+    await timeout(1200);
+
     assertResponseOk(response);
     return response.data as Comment[];
   };

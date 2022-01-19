@@ -60,7 +60,7 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
     if (replyManager?.replyingTo) {
       setRepliesVisible(true);
     } else {
-      // setRepliesVisible(false);
+      setRepliesVisible(false);
     }
   }, [replyManager?.replyingTo, comment.parent_id]);
 

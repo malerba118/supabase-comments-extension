@@ -62,19 +62,13 @@ const Comments: FC<CommentsProps> = ({
         ))}
       </div>
       <div className="ml-10 space-y-2">
-        {/* <Input.TextArea
-          autofocus={autoFocusInput}
-          placeholder="Comment..."
-          value={draft}
-          onChange={(e) => setDraft(e.target.value)}
-        /> */}
         <Editor
           key={commentState.key}
           defaultValue={commentState.defaultValue}
           onChange={(val) => {
             commentState.setValue(val);
           }}
-          autoFocus={autoFocusInput}
+          autoFocus={!!replyManager?.replyingTo}
         />
         <Button
           onClick={() => {

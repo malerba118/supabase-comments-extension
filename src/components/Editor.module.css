@@ -1,0 +1,37 @@
+.container {
+  height: 100px;
+}
+
+.container.readOnly {
+  height: auto;
+  min-height: 1rem;
+}
+
+.editor {
+  height: 100%;
+}
+
+.container.readOnly :global(.tiptap-editor) {
+  height: auto;
+  padding: 0;
+  overflow: auto;
+  border: none;
+  border-radius: 0;
+}
+
+.container :global(.tiptap-editor) {
+  height: 100%;
+  padding: 8px;
+  overflow: auto;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+/* 
+.viewer {
+  min-height: 1rem;
+}
+
+.viewer .tiptap-editor {
+  height: 100%;
+} */

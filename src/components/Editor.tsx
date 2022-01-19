@@ -3,6 +3,8 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { suggestionConfig } from './Mentions';
 import Mention from '@tiptap/extension-mention';
+import styles from './Editor.module.css';
+import clsx from 'clsx';
 
 interface EditorProps {
   defaultValue: string;
@@ -41,8 +43,8 @@ const Editor: FC<EditorProps> = ({
   });
 
   return (
-    <div>
-      <EditorContent editor={editor} />
+    <div className={clsx(styles.container, readOnly ? styles.readOnly : null)}>
+      <EditorContent className={styles.editor} editor={editor} />
     </div>
   );
 };
