@@ -1,42 +1,33 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
-/node_modules
-/.pnp
-.pnp.js
+node_modules
 
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
+# builds
+build
+dist
 
 # misc
+.cache
+.parcel-cache
 .DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# local env files
+.env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# vercel
-.vercel
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# typescript
-*.tsbuildinfo
+# temp directories created during testing
+my-test-library
+nala
 
-# Supabase
-**/supabase/.branches
-**/supabase/.temp
-**/supabase/.env
+# editor
+.vscode
+.idea
+
+# example
+/example/node_modules
+/example/.next
