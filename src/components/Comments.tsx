@@ -6,6 +6,7 @@ import useReactions from '../hooks/useReactions';
 import useAddComment from '../hooks/useAddComment';
 import Editor from './Editor';
 import useUncontrolledState from '../hooks/useUncontrolledState';
+import { useReply } from './ReplyProvider';
 
 interface CommentsProps {
   topic: string;
@@ -18,6 +19,7 @@ const Comments: FC<CommentsProps> = ({
   parentId = null,
   autoFocusInput = false,
 }) => {
+  const replyManager = useReply();
   const commentState = useUncontrolledState({ defaultValue: '' });
   const queries = {
     comments: useComments({ topic, parentId }),
@@ -29,6 +31,14 @@ const Comments: FC<CommentsProps> = ({
 
   // preload reactions
   useReactions();
+
+  useEffect(() => {
+    if (replyManager?.replyingTo) {
+      commentState.setDefaultValue(replyManager?.replyingTo.user.name);
+    } else {
+      commentState.setDefaultValue('');
+    }
+  }, [replyManager?.replyingTo]);
 
   useEffect(() => {
     if (mutations.addComment.isSuccess) {
