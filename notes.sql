@@ -1,12 +1,13 @@
 
 -- get replies count
+drop view comments_with_metadata;
 create view comments_with_metadata as select *, (select count(*) from comments as c where c.parent_id = comments.id) as replies_count from comments;
 
 -- unique constraint on comment_reactions
 ALTER TABLE comment_reactions ADD UNIQUE (user_id, comment_id, reaction_type);
 
 -- aggregate metadata for comment reactions
-create view comment_reactions_metadata as SELECT comment_id, reaction_type, COUNT(*) as reaction_count, BOOL_OR(user_id = auth.uid()) as active_for_user FROM comment_reactions GROUP BY (comment_id, reaction_type);
+create or replace view comment_reactions_metadata as SELECT comment_id, reaction_type, COUNT(*) as reaction_count, BOOL_OR(user_id = auth.uid()) as active_for_user FROM comment_reactions GROUP BY (comment_id, reaction_type);
 
 -- display_users view for user avatars
 create or replace view display_users as select 

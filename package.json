@@ -33,6 +33,7 @@
     "@types/react": "^17.0.20",
     "@types/react-beautiful-dnd": "^13.0.0",
     "@types/react-dom": "^17.0.9",
+    "@types/traverse": "^0.6.32",
     "autoprefixer": "^10.3.4",
     "cssnano": "^5.0.8",
     "identity-obj-proxy": "^3.0.0",
@@ -51,12 +52,15 @@
   "dependencies": {
     "@supabase/ui": ">0.30.0",
     "@tiptap/extension-mention": "^2.0.0-beta.92",
+    "@tiptap/html": "^2.0.0-beta.162",
     "@tiptap/react": "^2.0.0-beta.105",
     "@tiptap/starter-kit": "^2.0.0-beta.171",
     "clsx": "^1.1.1",
     "javascript-time-ago": "^2.3.10",
+    "react-image": "^4.0.3",
     "react-time-ago": "^7.1.7",
-    "tippy.js": "^6.3.7"
+    "tippy.js": "^6.3.7",
+    "traverse": "^0.6.6"
   },
   "prettier": {
     "printWidth": 80,

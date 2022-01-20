@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import { suggestionConfig } from './Mentions';
-import Mention from '@tiptap/extension-mention';
+import MentionsExtension from './Mentions';
 import styles from './Editor.module.css';
 import clsx from 'clsx';
 
@@ -21,15 +20,7 @@ const Editor: FC<EditorProps> = ({
 }) => {
   const editor = useEditor({
     editable: !readOnly,
-    extensions: [
-      StarterKit,
-      Mention.configure({
-        HTMLAttributes: {
-          class: 'mention',
-        },
-        suggestion: suggestionConfig,
-      }),
-    ],
+    extensions: [StarterKit, MentionsExtension],
     content: defaultValue,
     onUpdate: ({ editor }) => {
       onChange?.(editor.getHTML());
@@ -43,8 +34,8 @@ const Editor: FC<EditorProps> = ({
   });
 
   return (
-    <div className={clsx(styles.container, readOnly ? styles.readOnly : null)}>
-      <EditorContent className={styles.editor} editor={editor} />
+    <div className={clsx(readOnly ? styles.viewer : styles.editor)}>
+      <EditorContent className="h-full" editor={editor} />
     </div>
   );
 };

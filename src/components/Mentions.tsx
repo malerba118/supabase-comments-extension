@@ -3,6 +3,7 @@ import { ReactRenderer } from '@tiptap/react';
 import React, { useState, useEffect, forwardRef } from 'react';
 import { useSearchUsers } from '..';
 import { Loading, Menu } from '@supabase/ui';
+import Mention from '@tiptap/extension-mention';
 
 const MentionList = forwardRef((props: any, ref) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -112,3 +113,12 @@ export const suggestionConfig = {
     };
   },
 };
+
+const MentionsExtension = Mention.configure({
+  HTMLAttributes: {
+    class: 'mention',
+  },
+  suggestion: suggestionConfig,
+});
+
+export default MentionsExtension;

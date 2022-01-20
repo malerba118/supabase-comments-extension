@@ -1137,7 +1137,8 @@ CREATE TABLE public.comments (
     topic character varying NOT NULL,
     comment character varying NOT NULL,
     user_id uuid NOT NULL,
-    parent_id uuid
+    parent_id uuid,
+    mentioned_user_ids uuid[] DEFAULT '{}'::uuid[] NOT NULL
 );
 
 
@@ -1154,6 +1155,7 @@ CREATE VIEW public.comments_with_metadata AS
     comments.comment,
     comments.user_id,
     comments.parent_id,
+    comments.mentioned_user_ids,
     ( SELECT count(*) AS count
            FROM public.comments c
           WHERE (c.parent_id = comments.id)) AS replies_count
@@ -1364,6 +1366,26 @@ COPY auth.audit_log_entries (instance_id, id, payload, created_at) FROM stdin;
 00000000-0000-0000-0000-000000000000	d6c51c77-f8d6-42b5-9002-cf5fe56b4c63	{"action":"logout","actor_id":"48c92525-ec52-4601-a373-677f38d67011","actor_username":"malerba118@gmail.com","log_type":"account","timestamp":"2022-01-18T15:17:39Z"}	2022-01-18 15:17:39.560989+00
 00000000-0000-0000-0000-000000000000	6477d78a-18b9-437d-92e8-dc40f7656244	{"action":"login","actor_id":"48c92525-ec52-4601-a373-677f38d67011","actor_username":"malerba118@gmail.com","log_type":"account","timestamp":"2022-01-18T15:17:42Z"}	2022-01-18 15:17:42.621918+00
 00000000-0000-0000-0000-000000000000	09042a30-1ba8-4da3-9676-ac402989d43e	{"action":"login","actor_id":"48c92525-ec52-4601-a373-677f38d67011","actor_username":"malerba118@gmail.com","log_type":"account","timestamp":"2022-01-18T20:52:05Z"}	2022-01-18 20:52:05.942022+00
+00000000-0000-0000-0000-000000000000	58084670-4d68-4748-b61c-205dc3628efa	{"action":"token_refreshed","actor_id":"48c92525-ec52-4601-a373-677f38d67011","actor_username":"malerba118@gmail.com","log_type":"token","timestamp":"2022-01-19T03:14:56Z"}	2022-01-19 03:14:56.904467+00
+00000000-0000-0000-0000-000000000000	0e2749a5-ae18-4252-bb97-017976423577	{"action":"token_revoked","actor_id":"48c92525-ec52-4601-a373-677f38d67011","actor_username":"malerba118@gmail.com","log_type":"token","timestamp":"2022-01-19T03:14:56Z"}	2022-01-19 03:14:56.92452+00
+00000000-0000-0000-0000-000000000000	2cea77b8-cbe1-4d0c-ab3c-a1b0975c2bda	{"action":"token_refreshed","actor_id":"48c92525-ec52-4601-a373-677f38d67011","actor_username":"malerba118@gmail.com","log_type":"token","timestamp":"2022-01-19T04:32:40Z"}	2022-01-19 04:32:40.20944+00
+00000000-0000-0000-0000-000000000000	de8bc575-17ac-48b9-998e-e96d27356c17	{"action":"token_revoked","actor_id":"48c92525-ec52-4601-a373-677f38d67011","actor_username":"malerba118@gmail.com","log_type":"token","timestamp":"2022-01-19T04:32:40Z"}	2022-01-19 04:32:40.222977+00
+00000000-0000-0000-0000-000000000000	d968bcc5-1a2a-4868-b5e6-b4ec6a59c6b2	{"action":"token_refreshed","actor_id":"48c92525-ec52-4601-a373-677f38d67011","actor_username":"malerba118@gmail.com","log_type":"token","timestamp":"2022-01-19T14:55:46Z"}	2022-01-19 14:55:46.089402+00
+00000000-0000-0000-0000-000000000000	70a17da8-6c9d-4872-ac68-d10e3c3d2c33	{"action":"token_revoked","actor_id":"48c92525-ec52-4601-a373-677f38d67011","actor_username":"malerba118@gmail.com","log_type":"token","timestamp":"2022-01-19T14:55:46Z"}	2022-01-19 14:55:46.098361+00
+00000000-0000-0000-0000-000000000000	9e67edcc-be5a-4238-b1fc-de2127ca3ba2	{"action":"logout","actor_id":"48c92525-ec52-4601-a373-677f38d67011","actor_username":"malerba118@gmail.com","log_type":"account","timestamp":"2022-01-19T14:55:47Z"}	2022-01-19 14:55:47.813759+00
+00000000-0000-0000-0000-000000000000	a636ff79-a7ee-48aa-81ac-78dbb3ce0102	{"action":"login","actor_id":"48c92525-ec52-4601-a373-677f38d67011","actor_username":"malerba118@gmail.com","log_type":"account","timestamp":"2022-01-19T14:56:02Z"}	2022-01-19 14:56:02.60387+00
+00000000-0000-0000-0000-000000000000	10328f80-3bc3-4a94-a9f1-37b5f6063537	{"action":"logout","actor_id":"48c92525-ec52-4601-a373-677f38d67011","actor_username":"malerba118@gmail.com","log_type":"account","timestamp":"2022-01-19T15:41:34Z"}	2022-01-19 15:41:34.627115+00
+00000000-0000-0000-0000-000000000000	0ac85ebf-842d-4846-8206-00f7e3e90638	{"action":"login","actor_id":"4975184a-4093-4e63-882a-2c2f3b2405e0","actor_username":"austin.malerba@gmail.com","log_type":"account","timestamp":"2022-01-19T15:41:46Z"}	2022-01-19 15:41:46.482547+00
+00000000-0000-0000-0000-000000000000	2aa931be-9ccc-475a-b205-1b4009412cd8	{"action":"token_refreshed","actor_id":"4975184a-4093-4e63-882a-2c2f3b2405e0","actor_username":"austin.malerba@gmail.com","log_type":"token","timestamp":"2022-01-19T21:51:18Z"}	2022-01-19 21:51:18.474574+00
+00000000-0000-0000-0000-000000000000	3ec7ae60-46a7-4ca5-b5bb-837fcb297c90	{"action":"token_revoked","actor_id":"4975184a-4093-4e63-882a-2c2f3b2405e0","actor_username":"austin.malerba@gmail.com","log_type":"token","timestamp":"2022-01-19T21:51:18Z"}	2022-01-19 21:51:18.54409+00
+00000000-0000-0000-0000-000000000000	72df6e46-10cf-4c98-bc9d-2dd48e2ff752	{"action":"logout","actor_id":"4975184a-4093-4e63-882a-2c2f3b2405e0","actor_username":"austin.malerba@gmail.com","log_type":"account","timestamp":"2022-01-19T22:24:25Z"}	2022-01-19 22:24:25.431178+00
+00000000-0000-0000-0000-000000000000	dbc965f2-a4f2-4c64-ae29-79422d2c40a1	{"action":"login","actor_id":"48c92525-ec52-4601-a373-677f38d67011","actor_username":"malerba118@gmail.com","log_type":"account","timestamp":"2022-01-19T22:24:29Z"}	2022-01-19 22:24:29.544346+00
+00000000-0000-0000-0000-000000000000	36f2e3ce-d8de-48ac-ae17-3b85b2cc0744	{"action":"token_refreshed","actor_id":"48c92525-ec52-4601-a373-677f38d67011","actor_username":"malerba118@gmail.com","log_type":"token","timestamp":"2022-01-19T23:23:33Z"}	2022-01-19 23:23:33.128932+00
+00000000-0000-0000-0000-000000000000	76d1b356-40f2-40c1-a722-504c84c60601	{"action":"token_revoked","actor_id":"48c92525-ec52-4601-a373-677f38d67011","actor_username":"malerba118@gmail.com","log_type":"token","timestamp":"2022-01-19T23:23:33Z"}	2022-01-19 23:23:33.134149+00
+00000000-0000-0000-0000-000000000000	1504b5d8-724c-423c-89db-82fd73719841	{"action":"token_refreshed","actor_id":"48c92525-ec52-4601-a373-677f38d67011","actor_username":"malerba118@gmail.com","log_type":"token","timestamp":"2022-01-20T00:32:49Z"}	2022-01-20 00:32:49.413228+00
+00000000-0000-0000-0000-000000000000	e88d38ac-584e-45d3-b4ee-2c0cdb7f080a	{"action":"token_revoked","actor_id":"48c92525-ec52-4601-a373-677f38d67011","actor_username":"malerba118@gmail.com","log_type":"token","timestamp":"2022-01-20T00:32:49Z"}	2022-01-20 00:32:49.418089+00
+00000000-0000-0000-0000-000000000000	d26e447b-fd59-4eaf-b8a3-1c75033e876b	{"action":"token_refreshed","actor_id":"48c92525-ec52-4601-a373-677f38d67011","actor_username":"malerba118@gmail.com","log_type":"token","timestamp":"2022-01-20T01:31:53Z"}	2022-01-20 01:31:53.776366+00
+00000000-0000-0000-0000-000000000000	d95c2943-e8e4-4276-ab81-6201ab252f18	{"action":"token_revoked","actor_id":"48c92525-ec52-4601-a373-677f38d67011","actor_username":"malerba118@gmail.com","log_type":"token","timestamp":"2022-01-20T01:31:53Z"}	2022-01-20 01:31:53.780196+00
 \.
 
 
@@ -1390,8 +1412,10 @@ COPY auth.instances (id, uuid, raw_base_config, created_at, updated_at) FROM std
 --
 
 COPY auth.refresh_tokens (instance_id, id, token, user_id, revoked, created_at, updated_at, parent) FROM stdin;
-00000000-0000-0000-0000-000000000000	31	PhB9uvY5LZarYrVyc036Mg	48c92525-ec52-4601-a373-677f38d67011	f	2022-01-18 15:17:42.626173+00	2022-01-18 15:17:42.626173+00	\N
-00000000-0000-0000-0000-000000000000	32	RdCF0rSiXFcsioucQug8Ig	48c92525-ec52-4601-a373-677f38d67011	f	2022-01-18 20:52:05.960527+00	2022-01-18 20:52:05.960527+00	\N
+00000000-0000-0000-0000-000000000000	39	NVXepqGBriSQSPfj94Mlmw	48c92525-ec52-4601-a373-677f38d67011	t	2022-01-19 22:24:29.549396+00	2022-01-19 22:24:29.549396+00	\N
+00000000-0000-0000-0000-000000000000	40	pEFCkjb3YZf2muGudIPXkg	48c92525-ec52-4601-a373-677f38d67011	t	2022-01-19 23:23:33.136986+00	2022-01-19 23:23:33.136986+00	NVXepqGBriSQSPfj94Mlmw
+00000000-0000-0000-0000-000000000000	41	vvueuzI5ePiuXwa6KLN8cg	48c92525-ec52-4601-a373-677f38d67011	t	2022-01-20 00:32:49.421756+00	2022-01-20 00:32:49.421756+00	pEFCkjb3YZf2muGudIPXkg
+00000000-0000-0000-0000-000000000000	42	rML0c9PTHTxzTrowogJnOg	48c92525-ec52-4601-a373-677f38d67011	f	2022-01-20 01:31:53.783363+00	2022-01-20 01:31:53.783363+00	vvueuzI5ePiuXwa6KLN8cg
 \.
 
 
@@ -1423,8 +1447,8 @@ COPY auth.schema_migrations (version) FROM stdin;
 --
 
 COPY auth.users (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, invited_at, confirmation_token, confirmation_sent_at, recovery_token, recovery_sent_at, email_change_token_new, email_change, email_change_sent_at, last_sign_in_at, raw_app_meta_data, raw_user_meta_data, is_super_admin, created_at, updated_at, phone, phone_confirmed_at, phone_change, phone_change_token, phone_change_sent_at, email_change_token_current, email_change_confirm_status) FROM stdin;
-00000000-0000-0000-0000-000000000000	4975184a-4093-4e63-882a-2c2f3b2405e0		authenticated	austin.malerba@gmail.com	$2a$10$WhRyrT4X.U8REHoAoDV2Iuzvvy88/YIiSA5x60Prl62D9oHwEX1oi	2022-01-14 15:38:11.272417+00	\N		\N		\N			\N	2022-01-14 15:38:11.283897+00	{"provider": "email", "providers": ["email"]}	{"user_name": "austin.malerba"}	f	2022-01-14 15:38:11.245611+00	2022-01-14 15:38:11.245611+00	\N	\N			\N		0
-00000000-0000-0000-0000-000000000000	48c92525-ec52-4601-a373-677f38d67011		authenticated	malerba118@gmail.com	$2a$10$bUgcz0RemIQGMkyzEV/ycOl9tLJQawXaOnpmXJjatjeQcpPUa.FXy	2022-01-13 22:01:28.785305+00	\N		\N		\N			\N	2022-01-18 20:52:05.960017+00	{"provider": "email", "providers": ["email"]}	{"user_name": "malerba118"}	f	2022-01-13 22:01:28.737025+00	2022-01-13 22:01:28.737025+00	\N	\N			\N		0
+00000000-0000-0000-0000-000000000000	4975184a-4093-4e63-882a-2c2f3b2405e0		authenticated	austin.malerba@gmail.com	$2a$10$WhRyrT4X.U8REHoAoDV2Iuzvvy88/YIiSA5x60Prl62D9oHwEX1oi	2022-01-14 15:38:11.272417+00	\N		\N		\N			\N	2022-01-19 15:41:46.484653+00	{"provider": "email", "providers": ["email"]}	{"avatar": "https://picsum.photos/id/237/200/300", "user_name": "austin.malerba", "avatar_url": "https://picsum.photos/id/237/200/300"}	f	2022-01-14 15:38:11.245611+00	2022-01-14 15:38:11.245611+00	\N	\N			\N		0
+00000000-0000-0000-0000-000000000000	48c92525-ec52-4601-a373-677f38d67011		authenticated	malerba118@gmail.com	$2a$10$bUgcz0RemIQGMkyzEV/ycOl9tLJQawXaOnpmXJjatjeQcpPUa.FXy	2022-01-13 22:01:28.785305+00	\N		\N		\N			\N	2022-01-19 22:24:29.548859+00	{"provider": "email", "providers": ["email"]}	{"user_name": "malerba118", "avatar_url": "https://picsum.photos/id/250/200/300"}	f	2022-01-13 22:01:28.737025+00	2022-01-13 22:01:28.737025+00	\N	\N			\N		0
 \.
 
 
@@ -1435,8 +1459,13 @@ COPY auth.users (instance_id, id, aud, role, email, encrypted_password, email_co
 COPY public.comment_reactions (id, created_at, comment_id, user_id, reaction_type) FROM stdin;
 aa68b9cd-2e35-4b2b-a42b-3da17b2781d6	2022-01-17 23:44:29.926956+00	8254ff03-c264-4c10-bf23-4170a931059a	48c92525-ec52-4601-a373-677f38d67011	smile
 194b9cb1-9650-40ea-b06d-c34120ba4e1c	2022-01-18 21:18:21.778618+00	ae7a590c-ece8-40ce-b9d5-53679b19f650	48c92525-ec52-4601-a373-677f38d67011	heart
-630f872d-afcc-42cc-bf24-16cea4e665e9	2022-01-18 21:28:09.99024+00	d38e2f81-c365-4eb7-9313-401a7d41309d	48c92525-ec52-4601-a373-677f38d67011	heart
 58318c7e-8b23-4cc4-8af8-843b7a2f5152	2022-01-18 21:28:12.602081+00	008be586-cd7f-4d4a-9b54-abacb2661c05	48c92525-ec52-4601-a373-677f38d67011	smile
+6a7a800a-f1e5-4024-87be-499c74e8f9df	2022-01-19 03:29:51.641799+00	cdfbff68-c9ea-4ed6-b922-0be8e651bcb5	48c92525-ec52-4601-a373-677f38d67011	heart
+1eeb9833-7fef-441d-b352-f971c28afcf4	2022-01-19 15:27:34.858052+00	7ac59506-55bf-4475-90f9-b64ecd193e8f	48c92525-ec52-4601-a373-677f38d67011	heart
+8319afba-381f-4888-a2c2-038152209448	2022-01-19 21:52:23.698519+00	7ac59506-55bf-4475-90f9-b64ecd193e8f	4975184a-4093-4e63-882a-2c2f3b2405e0	heart
+b990808c-8828-4d4e-b1d4-52e68632dbb5	2022-01-19 22:01:42.839225+00	cdfbff68-c9ea-4ed6-b922-0be8e651bcb5	4975184a-4093-4e63-882a-2c2f3b2405e0	heart
+bbe25921-5a79-4306-ad61-b682834039f2	2022-01-19 23:45:13.881119+00	a0b5fe1b-52a6-4e50-9521-03a5245ef85d	48c92525-ec52-4601-a373-677f38d67011	heart
+a34c5633-795c-4786-a75d-f7fbc126b770	2022-01-19 23:45:21.889526+00	0a059a7e-e4d4-4d1f-88fa-b1d02e52a0e4	48c92525-ec52-4601-a373-677f38d67011	heart
 \.
 
 
@@ -1444,20 +1473,50 @@ aa68b9cd-2e35-4b2b-a42b-3da17b2781d6	2022-01-17 23:44:29.926956+00	8254ff03-c264
 -- Data for Name: comments; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.comments (id, created_at, topic, comment, user_id, parent_id) FROM stdin;
-c7010b1c-0db0-4845-b702-9e94c45309a4	2022-01-14 02:12:49+00	tutorial-one	test comment one	48c92525-ec52-4601-a373-677f38d67011	\N
-cdfbff68-c9ea-4ed6-b922-0be8e651bcb5	2022-01-14 02:14:39+00	tutorial-one	test comment 2	48c92525-ec52-4601-a373-677f38d67011	\N
-8254ff03-c264-4c10-bf23-4170a931059a	2022-01-14 02:15:31+00	tutorial-one	test reply one	48c92525-ec52-4601-a373-677f38d67011	cdfbff68-c9ea-4ed6-b922-0be8e651bcb5
-4d750c6c-05b5-4910-bac0-af3b7b1ef83c	2022-01-14 02:16:50+00	tutorial-one	test reply two	48c92525-ec52-4601-a373-677f38d67011	cdfbff68-c9ea-4ed6-b922-0be8e651bcb5
-69156340-0ade-47bc-8283-abddeed430c7	2022-01-17 23:42:21.7108+00	tutorial-one	<p><span data-type="mention" class="mention" data-id="4975184a-4093-4e63-882a-2c2f3b2405e0" data-label="austin.malerba">@austin.malerba</span> hi</p>	48c92525-ec52-4601-a373-677f38d67011	cdfbff68-c9ea-4ed6-b922-0be8e651bcb5
-cf52d694-6725-4dd8-83b6-1362a7c60ae1	2022-01-18 15:17:56.012+00	tutorial-one	<p>test</p>	48c92525-ec52-4601-a373-677f38d67011	cdfbff68-c9ea-4ed6-b922-0be8e651bcb5
-ae7a590c-ece8-40ce-b9d5-53679b19f650	2022-01-18 21:14:56.684593+00	tutorial-one	<p>blahhhh</p>	48c92525-ec52-4601-a373-677f38d67011	\N
-66cca2a5-35d1-4529-8d5f-5a0bbfa378f9	2022-01-18 21:15:08.404316+00	tutorial-one	<p>sdggdfg</p>	48c92525-ec52-4601-a373-677f38d67011	cdfbff68-c9ea-4ed6-b922-0be8e651bcb5
-008be586-cd7f-4d4a-9b54-abacb2661c05	2022-01-18 21:15:10.82533+00	tutorial-one	<p>foooooooooooo</p>	48c92525-ec52-4601-a373-677f38d67011	\N
-e4b1b41e-9117-40f8-ae4d-d040573ee7d0	2022-01-18 21:27:55.249388+00	tutorial-one	<p>test</p>	48c92525-ec52-4601-a373-677f38d67011	\N
-1d976d4a-d5cd-4f55-9f0c-524737502a0e	2022-01-18 21:27:58.279943+00	tutorial-one	<p>teeef</p>	48c92525-ec52-4601-a373-677f38d67011	\N
-d38e2f81-c365-4eb7-9313-401a7d41309d	2022-01-18 21:28:04.367949+00	tutorial-one	<p>sdfsf</p>	48c92525-ec52-4601-a373-677f38d67011	\N
-0a44e7f4-c92b-4f5f-8f7e-465a2a6bf13d	2022-01-18 21:28:24.690564+00	tutorial-one	<p><span data-type="mention" class="mention" data-id="48c92525-ec52-4601-a373-677f38d67011" data-label="malerba118">@malerba118</span> sdasg</p>	48c92525-ec52-4601-a373-677f38d67011	d38e2f81-c365-4eb7-9313-401a7d41309d
+COPY public.comments (id, created_at, topic, comment, user_id, parent_id, mentioned_user_ids) FROM stdin;
+c7010b1c-0db0-4845-b702-9e94c45309a4	2022-01-14 02:12:49+00	tutorial-one	test comment one	48c92525-ec52-4601-a373-677f38d67011	\N	{}
+cdfbff68-c9ea-4ed6-b922-0be8e651bcb5	2022-01-14 02:14:39+00	tutorial-one	test comment 2	48c92525-ec52-4601-a373-677f38d67011	\N	{}
+8254ff03-c264-4c10-bf23-4170a931059a	2022-01-14 02:15:31+00	tutorial-one	test reply one	48c92525-ec52-4601-a373-677f38d67011	cdfbff68-c9ea-4ed6-b922-0be8e651bcb5	{}
+4d750c6c-05b5-4910-bac0-af3b7b1ef83c	2022-01-14 02:16:50+00	tutorial-one	test reply two	48c92525-ec52-4601-a373-677f38d67011	cdfbff68-c9ea-4ed6-b922-0be8e651bcb5	{}
+69156340-0ade-47bc-8283-abddeed430c7	2022-01-17 23:42:21.7108+00	tutorial-one	<p><span data-type="mention" class="mention" data-id="4975184a-4093-4e63-882a-2c2f3b2405e0" data-label="austin.malerba">@austin.malerba</span> hi</p>	48c92525-ec52-4601-a373-677f38d67011	cdfbff68-c9ea-4ed6-b922-0be8e651bcb5	{}
+cf52d694-6725-4dd8-83b6-1362a7c60ae1	2022-01-18 15:17:56.012+00	tutorial-one	<p>test</p>	48c92525-ec52-4601-a373-677f38d67011	cdfbff68-c9ea-4ed6-b922-0be8e651bcb5	{}
+ae7a590c-ece8-40ce-b9d5-53679b19f650	2022-01-18 21:14:56.684593+00	tutorial-one	<p>blahhhh</p>	48c92525-ec52-4601-a373-677f38d67011	\N	{}
+66cca2a5-35d1-4529-8d5f-5a0bbfa378f9	2022-01-18 21:15:08.404316+00	tutorial-one	<p>sdggdfg</p>	48c92525-ec52-4601-a373-677f38d67011	cdfbff68-c9ea-4ed6-b922-0be8e651bcb5	{}
+008be586-cd7f-4d4a-9b54-abacb2661c05	2022-01-18 21:15:10.82533+00	tutorial-one	<p>foooooooooooo</p>	48c92525-ec52-4601-a373-677f38d67011	\N	{}
+e4b1b41e-9117-40f8-ae4d-d040573ee7d0	2022-01-18 21:27:55.249388+00	tutorial-one	<p>test</p>	48c92525-ec52-4601-a373-677f38d67011	\N	{}
+1d976d4a-d5cd-4f55-9f0c-524737502a0e	2022-01-18 21:27:58.279943+00	tutorial-one	<p>teeef</p>	48c92525-ec52-4601-a373-677f38d67011	\N	{}
+d38e2f81-c365-4eb7-9313-401a7d41309d	2022-01-18 21:28:04.367949+00	tutorial-one	<p>sdfsf</p>	48c92525-ec52-4601-a373-677f38d67011	\N	{}
+0a44e7f4-c92b-4f5f-8f7e-465a2a6bf13d	2022-01-18 21:28:24.690564+00	tutorial-one	<p><span data-type="mention" class="mention" data-id="48c92525-ec52-4601-a373-677f38d67011" data-label="malerba118">@malerba118</span> sdasg</p>	48c92525-ec52-4601-a373-677f38d67011	d38e2f81-c365-4eb7-9313-401a7d41309d	{}
+8411f23b-dfb3-4ddc-99ce-6e4fa6b2cf83	2022-01-19 03:29:56.178896+00	tutorial-one	<p>dsfd</p>	48c92525-ec52-4601-a373-677f38d67011	e4b1b41e-9117-40f8-ae4d-d040573ee7d0	{}
+016d8823-9d4b-455f-b320-0fa6b7c78cbe	2022-01-19 03:44:21.147686+00	tutorial-one	malerba118	48c92525-ec52-4601-a373-677f38d67011	ae7a590c-ece8-40ce-b9d5-53679b19f650	{}
+e58c4aa7-c37f-44b5-8767-f64724068092	2022-01-19 04:32:51.169392+00	tutorial-one	<p>test</p>	48c92525-ec52-4601-a373-677f38d67011	d38e2f81-c365-4eb7-9313-401a7d41309d	{}
+f4c71d75-c96c-4cfc-ae2b-83fb27f3790f	2022-01-19 05:01:26.176983+00	tutorial-one	<p>dg</p>	48c92525-ec52-4601-a373-677f38d67011	\N	{}
+7ac59506-55bf-4475-90f9-b64ecd193e8f	2022-01-19 05:01:29.457285+00	tutorial-one	<p>dfg</p>	48c92525-ec52-4601-a373-677f38d67011	\N	{}
+c20cee1a-b69b-4a79-a320-ef912f9b57e7	2022-01-19 15:27:50.502735+00	tutorial-one	<p>malerba118 yass</p>	48c92525-ec52-4601-a373-677f38d67011	cdfbff68-c9ea-4ed6-b922-0be8e651bcb5	{}
+ed50b431-51b6-4bbc-81f2-886919f6a273	2022-01-19 15:40:51.813964+00	tutorial-one	<p>fooo</p>	48c92525-ec52-4601-a373-677f38d67011	\N	{}
+1a02661f-9932-42eb-a133-9a1d2dbc72b2	2022-01-19 15:41:59.393165+00	tutorial-one	<p>hello</p>	4975184a-4093-4e63-882a-2c2f3b2405e0	ae7a590c-ece8-40ce-b9d5-53679b19f650	{}
+be172029-e723-4821-8cc2-7f07d94f7d70	2022-01-19 15:42:12.317193+00	tutorial-one	<p>testtt</p>	4975184a-4093-4e63-882a-2c2f3b2405e0	cdfbff68-c9ea-4ed6-b922-0be8e651bcb5	{}
+3db24809-be08-4a33-b116-1cde14ff6a58	2022-01-19 15:42:17.964988+00	tutorial-one	<p>sdgsdfggdfs</p>	4975184a-4093-4e63-882a-2c2f3b2405e0	cdfbff68-c9ea-4ed6-b922-0be8e651bcb5	{}
+965cf2c4-3fa2-44b9-8910-496b34ce4376	2022-01-19 15:43:36.949746+00	tutorial-one	<p>sfdsg dsfgdfsg</p><p></p><p>sfdsg dsfgdfsg<br>sfdsg dsfgdfsg<br>sfdsg dsfgdfsgsfdsg dsfgdfsg</p>	4975184a-4093-4e63-882a-2c2f3b2405e0	cdfbff68-c9ea-4ed6-b922-0be8e651bcb5	{}
+b59e0e4e-03f1-40b5-9da3-e02b285ca0e3	2022-01-19 22:03:07.94824+00	tutorial-one		4975184a-4093-4e63-882a-2c2f3b2405e0	\N	{}
+89e4cb16-a85b-4ea7-969a-24d5ba213a5b	2022-01-19 22:17:16.603897+00	tutorial-one	<p><span data-type="mention" class="mention" data-id="4975184a-4093-4e63-882a-2c2f3b2405e0" data-label="austin.malerba">@austin.malerba</span> </p>	4975184a-4093-4e63-882a-2c2f3b2405e0	\N	{}
+6c08ed50-a089-4ca1-b35f-14eb9469f122	2022-01-19 22:21:24.760269+00	tutorial-one	<p><span data-type="mention" class="mention" data-id="48c92525-ec52-4601-a373-677f38d67011" data-label="malerba118">@malerba118</span> fsdfadsf</p>	4975184a-4093-4e63-882a-2c2f3b2405e0	c7010b1c-0db0-4845-b702-9e94c45309a4	{}
+7234a0da-2936-4410-9887-5aff6b62f2ec	2022-01-19 22:21:40.78363+00	tutorial-one	<p>sdgdfgdg</p>	4975184a-4093-4e63-882a-2c2f3b2405e0	c7010b1c-0db0-4845-b702-9e94c45309a4	{}
+e34b0b39-9d09-425e-a090-30dbc8ba0e56	2022-01-19 22:22:40.467223+00	tutorial-one	<p><span data-type="mention" class="mention" data-id="48c92525-ec52-4601-a373-677f38d67011" data-label="malerba118">@malerba118</span> fgasg</p>	4975184a-4093-4e63-882a-2c2f3b2405e0	c7010b1c-0db0-4845-b702-9e94c45309a4	{}
+92288012-35e0-43fd-9197-6bffab0797ec	2022-01-19 22:23:40.696443+00	tutorial-one	<p><span data-type="mention" class="mention" data-id="48c92525-ec52-4601-a373-677f38d67011" data-label="malerba118">@malerba118</span> sdfsfd</p>	4975184a-4093-4e63-882a-2c2f3b2405e0	c7010b1c-0db0-4845-b702-9e94c45309a4	{}
+56ad57e2-6ed3-43aa-89a8-e73bd9f9d7b3	2022-01-19 22:32:47.278095+00	tutorial-one	<p><span data-type="mention" class="mention" data-id="4975184a-4093-4e63-882a-2c2f3b2405e0" data-label="austin.malerba">@austin.malerba</span> ds</p>	48c92525-ec52-4601-a373-677f38d67011	c7010b1c-0db0-4845-b702-9e94c45309a4	{}
+9a59d0dd-ee7e-4c92-941f-539cb4a6004f	2022-01-19 22:36:13.606518+00	tutorial-one	<p>dfgdssdfgdfg</p><p></p><p></p><p>dsfgdsfg</p>	48c92525-ec52-4601-a373-677f38d67011	\N	{}
+0ba87687-cbca-4002-ae7a-bcc1bf267fdb	2022-01-19 22:36:26.050569+00	tutorial-one	<p>dfsgg</p><p>dfgdsfg</p>	48c92525-ec52-4601-a373-677f38d67011	\N	{}
+a0b5fe1b-52a6-4e50-9521-03a5245ef85d	2022-01-19 22:38:00.28031+00	tutorial-one	<p>dfgdsfg</p>	48c92525-ec52-4601-a373-677f38d67011	\N	{}
+8620e578-4501-408d-8d60-8a6ca0d1d726	2022-01-19 22:38:12.164123+00	tutorial-one	<p><span data-type="mention" class="mention" data-id="48c92525-ec52-4601-a373-677f38d67011" data-label="malerba118">@malerba118</span> dsfgdsfg</p>	48c92525-ec52-4601-a373-677f38d67011	0ba87687-cbca-4002-ae7a-bcc1bf267fdb	{}
+1ab499a5-5df0-4c09-9512-f3037c8b90f2	2022-01-19 23:09:15.841863+00	tutorial-one	<p><span data-type="mention" class="mention" data-id="4975184a-4093-4e63-882a-2c2f3b2405e0" data-label="austin.malerba">@austin.malerba</span>  dgdg <span data-type="mention" class="mention" data-id="48c92525-ec52-4601-a373-677f38d67011" data-label="malerba118">@malerba118</span> </p>	48c92525-ec52-4601-a373-677f38d67011	\N	{}
+cdb9a728-7285-4a84-84e1-cd7e1d3c7b98	2022-01-19 23:25:55.887464+00	tutorial-one	<p><span data-type="mention" class="mention" data-id="4975184a-4093-4e63-882a-2c2f3b2405e0" data-label="austin.malerba">@austin.malerba</span> </p>	48c92525-ec52-4601-a373-677f38d67011	\N	{}
+4b2d041c-b1b9-4d2d-805e-fb80d4df08ba	2022-01-19 23:33:33.456468+00	tutorial-one	<p><span data-type="mention" class="mention" data-id="48c92525-ec52-4601-a373-677f38d67011" data-label="malerba118">@malerba118</span> </p>	48c92525-ec52-4601-a373-677f38d67011	\N	{}
+97c29e87-004f-43e6-bf4f-54d5d7324659	2022-01-19 23:36:29.048871+00	tutorial-one	<p><span data-type="mention" class="mention" data-id="4975184a-4093-4e63-882a-2c2f3b2405e0" data-label="austin.malerba">@austin.malerba</span> </p>	48c92525-ec52-4601-a373-677f38d67011	\N	{}
+a6caa97a-0639-4279-a6c8-5c9f1a8f9979	2022-01-19 23:39:05.536282+00	tutorial-one	<p><span data-type="mention" class="mention" data-id="48c92525-ec52-4601-a373-677f38d67011" data-label="malerba118">@malerba118</span>  sdfsffd <span data-type="mention" class="mention" data-id="4975184a-4093-4e63-882a-2c2f3b2405e0" data-label="austin.malerba">@austin.malerba</span> </p>	48c92525-ec52-4601-a373-677f38d67011	\N	{48c92525-ec52-4601-a373-677f38d67011,4975184a-4093-4e63-882a-2c2f3b2405e0}
+96a7d168-5d94-4d7f-9427-6580941cc608	2022-01-19 23:39:23.847592+00	tutorial-one	<p><span data-type="mention" class="mention" data-id="48c92525-ec52-4601-a373-677f38d67011" data-label="malerba118">@malerba118</span> </p>	48c92525-ec52-4601-a373-677f38d67011	\N	{48c92525-ec52-4601-a373-677f38d67011}
+f4ed9b7f-8bb1-4255-88b0-165455757cb0	2022-01-19 23:41:28.806499+00	tutorial-one	<p>foo <span data-type="mention" class="mention" data-id="48c92525-ec52-4601-a373-677f38d67011" data-label="malerba118">@malerba118</span> </p>	48c92525-ec52-4601-a373-677f38d67011	\N	{48c92525-ec52-4601-a373-677f38d67011}
+0a059a7e-e4d4-4d1f-88fa-b1d02e52a0e4	2022-01-19 23:41:37.457246+00	tutorial-one	<p><span data-type="mention" class="mention" data-id="48c92525-ec52-4601-a373-677f38d67011" data-label="malerba118">@malerba118</span> sfg</p>	48c92525-ec52-4601-a373-677f38d67011	f4ed9b7f-8bb1-4255-88b0-165455757cb0	{48c92525-ec52-4601-a373-677f38d67011}
 \.
 
 
@@ -1546,7 +1605,7 @@ COPY storage.objects (id, bucket_id, name, owner, created_at, updated_at, last_a
 -- Name: refresh_tokens_id_seq; Type: SEQUENCE SET; Schema: auth; Owner: supabase_auth_admin
 --
 
-SELECT pg_catalog.setval('auth.refresh_tokens_id_seq', 32, true);
+SELECT pg_catalog.setval('auth.refresh_tokens_id_seq', 42, true);
 
 
 --

@@ -26,6 +26,7 @@ export interface Comment {
   replies_count: number;
   reactions_metadata: CommentReactionMetadata[];
   user: DisplayUser;
+  mentioned_user_ids: string[];
 }
 
 export interface Reaction {
@@ -72,6 +73,7 @@ export interface AddCommentPayload {
   comment: string;
   topic: string;
   parent_id: string | null;
+  mentioned_user_ids: string[];
 }
 
 export interface AddCommentReactionPayload {

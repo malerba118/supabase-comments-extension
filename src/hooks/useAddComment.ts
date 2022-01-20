@@ -1,10 +1,11 @@
-import { useMutation, useQueryClient } from "react-query";
-import useApi from "./useApi";
+import { useMutation, useQueryClient } from 'react-query';
+import useApi from './useApi';
 
 interface UseAddCommentPayload {
   comment: string;
   topic: string;
   parentId: string | null;
+  mentionedUserIds: string[];
 }
 
 const useAddComment = () => {
@@ -12,12 +13,20 @@ const useAddComment = () => {
   const api = useApi();
 
   return useMutation(
-    ({ comment, topic, parentId }: UseAddCommentPayload) => {
-      return api.addComment({ comment, topic, parent_id: parentId });
+    ({ comment, topic, parentId, mentionedUserIds }: UseAddCommentPayload) => {
+      return api.addComment({
+        comment,
+        topic,
+        parent_id: parentId,
+        mentioned_user_ids: mentionedUserIds,
+      });
     },
     {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["comments"]);
+      onSuccess: (data, params) => {
+        queryClient.invalidateQueries([
+          'comments',
+          { topic: params.topic, parentId: params.parentId },
+        ]);
       },
     }
   );

@@ -1,25 +1,23 @@
-.container {
+.editor {
   height: 100px;
 }
 
-.container.readOnly {
+/* tiptap takes a second to load which can cause flicker, 
+min-height helps mitigate that layout shift */
+.viewer {
   height: auto;
   min-height: 1rem;
 }
 
-.editor {
-  height: 100%;
-}
-
-.container.readOnly :global(.tiptap-editor) {
-  height: auto;
+.viewer :global(.tiptap-editor) {
+  /* height: auto;
   padding: 0;
   overflow: auto;
   border: none;
-  border-radius: 0;
+  border-radius: 0; */
 }
 
-.container :global(.tiptap-editor) {
+.editor :global(.tiptap-editor) {
   height: 100%;
   padding: 8px;
   overflow: auto;

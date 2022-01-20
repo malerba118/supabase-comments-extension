@@ -1,4 +1,12 @@
-import { Image, Loading } from '@supabase/ui';
+import {
+  Image,
+  Loading,
+  Dropdown,
+  Button,
+  Typography,
+  IconChevronDown,
+  IconMoreVertical,
+} from '@supabase/ui';
 import React, { FC, useEffect, useState } from 'react';
 import { Comments } from '.';
 import { useComment } from '../hooks';
@@ -9,7 +17,25 @@ import Editor from './Editor';
 import ReactionSelector from './ReactionSelector';
 import TimeAgo from './TimeAgo';
 import type * as api from '../api';
-import ReplyProvider, { useReply } from './ReplyProvider';
+import ReplyManagerProvider, { useReplyManager } from './ReplyManagerProvider';
+import Avatar from './Avatar';
+
+const CommentMenu = () => {
+  return (
+    <Dropdown
+      overlay={[
+        <Dropdown.Item>
+          <Typography.Text>Edit</Typography.Text>
+        </Dropdown.Item>,
+        <Dropdown.Item>
+          <Typography.Text>Delete</Typography.Text>
+        </Dropdown.Item>,
+      ]}
+    >
+      <Button className="!p-1" type="text" icon={<IconMoreVertical />} />
+    </Dropdown>
+  );
+};
 
 interface CommentProps {
   id: string;
@@ -26,9 +52,9 @@ const Comment: FC<CommentProps> = ({ id }) => {
         </div>
       )}
       {query.data && !query.data.parent_id && (
-        <ReplyProvider>
+        <ReplyManagerProvider>
           <CommentData comment={query.data} />
-        </ReplyProvider>
+        </ReplyManagerProvider>
       )}
       {query.data && query.data.parent_id && (
         <CommentData comment={query.data} />
@@ -43,7 +69,7 @@ interface CommentDataProps {
 
 const CommentData: FC<CommentDataProps> = ({ comment }) => {
   const [repliesVisible, setRepliesVisible] = useState(false);
-  const replyManager = useReply();
+  const replyManager = useReplyManager();
   const mutations = {
     addReaction: useAddReaction(),
     removeReaction: useRemoveReaction(),
@@ -60,7 +86,7 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
     if (replyManager?.replyingTo) {
       setRepliesVisible(true);
     } else {
-      setRepliesVisible(false);
+      // setRepliesVisible(false);
     }
   }, [replyManager?.replyingTo, comment.parent_id]);
 
@@ -93,15 +119,13 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
   return (
     <div className="flex space-x-2">
       <div className="min-w-fit">
-        <Image
-          source={
-            'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50'
-          }
-          className="w-8 h-8 rounded-full"
-        />
+        <Avatar onClick={() => {}} src={comment.user.avatar} />
       </div>
       <div className="flex-1 space-y-2">
-        <div className=" text-black text-opacity-90 bg-black bg-opacity-[0.075] p-2 py-1 rounded-md dark:text-white dark:text-opacity-90 dark:bg-white dark:bg-opacity-[0.075]">
+        <div className="relative text-black text-opacity-90 bg-black bg-opacity-[0.075] p-2 py-1 rounded-md dark:text-white dark:text-opacity-90 dark:bg-white dark:bg-opacity-[0.075]">
+          <div className="absolute top-0 right-0">
+            <CommentMenu />
+          </div>
           <p className="font-bold">{comment.user.name}</p>
           <p>
             <Editor defaultValue={comment.comment} readOnly />
@@ -125,7 +149,7 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
             ))}
           </div>
           <div className="flex space-x-3 text-sm text-gray-500 ">
-            {!isReply && comment.replies_count > 0 && (
+            {!isReply && (
               <div
                 onClick={() => setRepliesVisible((prev) => !prev)}
                 className="cursor-pointer"

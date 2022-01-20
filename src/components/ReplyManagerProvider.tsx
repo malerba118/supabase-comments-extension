@@ -1,18 +1,18 @@
 import React, { createContext, FC, useContext, useMemo, useState } from 'react';
 import type * as api from '../api';
 
-interface ReplyContextApi {
+interface ReplyManagerContextApi {
   replyingTo: api.Comment | null;
   setReplyingTo: (comment: api.Comment | null) => void;
 }
 
-const ReplyContext = createContext<ReplyContextApi | null>(null);
+const ReplyManagerContext = createContext<ReplyManagerContextApi | null>(null);
 
-export const useReply = () => {
-  return useContext(ReplyContext);
+export const useReplyManager = () => {
+  return useContext(ReplyManagerContext);
 };
 
-const ReplyProvider: FC = ({ children }) => {
+const ReplyManagerProvider: FC = ({ children }) => {
   const [replyingTo, setReplyingTo] = useState<api.Comment | null>(null);
 
   const api = useMemo(
@@ -22,7 +22,11 @@ const ReplyProvider: FC = ({ children }) => {
     }),
     [replyingTo, setReplyingTo]
   );
-  return <ReplyContext.Provider value={api}>{children}</ReplyContext.Provider>;
+  return (
+    <ReplyManagerContext.Provider value={api}>
+      {children}
+    </ReplyManagerContext.Provider>
+  );
 };
 
-export default ReplyProvider;
+export default ReplyManagerProvider;
