@@ -1386,6 +1386,9 @@ COPY auth.audit_log_entries (instance_id, id, payload, created_at) FROM stdin;
 00000000-0000-0000-0000-000000000000	e88d38ac-584e-45d3-b4ee-2c0cdb7f080a	{"action":"token_revoked","actor_id":"48c92525-ec52-4601-a373-677f38d67011","actor_username":"malerba118@gmail.com","log_type":"token","timestamp":"2022-01-20T00:32:49Z"}	2022-01-20 00:32:49.418089+00
 00000000-0000-0000-0000-000000000000	d26e447b-fd59-4eaf-b8a3-1c75033e876b	{"action":"token_refreshed","actor_id":"48c92525-ec52-4601-a373-677f38d67011","actor_username":"malerba118@gmail.com","log_type":"token","timestamp":"2022-01-20T01:31:53Z"}	2022-01-20 01:31:53.776366+00
 00000000-0000-0000-0000-000000000000	d95c2943-e8e4-4276-ab81-6201ab252f18	{"action":"token_revoked","actor_id":"48c92525-ec52-4601-a373-677f38d67011","actor_username":"malerba118@gmail.com","log_type":"token","timestamp":"2022-01-20T01:31:53Z"}	2022-01-20 01:31:53.780196+00
+00000000-0000-0000-0000-000000000000	1d2d9efd-51b7-4aa1-931f-22c833a485ff	{"action":"token_refreshed","actor_id":"48c92525-ec52-4601-a373-677f38d67011","actor_username":"malerba118@gmail.com","log_type":"token","timestamp":"2022-01-20T04:32:15Z"}	2022-01-20 04:32:15.842037+00
+00000000-0000-0000-0000-000000000000	e170d2d3-bbc7-4e31-ac78-29ac686492f7	{"action":"token_revoked","actor_id":"48c92525-ec52-4601-a373-677f38d67011","actor_username":"malerba118@gmail.com","log_type":"token","timestamp":"2022-01-20T04:32:15Z"}	2022-01-20 04:32:15.888514+00
+00000000-0000-0000-0000-000000000000	81379333-f4c7-42bd-86c6-9cc1d1a38400	{"action":"login","actor_id":"48c92525-ec52-4601-a373-677f38d67011","actor_username":"malerba118@gmail.com","log_type":"account","timestamp":"2022-01-20T15:24:14Z"}	2022-01-20 15:24:14.837689+00
 \.
 
 
@@ -1415,7 +1418,9 @@ COPY auth.refresh_tokens (instance_id, id, token, user_id, revoked, created_at, 
 00000000-0000-0000-0000-000000000000	39	NVXepqGBriSQSPfj94Mlmw	48c92525-ec52-4601-a373-677f38d67011	t	2022-01-19 22:24:29.549396+00	2022-01-19 22:24:29.549396+00	\N
 00000000-0000-0000-0000-000000000000	40	pEFCkjb3YZf2muGudIPXkg	48c92525-ec52-4601-a373-677f38d67011	t	2022-01-19 23:23:33.136986+00	2022-01-19 23:23:33.136986+00	NVXepqGBriSQSPfj94Mlmw
 00000000-0000-0000-0000-000000000000	41	vvueuzI5ePiuXwa6KLN8cg	48c92525-ec52-4601-a373-677f38d67011	t	2022-01-20 00:32:49.421756+00	2022-01-20 00:32:49.421756+00	pEFCkjb3YZf2muGudIPXkg
-00000000-0000-0000-0000-000000000000	42	rML0c9PTHTxzTrowogJnOg	48c92525-ec52-4601-a373-677f38d67011	f	2022-01-20 01:31:53.783363+00	2022-01-20 01:31:53.783363+00	vvueuzI5ePiuXwa6KLN8cg
+00000000-0000-0000-0000-000000000000	42	rML0c9PTHTxzTrowogJnOg	48c92525-ec52-4601-a373-677f38d67011	t	2022-01-20 01:31:53.783363+00	2022-01-20 01:31:53.783363+00	vvueuzI5ePiuXwa6KLN8cg
+00000000-0000-0000-0000-000000000000	43	g0NCsxdf3c4BR9OefjRiYA	48c92525-ec52-4601-a373-677f38d67011	f	2022-01-20 04:32:15.925654+00	2022-01-20 04:32:15.925654+00	rML0c9PTHTxzTrowogJnOg
+00000000-0000-0000-0000-000000000000	44	LdXGXTC27SdWj87J2aDfEg	48c92525-ec52-4601-a373-677f38d67011	f	2022-01-20 15:24:14.84138+00	2022-01-20 15:24:14.84138+00	\N
 \.
 
 
@@ -1448,7 +1453,7 @@ COPY auth.schema_migrations (version) FROM stdin;
 
 COPY auth.users (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, invited_at, confirmation_token, confirmation_sent_at, recovery_token, recovery_sent_at, email_change_token_new, email_change, email_change_sent_at, last_sign_in_at, raw_app_meta_data, raw_user_meta_data, is_super_admin, created_at, updated_at, phone, phone_confirmed_at, phone_change, phone_change_token, phone_change_sent_at, email_change_token_current, email_change_confirm_status) FROM stdin;
 00000000-0000-0000-0000-000000000000	4975184a-4093-4e63-882a-2c2f3b2405e0		authenticated	austin.malerba@gmail.com	$2a$10$WhRyrT4X.U8REHoAoDV2Iuzvvy88/YIiSA5x60Prl62D9oHwEX1oi	2022-01-14 15:38:11.272417+00	\N		\N		\N			\N	2022-01-19 15:41:46.484653+00	{"provider": "email", "providers": ["email"]}	{"avatar": "https://picsum.photos/id/237/200/300", "user_name": "austin.malerba", "avatar_url": "https://picsum.photos/id/237/200/300"}	f	2022-01-14 15:38:11.245611+00	2022-01-14 15:38:11.245611+00	\N	\N			\N		0
-00000000-0000-0000-0000-000000000000	48c92525-ec52-4601-a373-677f38d67011		authenticated	malerba118@gmail.com	$2a$10$bUgcz0RemIQGMkyzEV/ycOl9tLJQawXaOnpmXJjatjeQcpPUa.FXy	2022-01-13 22:01:28.785305+00	\N		\N		\N			\N	2022-01-19 22:24:29.548859+00	{"provider": "email", "providers": ["email"]}	{"user_name": "malerba118", "avatar_url": "https://picsum.photos/id/250/200/300"}	f	2022-01-13 22:01:28.737025+00	2022-01-13 22:01:28.737025+00	\N	\N			\N		0
+00000000-0000-0000-0000-000000000000	48c92525-ec52-4601-a373-677f38d67011		authenticated	malerba118@gmail.com	$2a$10$bUgcz0RemIQGMkyzEV/ycOl9tLJQawXaOnpmXJjatjeQcpPUa.FXy	2022-01-13 22:01:28.785305+00	\N		\N		\N			\N	2022-01-20 15:24:14.841122+00	{"provider": "email", "providers": ["email"]}	{"user_name": "malerba118", "avatar_url": "https://picsum.photos/id/250/200/300"}	f	2022-01-13 22:01:28.737025+00	2022-01-13 22:01:28.737025+00	\N	\N			\N		0
 \.
 
 
@@ -1514,7 +1519,6 @@ cdb9a728-7285-4a84-84e1-cd7e1d3c7b98	2022-01-19 23:25:55.887464+00	tutorial-one	
 4b2d041c-b1b9-4d2d-805e-fb80d4df08ba	2022-01-19 23:33:33.456468+00	tutorial-one	<p><span data-type="mention" class="mention" data-id="48c92525-ec52-4601-a373-677f38d67011" data-label="malerba118">@malerba118</span> </p>	48c92525-ec52-4601-a373-677f38d67011	\N	{}
 97c29e87-004f-43e6-bf4f-54d5d7324659	2022-01-19 23:36:29.048871+00	tutorial-one	<p><span data-type="mention" class="mention" data-id="4975184a-4093-4e63-882a-2c2f3b2405e0" data-label="austin.malerba">@austin.malerba</span> </p>	48c92525-ec52-4601-a373-677f38d67011	\N	{}
 a6caa97a-0639-4279-a6c8-5c9f1a8f9979	2022-01-19 23:39:05.536282+00	tutorial-one	<p><span data-type="mention" class="mention" data-id="48c92525-ec52-4601-a373-677f38d67011" data-label="malerba118">@malerba118</span>  sdfsffd <span data-type="mention" class="mention" data-id="4975184a-4093-4e63-882a-2c2f3b2405e0" data-label="austin.malerba">@austin.malerba</span> </p>	48c92525-ec52-4601-a373-677f38d67011	\N	{48c92525-ec52-4601-a373-677f38d67011,4975184a-4093-4e63-882a-2c2f3b2405e0}
-96a7d168-5d94-4d7f-9427-6580941cc608	2022-01-19 23:39:23.847592+00	tutorial-one	<p><span data-type="mention" class="mention" data-id="48c92525-ec52-4601-a373-677f38d67011" data-label="malerba118">@malerba118</span> </p>	48c92525-ec52-4601-a373-677f38d67011	\N	{48c92525-ec52-4601-a373-677f38d67011}
 f4ed9b7f-8bb1-4255-88b0-165455757cb0	2022-01-19 23:41:28.806499+00	tutorial-one	<p>foo <span data-type="mention" class="mention" data-id="48c92525-ec52-4601-a373-677f38d67011" data-label="malerba118">@malerba118</span> </p>	48c92525-ec52-4601-a373-677f38d67011	\N	{48c92525-ec52-4601-a373-677f38d67011}
 0a059a7e-e4d4-4d1f-88fa-b1d02e52a0e4	2022-01-19 23:41:37.457246+00	tutorial-one	<p><span data-type="mention" class="mention" data-id="48c92525-ec52-4601-a373-677f38d67011" data-label="malerba118">@malerba118</span> sfg</p>	48c92525-ec52-4601-a373-677f38d67011	f4ed9b7f-8bb1-4255-88b0-165455757cb0	{48c92525-ec52-4601-a373-677f38d67011}
 \.
@@ -1605,7 +1609,7 @@ COPY storage.objects (id, bucket_id, name, owner, created_at, updated_at, last_a
 -- Name: refresh_tokens_id_seq; Type: SEQUENCE SET; Schema: auth; Owner: supabase_auth_admin
 --
 
-SELECT pg_catalog.setval('auth.refresh_tokens_id_seq', 42, true);
+SELECT pg_catalog.setval('auth.refresh_tokens_id_seq', 44, true);
 
 
 --

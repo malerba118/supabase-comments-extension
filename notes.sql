@@ -34,3 +34,12 @@ CREATE EVENT TRIGGER pgrst_watch
 -- works but likely a bad idea cause of privacy
 SELECT split_part(email, '@', 1) as display_name from auth.users;
 
+
+-- cascade deletes for comments to delete replies when parent deleted
+alter table public.comments
+drop constraint comments_parent_id_fkey;
+alter table public.comments
+add constraint comments_parent_id_fkey
+   foreign key (parent_id)
+   references comments (id)
+   on delete cascade;

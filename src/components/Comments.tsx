@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useLayoutEffect, useState } from 'react';
 import { useComments } from '../hooks';
 import Comment from './Comment';
-import { Loading, Button } from '@supabase/ui';
+import { Loading, Button, Typography } from '@supabase/ui';
 import useReactions from '../hooks/useReactions';
 import useAddComment from '../hooks/useAddComment';
 import Editor from './Editor';
@@ -64,6 +64,14 @@ const Comments: FC<CommentsProps> = ({ topic, parentId = null }) => {
     );
   }
 
+  if (queries.comments.isError) {
+    return (
+      <div className="grid h-12 place-items-center">
+        <Typography.Text>Unable to load comments.</Typography.Text>
+      </div>
+    );
+  }
+
   return (
     <div
       className={clsx(
@@ -84,20 +92,24 @@ const Comments: FC<CommentsProps> = ({ topic, parentId = null }) => {
             commentState.setValue(val);
           }}
           autoFocus={!!replyManager?.replyingTo}
+          actions={
+            <Button
+              onClick={() => {
+                mutations.addComment.mutate({
+                  topic,
+                  parentId,
+                  comment: commentState.value,
+                  mentionedUserIds: getMentionedUserIds(commentState.value),
+                });
+              }}
+              loading={mutations.addComment.isLoading}
+              size="tiny"
+              className="!px-[6px] !py-[3px] m-[3px]"
+            >
+              Submit
+            </Button>
+          }
         />
-        <Button
-          onClick={() => {
-            mutations.addComment.mutate({
-              topic,
-              parentId,
-              comment: commentState.value,
-              mentionedUserIds: getMentionedUserIds(commentState.value),
-            });
-          }}
-          loading={mutations.addComment.isLoading}
-        >
-          Submit
-        </Button>
       </div>
     </div>
   );

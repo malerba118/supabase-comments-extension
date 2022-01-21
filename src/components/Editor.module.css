@@ -1,5 +1,8 @@
 .editor {
-  height: 100px;
+  height: 136px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  position: relative;
 }
 
 /* tiptap takes a second to load which can cause flicker, 
@@ -7,6 +10,7 @@ min-height helps mitigate that layout shift */
 .viewer {
   height: auto;
   min-height: 1rem;
+  position: relative;
 }
 
 .viewer :global(.tiptap-editor) {
@@ -21,8 +25,12 @@ min-height helps mitigate that layout shift */
   height: 100%;
   padding: 8px;
   overflow: auto;
-  border: 2px solid rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  border: none !important;
+  outline: none !important;
+}
+
+.actionsBar {
+  border-top: 2px solid rgba(0, 0, 0, 0.1);
 }
 
 /* 

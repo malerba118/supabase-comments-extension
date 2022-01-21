@@ -76,6 +76,16 @@ export interface AddCommentPayload {
   mentioned_user_ids: string[];
 }
 
+export interface UpdateCommentPayload {
+  comment: string;
+  mentioned_user_ids: string[];
+}
+
+export interface GetCommentReactionsOptions {
+  reaction_type: string;
+  comment_id: string;
+}
+
 export interface AddCommentReactionPayload {
   reaction_type: string;
   comment_id: string;
@@ -138,6 +148,29 @@ export const createApiClient = (supabase: SupabaseClient) => {
     return response.data as Comment;
   };
 
+  const updateComment = async (
+    id: string,
+    payload: UpdateCommentPayload
+  ): Promise<Comment> => {
+    const query = supabase
+      .from('comments')
+      .update(payload)
+      .match({ id })
+      .single();
+
+    const response = await query;
+    assertResponseOk(response);
+    return response.data as Comment;
+  };
+
+  const deleteComment = async (id: string): Promise<Comment> => {
+    const query = supabase.from('comments').delete().match({ id }).single();
+
+    const response = await query;
+    assertResponseOk(response);
+    return response.data as Comment;
+  };
+
   const getReactions = async (): Promise<Reaction[]> => {
     const query = supabase.from<Reaction>('reactions').select('*');
 
@@ -156,6 +189,19 @@ export const createApiClient = (supabase: SupabaseClient) => {
     const response = await query;
     assertResponseOk(response);
     return response.data as Reaction;
+  };
+
+  const getCommentReactions = async ({
+    reaction_type,
+    comment_id,
+  }: GetCommentReactionsOptions): Promise<CommentReaction[]> => {
+    const query = supabase
+      .from('comment_reactions')
+      .select('*,user:display_users!user_id(*)');
+
+    const response = await query;
+    assertResponseOk(response);
+    return response.data as CommentReaction[];
   };
 
   const addCommentReaction = async (
@@ -204,8 +250,11 @@ export const createApiClient = (supabase: SupabaseClient) => {
     getComments,
     getComment,
     addComment,
+    updateComment,
+    deleteComment,
     getReactions,
     getReaction,
+    getCommentReactions,
     addCommentReaction,
     removeCommentReaction,
     searchUsers,

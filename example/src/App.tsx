@@ -7,7 +7,13 @@ const App = () => {
   const auth = Auth.useUser();
 
   return (
-    <CommentsProvider supabaseClient={supabase}>
+    <CommentsProvider
+      onUserClick={(user) => {
+        // console.log(user);
+        alert('hi');
+      }}
+      supabaseClient={supabase}
+    >
       <div>
         {!auth.user && <Auth supabaseClient={supabase} />}
         {auth.user && (

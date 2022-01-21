@@ -7,10 +7,9 @@ export const getMentionedUserIds = (doc: string): string[] => {
   const userIds: string[] = [];
   const json = generateJSON(doc, [StarterKit, MentionsExtension]);
   traverse(json).forEach(function (node) {
-    if (node.type === 'mention') {
+    if (node?.type === 'mention') {
       userIds.push(node.attrs.id);
     }
   });
-  console.log(userIds);
   return userIds;
 };

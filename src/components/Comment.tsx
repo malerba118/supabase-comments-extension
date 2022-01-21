@@ -1,15 +1,7 @@
-import {
-  Image,
-  Loading,
-  Dropdown,
-  Button,
-  Typography,
-  IconChevronDown,
-  IconMoreVertical,
-} from '@supabase/ui';
+import { Loading, Dropdown, Typography, IconMoreVertical } from '@supabase/ui';
 import React, { FC, useEffect, useState } from 'react';
 import { Comments } from '.';
-import { useComment } from '../hooks';
+import { useComment, useDeleteComment, useUpdateComment } from '../hooks';
 import useAddReaction from '../hooks/useAddReaction';
 import useRemoveReaction from '../hooks/useRemoveReaction';
 import CommentReaction from './CommentReaction';
@@ -19,20 +11,26 @@ import TimeAgo from './TimeAgo';
 import type * as api from '../api';
 import ReplyManagerProvider, { useReplyManager } from './ReplyManagerProvider';
 import Avatar from './Avatar';
+import { useCallbacks } from './CommentsProvider';
 
-const CommentMenu = () => {
+interface CommentMenuProps {
+  onEdit: () => void;
+  onDelete: () => void;
+}
+
+const CommentMenu: FC<CommentMenuProps> = ({ onEdit, onDelete }) => {
   return (
     <Dropdown
       overlay={[
-        <Dropdown.Item>
+        <Dropdown.Item onClick={() => onEdit()}>
           <Typography.Text>Edit</Typography.Text>
         </Dropdown.Item>,
-        <Dropdown.Item>
+        <Dropdown.Item onClick={() => onDelete()}>
           <Typography.Text>Delete</Typography.Text>
         </Dropdown.Item>,
       ]}
     >
-      <Button className="!p-1" type="text" icon={<IconMoreVertical />} />
+      <IconMoreVertical className="h-6 px-0.5 py-1.5" />
     </Dropdown>
   );
 };
@@ -68,11 +66,15 @@ interface CommentDataProps {
 }
 
 const CommentData: FC<CommentDataProps> = ({ comment }) => {
+  const callbacks = useCallbacks();
+  const [editing, setEditing] = useState(false);
   const [repliesVisible, setRepliesVisible] = useState(false);
   const replyManager = useReplyManager();
   const mutations = {
     addReaction: useAddReaction(),
     removeReaction: useRemoveReaction(),
+    updateComment: useUpdateComment(),
+    deleteComment: useDeleteComment(),
   };
 
   const isReplyingTo = replyManager?.replyingTo?.id === comment.id;
@@ -119,16 +121,39 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
   return (
     <div className="flex space-x-2">
       <div className="min-w-fit">
-        <Avatar onClick={() => {}} src={comment.user.avatar} />
+        <Avatar
+          className={'cursor-pointer'}
+          onClick={() => {
+            callbacks.onUserClick?.(comment.user);
+          }}
+          src={comment.user.avatar}
+        />
       </div>
       <div className="flex-1 space-y-2">
         <div className="relative text-black text-opacity-90 bg-black bg-opacity-[0.075] p-2 py-1 rounded-md dark:text-white dark:text-opacity-90 dark:bg-white dark:bg-opacity-[0.075]">
           <div className="absolute top-0 right-0">
-            <CommentMenu />
+            <CommentMenu
+              onEdit={() => {
+                setEditing(true);
+              }}
+              onDelete={() => {
+                mutations.deleteComment.mutate({ id: comment.id });
+              }}
+            />
           </div>
-          <p className="font-bold">{comment.user.name}</p>
           <p>
-            <Editor defaultValue={comment.comment} readOnly />
+            <span
+              className="font-bold cursor-pointer"
+              onClick={() => {
+                callbacks.onUserClick?.(comment.user);
+              }}
+            >
+              {comment.user.name}
+            </span>
+          </p>
+          <p>
+            {!editing && <Editor defaultValue={comment.comment} readOnly />}
+            {editing && <Editor defaultValue={comment.comment} />}
           </p>
           <p className="text-sm text-gray-500">
             <TimeAgo date={comment.created_at} locale="en-US" />
