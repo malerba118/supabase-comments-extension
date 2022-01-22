@@ -1,10 +1,10 @@
 import React, { FC, ReactNode } from 'react';
+import { IconBold, IconCode, IconItalic } from '@supabase/ui';
 import { useEditor, EditorContent } from '@tiptap/react';
+import clsx from 'clsx';
 import StarterKit from '@tiptap/starter-kit';
 import MentionsExtension from './Mentions';
 import styles from './Editor.module.css';
-import clsx from 'clsx';
-import { IconBold, IconCode, IconItalic } from '@supabase/ui';
 
 interface EditorProps {
   defaultValue: string;

@@ -1,13 +1,15 @@
 import React, { FC, useEffect, useLayoutEffect, useState } from 'react';
-import { useComments } from '../hooks';
-import Comment from './Comment';
 import { Loading, Button, Typography } from '@supabase/ui';
-import useReactions from '../hooks/useReactions';
-import useAddComment from '../hooks/useAddComment';
-import Editor from './Editor';
-import useUncontrolledState from '../hooks/useUncontrolledState';
-import { useReplyManager } from './ReplyManagerProvider';
 import clsx from 'clsx';
+import {
+  useComments,
+  useReactions,
+  useAddComment,
+  useUncontrolledState,
+} from '../hooks';
+import Editor from './Editor';
+import Comment from './Comment';
+import { useReplyManager } from './ReplyManagerProvider';
 import { getMentionedUserIds } from '../utils';
 
 interface CommentsProps {

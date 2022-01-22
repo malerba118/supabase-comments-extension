@@ -1,6 +1,12 @@
-export { default as useComments } from './useComments';
 export { default as useComment } from './useComment';
-export { default as useReaction } from './useReaction';
-export { default as useSearchUsers } from './useSearchUsers';
-export { default as useDeleteComment } from './useDeleteComment';
+export { default as useComments } from './useComments';
+export { default as useAddComment } from './useAddComment';
 export { default as useUpdateComment } from './useUpdateComment';
+export { default as useDeleteComment } from './useDeleteComment';
+export { default as useReaction } from './useReaction';
+export { default as useReactions } from './useReactions';
+export { default as useAddReaction } from './useAddReaction';
+export { default as useRemoveReaction } from './useRemoveReaction';
+export { default as useCommentReactions } from './useCommentReactions';
+export { default as useSearchUsers } from './useSearchUsers';
+export { default as useUncontrolledState } from './useUncontrolledState';

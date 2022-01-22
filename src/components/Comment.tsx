@@ -6,19 +6,23 @@ import {
   Button,
 } from '@supabase/ui';
 import React, { FC, useEffect, useState } from 'react';
-import { Comments } from '.';
-import { useComment, useDeleteComment, useUpdateComment } from '../hooks';
-import useAddReaction from '../hooks/useAddReaction';
-import useRemoveReaction from '../hooks/useRemoveReaction';
-import CommentReaction from './CommentReaction';
-import Editor from './Editor';
-import ReactionSelector from './ReactionSelector';
-import TimeAgo from './TimeAgo';
 import type * as api from '../api';
-import ReplyManagerProvider, { useReplyManager } from './ReplyManagerProvider';
+import {
+  useComment,
+  useDeleteComment,
+  useUpdateComment,
+  useAddReaction,
+  useRemoveReaction,
+  useUncontrolledState,
+} from '../hooks';
 import Avatar from './Avatar';
+import Editor from './Editor';
+import TimeAgo from './TimeAgo';
+import Comments from './Comments';
+import CommentReaction from './CommentReaction';
+import ReactionSelector from './ReactionSelector';
+import ReplyManagerProvider, { useReplyManager } from './ReplyManagerProvider';
 import { useCallbacks } from './CommentsProvider';
-import useUncontrolledState from '../hooks/useUncontrolledState';
 import { getMentionedUserIds } from '../utils';
 
 interface CommentMenuProps {

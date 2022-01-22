@@ -1,9 +1,9 @@
 import React, { FC, useState } from 'react';
+import { Modal, Typography } from '@supabase/ui';
+import { useCommentReactions } from '../hooks';
+import Avatar from './Avatar';
 import Reaction from './Reaction';
 import { CommentReactionMetadata } from '../api';
-import { Modal, Typography } from '@supabase/ui';
-import useCommentReactions from '../hooks/useCommentReactions';
-import Avatar from './Avatar';
 
 const CommentReactionsModal = ({
   visible,
