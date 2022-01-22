@@ -1,5 +1,5 @@
-import { useMutation, useQueryClient } from "react-query";
-import useApi from "./useApi";
+import { useMutation, useQueryClient } from 'react-query';
+import useApi from './useApi';
 
 interface UseRemoveReactionPayload {
   reactionType: string;
@@ -19,7 +19,11 @@ const useRemoveReaction = () => {
     },
     {
       onSuccess: (data, params) => {
-        queryClient.invalidateQueries(["comments", params.commentId]);
+        queryClient.invalidateQueries(['comments', params.commentId]);
+        queryClient.invalidateQueries([
+          'comment-reactions',
+          { commentId: params.commentId, reactionType: params.reactionType },
+        ]);
       },
     }
   );

@@ -1,4 +1,10 @@
-import { Loading, Dropdown, Typography, IconMoreVertical } from '@supabase/ui';
+import {
+  Loading,
+  Dropdown,
+  Typography,
+  IconMoreVertical,
+  Button,
+} from '@supabase/ui';
 import React, { FC, useEffect, useState } from 'react';
 import { Comments } from '.';
 import { useComment, useDeleteComment, useUpdateComment } from '../hooks';
@@ -12,6 +18,8 @@ import type * as api from '../api';
 import ReplyManagerProvider, { useReplyManager } from './ReplyManagerProvider';
 import Avatar from './Avatar';
 import { useCallbacks } from './CommentsProvider';
+import useUncontrolledState from '../hooks/useUncontrolledState';
+import { getMentionedUserIds } from '../utils';
 
 interface CommentMenuProps {
   onEdit: () => void;
@@ -69,6 +77,7 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
   const callbacks = useCallbacks();
   const [editing, setEditing] = useState(false);
   const [repliesVisible, setRepliesVisible] = useState(false);
+  const commentState = useUncontrolledState({ defaultValue: comment.comment });
   const replyManager = useReplyManager();
   const mutations = {
     addReaction: useAddReaction(),
@@ -91,6 +100,12 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
       // setRepliesVisible(false);
     }
   }, [replyManager?.replyingTo, comment.parent_id]);
+
+  useEffect(() => {
+    if (mutations.updateComment.isSuccess) {
+      setEditing(false);
+    }
+  }, [mutations.updateComment.isSuccess]);
 
   const isReply = !!comment.parent_id;
 
@@ -152,8 +167,54 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
             </span>
           </p>
           <p>
-            {!editing && <Editor defaultValue={comment.comment} readOnly />}
-            {editing && <Editor defaultValue={comment.comment} />}
+            {!editing && (
+              <Editor
+                key={comment.comment}
+                defaultValue={comment.comment}
+                readOnly
+              />
+            )}
+            {editing && (
+              <Editor
+                key={commentState.key}
+                defaultValue={commentState.defaultValue}
+                onChange={(val) => {
+                  commentState.setValue(val);
+                }}
+                autoFocus={!!replyManager?.replyingTo}
+                actions={
+                  <div className="flex mx-[3px] space-x-[3px]">
+                    <Button
+                      onClick={() => {
+                        setEditing(false);
+                      }}
+                      loading={mutations.updateComment.isLoading}
+                      size="tiny"
+                      className="!px-[6px] !py-[3px]"
+                      type="secondary"
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        mutations.updateComment.mutate({
+                          id: comment.id,
+                          comment: commentState.value,
+                          mentionedUserIds: getMentionedUserIds(
+                            commentState.value
+                          ),
+                        });
+                      }}
+                      loading={mutations.updateComment.isLoading}
+                      size="tiny"
+                      className="!px-[6px] !py-[3px]"
+                    >
+                      Submit
+                    </Button>
+                  </div>
+                }
+              />
+            )}
           </p>
           <p className="text-sm text-gray-500">
             <TimeAgo date={comment.created_at} locale="en-US" />

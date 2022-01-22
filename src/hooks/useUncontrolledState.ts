@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
 
 interface UseUncontrolledStateOptions<T> {
   defaultValue: T;
@@ -40,6 +40,10 @@ const useUncontrolledState = <T>(options: UseUncontrolledStateOptions<T>) => {
       })),
     []
   );
+
+  useLayoutEffect(() => {
+    setDefaultValue(options.defaultValue);
+  }, [options.defaultValue]);
 
   return useMemo(
     () => ({

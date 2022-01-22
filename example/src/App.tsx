@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Auth, Button } from '@supabase/ui';
 import { Comments, CommentsProvider } from 'supabase-comments-extension';
 import supabase from './supabase';

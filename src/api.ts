@@ -41,6 +41,7 @@ export interface CommentReaction {
   comment_id: string;
   reaction_type: string;
   created_at: string;
+  user: DisplayUser;
 }
 
 export const assertResponseOk = (response: { error: any }) => {
@@ -106,7 +107,8 @@ export const createApiClient = (supabase: SupabaseClient) => {
       .select(
         '*,user:display_users!user_id(*),reactions_metadata:comment_reactions_metadata(*)'
       )
-      .eq('topic', topic);
+      .eq('topic', topic)
+      .order('created_at', { ascending: true });
 
     if (parentId) {
       query.eq('parent_id', parentId);
@@ -197,7 +199,9 @@ export const createApiClient = (supabase: SupabaseClient) => {
   }: GetCommentReactionsOptions): Promise<CommentReaction[]> => {
     const query = supabase
       .from('comment_reactions')
-      .select('*,user:display_users!user_id(*)');
+      .select('*,user:display_users!user_id(*)')
+      .eq('comment_id', comment_id)
+      .eq('reaction_type', reaction_type);
 
     const response = await query;
     assertResponseOk(response);

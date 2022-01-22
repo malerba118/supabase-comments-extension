@@ -20,7 +20,7 @@ const Reaction: FC<ReactionProps> = ({ type, isActive }) => {
         'h-5 w-5 rounded-full grid place-items-center border'
       )}
     >
-      <Image className={'h-[92%] w-[92%]'} source={query.data?.metadata?.url} />
+      <Image className={'h-4 w-4'} source={query.data?.metadata?.url} />
     </div>
   );
 };

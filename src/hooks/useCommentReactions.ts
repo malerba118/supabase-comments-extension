@@ -4,11 +4,13 @@ import useApi from './useApi';
 interface UseCommentReactionsOptions {
   commentId: string;
   reactionType: string;
+  enabled?: boolean;
 }
 
 const useCommentReactions = ({
   commentId,
   reactionType,
+  enabled = true,
 }: UseCommentReactionsOptions) => {
   const api = useApi();
 
@@ -22,6 +24,7 @@ const useCommentReactions = ({
     },
     {
       staleTime: Infinity,
+      enabled,
     }
   );
 };
