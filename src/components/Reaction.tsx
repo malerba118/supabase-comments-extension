@@ -12,14 +12,7 @@ const Reaction: FC<ReactionProps> = ({ type, isActive }) => {
   const query = useReaction(type);
 
   return (
-    <div
-      className={clsx(
-        isActive
-          ? 'bg-green-50 border-green-500'
-          : 'bg-transparent border-transparent',
-        'h-5 w-5 rounded-full grid place-items-center border'
-      )}
-    >
+    <div className={clsx('h-4 w-4 rounded-full grid place-items-center')}>
       <Image className={'h-4 w-4'} source={query.data?.metadata?.url} />
     </div>
   );

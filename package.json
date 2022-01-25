@@ -5,6 +5,9 @@
   "description": "A comment system for supabase",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
+  "bin": {
+    "supabase-comments-extension": "bin/script.js"
+  },
   "types": "dist/index.d.ts",
   "scripts": {
     "start": "NODE_ENV=production rollup -c -w",
@@ -35,12 +38,14 @@
     "@types/react-dom": "^17.0.9",
     "@types/traverse": "^0.6.32",
     "autoprefixer": "^10.3.4",
+    "commander": "^8.3.0",
     "cssnano": "^5.0.8",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^26.6.3",
     "react": "*",
     "react-dom": "*",
     "rollup": "^2.56.3",
+    "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-node-polyfills": "^0.2.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.1",
@@ -70,7 +75,8 @@
   },
   "files": [
     "dist",
-    "src"
+    "src",
+    "bin"
   ],
   "release": {
     "branches": [

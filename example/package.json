@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@supabase/supabase-js": "^1.29.2",
-    "@supabase/ui": "^0.36.2",
+    "@supabase/ui": "file:../node_modules/@supabase/ui",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
@@ -24,7 +24,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "migrate-test": "supabase-comments-extension"
   },
   "eslintConfig": {
     "extends": [

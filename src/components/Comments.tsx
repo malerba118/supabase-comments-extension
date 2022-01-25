@@ -11,6 +11,7 @@ import Editor from './Editor';
 import Comment from './Comment';
 import { useReplyManager } from './ReplyManagerProvider';
 import { getMentionedUserIds } from '../utils';
+import useAuthUtils from '../hooks/useAuthUtils';
 
 interface CommentsProps {
   topic: string;
@@ -21,6 +22,7 @@ const Comments: FC<CommentsProps> = ({ topic, parentId = null }) => {
   const [layoutReady, setLayoutReady] = useState(false);
   const replyManager = useReplyManager();
   const commentState = useUncontrolledState({ defaultValue: '' });
+  const { isAuthenticated, runIfAuthenticated } = useAuthUtils();
   const queries = {
     comments: useComments({ topic, parentId }),
   };
@@ -97,18 +99,20 @@ const Comments: FC<CommentsProps> = ({ topic, parentId = null }) => {
           actions={
             <Button
               onClick={() => {
-                mutations.addComment.mutate({
-                  topic,
-                  parentId,
-                  comment: commentState.value,
-                  mentionedUserIds: getMentionedUserIds(commentState.value),
+                runIfAuthenticated(() => {
+                  mutations.addComment.mutate({
+                    topic,
+                    parentId,
+                    comment: commentState.value,
+                    mentionedUserIds: getMentionedUserIds(commentState.value),
+                  });
                 });
               }}
               loading={mutations.addComment.isLoading}
               size="tiny"
               className="!px-[6px] !py-[3px] m-[3px]"
             >
-              Submit
+              {!isAuthenticated ? 'Sign In' : 'Submit'}
             </Button>
           }
         />

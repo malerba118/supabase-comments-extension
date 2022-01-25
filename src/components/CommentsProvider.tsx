@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import React, { createContext, FC, useContext, useMemo } from 'react';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { DisplayUser } from '../api';
+import { Auth } from '@supabase/ui';
 
 const defaultQueryClient = new QueryClient();
 
@@ -59,9 +60,11 @@ const CommentsProvider: FC<CommentsProviderProps> = ({
   return (
     <QueryClientProvider client={queryClient}>
       <SupabaseClientContext.Provider value={supabaseClient}>
-        <CallbacksContext.Provider value={callbacks}>
-          {children}
-        </CallbacksContext.Provider>
+        <Auth.UserContextProvider supabaseClient={supabaseClient}>
+          <CallbacksContext.Provider value={callbacks}>
+            {children}
+          </CallbacksContext.Provider>
+        </Auth.UserContextProvider>
       </SupabaseClientContext.Provider>
     </QueryClientProvider>
   );

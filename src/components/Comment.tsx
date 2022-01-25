@@ -4,6 +4,7 @@ import {
   Typography,
   IconMoreVertical,
   Button,
+  Auth,
 } from '@supabase/ui';
 import React, { FC, useEffect, useState } from 'react';
 import type * as api from '../api';
@@ -24,6 +25,7 @@ import ReactionSelector from './ReactionSelector';
 import ReplyManagerProvider, { useReplyManager } from './ReplyManagerProvider';
 import { useCallbacks } from './CommentsProvider';
 import { getMentionedUserIds } from '../utils';
+import useAuthUtils from '../hooks/useAuthUtils';
 
 interface CommentMenuProps {
   onEdit: () => void;
@@ -89,6 +91,7 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
     updateComment: useUpdateComment(),
     deleteComment: useDeleteComment(),
   };
+  const { isAuthenticated, runIfAuthenticated, auth } = useAuthUtils();
 
   const isReplyingTo = replyManager?.replyingTo?.id === comment.id;
 
@@ -125,14 +128,18 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
 
   const toggleReaction = (reactionType: string) => {
     if (!activeReactions.has(reactionType)) {
-      mutations.addReaction.mutate({
-        commentId: comment.id,
-        reactionType,
+      runIfAuthenticated(() => {
+        mutations.addReaction.mutate({
+          commentId: comment.id,
+          reactionType,
+        });
       });
     } else {
-      mutations.removeReaction.mutate({
-        commentId: comment.id,
-        reactionType,
+      runIfAuthenticated(() => {
+        mutations.removeReaction.mutate({
+          commentId: comment.id,
+          reactionType,
+        });
       });
     }
   };
@@ -149,16 +156,18 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
         />
       </div>
       <div className="flex-1 space-y-2">
-        <div className="relative text-black text-opacity-90 bg-black bg-opacity-[0.075] p-2 py-1 rounded-md dark:text-white dark:text-opacity-90 dark:bg-white dark:bg-opacity-[0.075]">
+        <div className="relative p-2 py-1 text-black bg-black rounded-md text-opacity-90 bg-opacity-5 dark:text-white dark:text-opacity-90 dark:bg-white dark:bg-opacity-5">
           <div className="absolute top-0 right-0">
-            <CommentMenu
-              onEdit={() => {
-                setEditing(true);
-              }}
-              onDelete={() => {
-                mutations.deleteComment.mutate({ id: comment.id });
-              }}
-            />
+            {comment.user_id === auth?.user?.id && (
+              <CommentMenu
+                onEdit={() => {
+                  setEditing(true);
+                }}
+                onDelete={() => {
+                  mutations.deleteComment.mutate({ id: comment.id });
+                }}
+              />
+            )}
           </div>
           <p>
             <span
@@ -192,7 +201,6 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
                       onClick={() => {
                         setEditing(false);
                       }}
-                      loading={mutations.updateComment.isLoading}
                       size="tiny"
                       className="!px-[6px] !py-[3px]"
                       type="secondary"
@@ -213,7 +221,7 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
                       size="tiny"
                       className="!px-[6px] !py-[3px]"
                     >
-                      Submit
+                      Save
                     </Button>
                   </div>
                 }

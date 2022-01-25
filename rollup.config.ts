@@ -4,11 +4,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import typescript from 'rollup-plugin-typescript2';
 import postcss from 'rollup-plugin-postcss';
 import json from '@rollup/plugin-json';
-import autoprefixer from 'autoprefixer';
-import cssnano from 'cssnano';
-import tailwindcss from 'tailwindcss';
 
-const tailwindconfig = require('./tailwind.config');
 const packageJson = require('./package.json');
 
 export default {
@@ -35,13 +31,6 @@ export default {
     commonjs(),
     typescript({ useTsconfigDeclarationDir: true }),
     postcss({
-      // plugins: [
-      //   tailwindcss(tailwindconfig),
-      //   autoprefixer(),
-      //   cssnano({
-      //     preset: 'default',
-      //   }),
-      // ],
       config: {
         path: './postcss.config.js',
         ctx: {},

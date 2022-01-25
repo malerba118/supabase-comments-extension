@@ -4,6 +4,7 @@ import { useCommentReactions } from '../hooks';
 import Avatar from './Avatar';
 import Reaction from './Reaction';
 import { CommentReactionMetadata } from '../api';
+import clsx from 'clsx';
 
 const CommentReactionsModal = ({
   visible,
@@ -59,7 +60,14 @@ const CommentReaction: FC<CommentReactionProps> = ({
         onClose={() => setShowDetails(false)}
         size="small"
       />
-      <div className="flex space-x-2 p-0.5 bg-black bg-opacity-5 rounded-full items-center">
+      <div
+        className={clsx(
+          metadata.active_for_user
+            ? 'bg-green-50 border-green-200'
+            : 'bg-transparent border-black border-opacity-10',
+          'flex space-x-2 p-0.5 rounded-full items-center border'
+        )}
+      >
         <div
           tabIndex={0}
           className={'cursor-pointer'}
@@ -67,12 +75,9 @@ const CommentReaction: FC<CommentReactionProps> = ({
             toggleReaction(metadata.reaction_type);
           }}
         >
-          <Reaction
-            isActive={metadata.active_for_user}
-            type={metadata.reaction_type}
-          />
+          <Reaction type={metadata.reaction_type} />
         </div>
-        <p className="text-xs pr-1.5">
+        <p className="pr-1 text-xs">
           <span className="cursor-pointer" onClick={() => setShowDetails(true)}>
             {metadata.reaction_count}
           </span>

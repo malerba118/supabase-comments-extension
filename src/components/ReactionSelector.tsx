@@ -1,4 +1,5 @@
 import { Dropdown, Typography } from '@supabase/ui';
+import clsx from 'clsx';
 import React, { FC } from 'react';
 import useReactions from '../hooks/useReactions';
 import Reaction from './Reaction';
@@ -22,11 +23,15 @@ const ReactionSelector: FC<ReactionSelectorProps> = ({
             toggleReaction(reaction.type);
           }}
           icon={
-            <div className="-ml-2">
-              <Reaction
-                isActive={activeReactions.has(reaction.type)}
-                type={reaction.type}
-              />
+            <div
+              className={clsx(
+                'p-0.5 -ml-2 border rounded-full',
+                activeReactions.has(reaction.type)
+                  ? 'bg-green-50 border-green-200'
+                  : 'bg-transparent border-transparent'
+              )}
+            >
+              <Reaction type={reaction.type} />
             </div>
           }
         >
