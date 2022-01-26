@@ -174,7 +174,10 @@ export const createApiClient = (supabase: SupabaseClient) => {
   };
 
   const getReactions = async (): Promise<Reaction[]> => {
-    const query = supabase.from<Reaction>('reactions').select('*');
+    const query = supabase
+      .from<Reaction>('reactions')
+      .select('*')
+      .order('type', { ascending: true });
 
     const response = await query;
     assertResponseOk(response);

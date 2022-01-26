@@ -18,21 +18,22 @@ export const useSupabaseClient = () => {
   return supabaseClient;
 };
 
-interface CallbacksContextApi {
+interface CommentsContextApi {
   onAuthRequested?: () => void;
   onUserClick?: (user: DisplayUser) => void;
+  mode: 'light' | 'dark';
 }
 
-const CallbacksContext = createContext<CallbacksContextApi | null>(null);
+const CommentsContext = createContext<CommentsContextApi | null>(null);
 
-export const useCallbacks = () => {
-  const callbacks = useContext(CallbacksContext);
-  if (!callbacks) {
+export const useCommentsContext = () => {
+  const context = useContext(CommentsContext);
+  if (!context) {
     throw new Error(
       'CommentsProvider not found. Make sure this code is contained in a CommentsProvider.'
     );
   }
-  return callbacks;
+  return context;
 };
 
 interface CommentsProviderProps {
@@ -40,6 +41,7 @@ interface CommentsProviderProps {
   supabaseClient: SupabaseClient;
   onAuthRequested?: () => void;
   onUserClick?: (user: DisplayUser) => void;
+  mode?: 'light' | 'dark';
 }
 
 const CommentsProvider: FC<CommentsProviderProps> = ({
@@ -48,22 +50,24 @@ const CommentsProvider: FC<CommentsProviderProps> = ({
   children,
   onAuthRequested,
   onUserClick,
+  mode = 'light',
 }) => {
-  const callbacks = useMemo(
+  const context = useMemo(
     () => ({
       onAuthRequested,
       onUserClick,
+      mode,
     }),
-    [onAuthRequested, onUserClick]
+    [onAuthRequested, onUserClick, mode]
   );
 
   return (
     <QueryClientProvider client={queryClient}>
       <SupabaseClientContext.Provider value={supabaseClient}>
         <Auth.UserContextProvider supabaseClient={supabaseClient}>
-          <CallbacksContext.Provider value={callbacks}>
+          <CommentsContext.Provider value={context}>
             {children}
-          </CallbacksContext.Provider>
+          </CommentsContext.Provider>
         </Auth.UserContextProvider>
       </SupabaseClientContext.Provider>
     </QueryClientProvider>

@@ -12,6 +12,7 @@ import Comment from './Comment';
 import { useReplyManager } from './ReplyManagerProvider';
 import { getMentionedUserIds } from '../utils';
 import useAuthUtils from '../hooks/useAuthUtils';
+import { useCommentsContext } from './CommentsProvider';
 
 interface CommentsProps {
   topic: string;
@@ -19,6 +20,7 @@ interface CommentsProps {
 }
 
 const Comments: FC<CommentsProps> = ({ topic, parentId = null }) => {
+  const context = useCommentsContext();
   const [layoutReady, setLayoutReady] = useState(false);
   const replyManager = useReplyManager();
   const commentState = useUncontrolledState({ defaultValue: '' });
@@ -60,63 +62,63 @@ const Comments: FC<CommentsProps> = ({ topic, parentId = null }) => {
     }
   }, [queries.comments.isSuccess]);
 
-  if (queries.comments.isLoading) {
-    return (
-      <div className="grid h-12 place-items-center">
-        <Loading active>{null}</Loading>
-      </div>
-    );
-  }
-
-  if (queries.comments.isError) {
-    return (
-      <div className="grid h-12 place-items-center">
-        <Typography.Text>Unable to load comments.</Typography.Text>
-      </div>
-    );
-  }
-
   return (
-    <div
-      className={clsx(
-        'space-y-3 rounded-md',
-        !layoutReady ? 'invisible' : 'visible'
+    <div className={clsx(context.mode === 'dark' && 'dark', 'relative')}>
+      {queries.comments.isLoading && (
+        <div className="grid h-12 place-items-center">
+          <Loading active>{null}</Loading>
+        </div>
       )}
-    >
-      <div className="space-y-1">
-        {queries.comments.data?.map((comment) => (
-          <Comment key={comment.id} id={comment.id} />
-        ))}
-      </div>
-      <div className="ml-10 space-y-2">
-        <Editor
-          key={commentState.key}
-          defaultValue={commentState.defaultValue}
-          onChange={(val) => {
-            commentState.setValue(val);
-          }}
-          autoFocus={!!replyManager?.replyingTo}
-          actions={
-            <Button
-              onClick={() => {
-                runIfAuthenticated(() => {
-                  mutations.addComment.mutate({
-                    topic,
-                    parentId,
-                    comment: commentState.value,
-                    mentionedUserIds: getMentionedUserIds(commentState.value),
-                  });
-                });
+      {queries.comments.isError && (
+        <div className="grid h-12 place-items-center">
+          <Typography.Text>Unable to load comments.</Typography.Text>
+        </div>
+      )}
+      {queries.comments.data && (
+        <div
+          className={clsx(
+            'relative space-y-3 rounded-md',
+            !layoutReady ? 'invisible' : 'visible'
+          )}
+        >
+          <div className="space-y-1">
+            {queries.comments.data.map((comment) => (
+              <Comment key={comment.id} id={comment.id} />
+            ))}
+          </div>
+          <div className="ml-10 space-y-2">
+            <Editor
+              key={commentState.key}
+              defaultValue={commentState.defaultValue}
+              onChange={(val) => {
+                commentState.setValue(val);
               }}
-              loading={mutations.addComment.isLoading}
-              size="tiny"
-              className="!px-[6px] !py-[3px] m-[3px]"
-            >
-              {!isAuthenticated ? 'Sign In' : 'Submit'}
-            </Button>
-          }
-        />
-      </div>
+              autoFocus={!!replyManager?.replyingTo}
+              actions={
+                <Button
+                  onClick={() => {
+                    runIfAuthenticated(() => {
+                      mutations.addComment.mutate({
+                        topic,
+                        parentId,
+                        comment: commentState.value,
+                        mentionedUserIds: getMentionedUserIds(
+                          commentState.value
+                        ),
+                      });
+                    });
+                  }}
+                  loading={mutations.addComment.isLoading}
+                  size="tiny"
+                  className="!px-[6px] !py-[3px] m-[3px]"
+                >
+                  {!isAuthenticated ? 'Sign In' : 'Submit'}
+                </Button>
+              }
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

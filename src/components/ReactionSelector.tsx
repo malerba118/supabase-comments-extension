@@ -1,4 +1,4 @@
-import { Dropdown, Typography } from '@supabase/ui';
+import { Dropdown, IconPlus, Typography } from '@supabase/ui';
 import clsx from 'clsx';
 import React, { FC } from 'react';
 import useReactions from '../hooks/useReactions';
@@ -25,7 +25,7 @@ const ReactionSelector: FC<ReactionSelectorProps> = ({
           icon={
             <div
               className={clsx(
-                'p-0.5 -ml-2 border rounded-full',
+                'p-0.5 -ml-2 border-2 rounded-full',
                 activeReactions.has(reaction.type)
                   ? 'bg-green-50 border-green-200'
                   : 'bg-transparent border-transparent'
@@ -39,10 +39,8 @@ const ReactionSelector: FC<ReactionSelectorProps> = ({
         </Dropdown.Item>
       ))}
     >
-      <div className="flex space-x-1 p-0.5 bg-black bg-opacity-5 rounded-full">
-        <div className="grid items-center justify-center w-5 h-5 text-xs bg-black rounded-full bg-opacity-5">
-          <span>+</span>
-        </div>
+      <div className="flex items-center justify-center w-[24px] h-[24px] text-xs rounded-full border-[rgba(0, 0, 0, .05)] border-2">
+        <IconPlus className="w-[14px] h-[14px]" />
       </div>
     </Dropdown>
   );

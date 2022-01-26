@@ -1,10 +1,10 @@
 import { Auth } from '@supabase/ui';
-import { useCallbacks } from '../components/CommentsProvider';
+import { useCommentsContext } from '../components/CommentsProvider';
 
 // run callback if authenticated
 const useAuthUtils = () => {
   const auth = Auth.useUser();
-  const { onAuthRequested } = useCallbacks();
+  const { onAuthRequested } = useCommentsContext();
 
   const isAuthenticated = !!auth.session;
 

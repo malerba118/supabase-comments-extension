@@ -20,6 +20,6 @@
     "skipLibCheck": true,
     "resolveJsonModule": true
   },
-  "include": ["src"],
+  "include": ["src", "bin", "bin"],
   "exclude": ["node_modules", "dist"]
 }

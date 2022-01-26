@@ -23,7 +23,7 @@ import Comments from './Comments';
 import CommentReaction from './CommentReaction';
 import ReactionSelector from './ReactionSelector';
 import ReplyManagerProvider, { useReplyManager } from './ReplyManagerProvider';
-import { useCallbacks } from './CommentsProvider';
+import { useCommentsContext } from './CommentsProvider';
 import { getMentionedUserIds } from '../utils';
 import useAuthUtils from '../hooks/useAuthUtils';
 
@@ -80,7 +80,7 @@ interface CommentDataProps {
 }
 
 const CommentData: FC<CommentDataProps> = ({ comment }) => {
-  const callbacks = useCallbacks();
+  const context = useCommentsContext();
   const [editing, setEditing] = useState(false);
   const [repliesVisible, setRepliesVisible] = useState(false);
   const commentState = useUncontrolledState({ defaultValue: comment.comment });
@@ -127,21 +127,19 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
   );
 
   const toggleReaction = (reactionType: string) => {
-    if (!activeReactions.has(reactionType)) {
-      runIfAuthenticated(() => {
+    runIfAuthenticated(() => {
+      if (!activeReactions.has(reactionType)) {
         mutations.addReaction.mutate({
           commentId: comment.id,
           reactionType,
         });
-      });
-    } else {
-      runIfAuthenticated(() => {
+      } else {
         mutations.removeReaction.mutate({
           commentId: comment.id,
           reactionType,
         });
-      });
-    }
+      }
+    });
   };
 
   return (
@@ -150,7 +148,7 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
         <Avatar
           className={'cursor-pointer'}
           onClick={() => {
-            callbacks.onUserClick?.(comment.user);
+            context.onUserClick?.(comment.user);
           }}
           src={comment.user.avatar}
         />
@@ -173,7 +171,7 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
             <span
               className="font-bold cursor-pointer"
               onClick={() => {
-                callbacks.onUserClick?.(comment.user);
+                context.onUserClick?.(comment.user);
               }}
             >
               {comment.user.name}
