@@ -62,10 +62,10 @@ const CommentReaction: FC<CommentReactionProps> = ({
       />
       <div
         className={clsx(
+          'flex space-x-2 py-0.5 px-1 rounded-full items-center border-2',
           metadata.active_for_user
-            ? 'bg-green-50 border-green-100'
-            : 'bg-transparent border-[rgba(0,0,0,0.05)]',
-          'flex space-x-2 py-0.5 px-1 rounded-full items-center border-2'
+            ? `bg-[color:var(--sce-accent-50)] border-[color:var(--sce-accent-200)]`
+            : 'bg-transparent border-alpha-10'
         )}
       >
         <div
@@ -77,7 +77,7 @@ const CommentReaction: FC<CommentReactionProps> = ({
         >
           <Reaction type={metadata.reaction_type} />
         </div>
-        <p className="pr-1 text-xs">
+        <p className="pr-1 text-xs dark:text-[color:var(--sce-accent-900)]">
           <span className="cursor-pointer" onClick={() => setShowDetails(true)}>
             {metadata.reaction_count}
           </span>

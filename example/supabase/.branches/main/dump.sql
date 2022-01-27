@@ -591,7 +591,6 @@ CREATE FUNCTION realtime.build_prepared_statement_sql(prepared_statement_name te
     /*
     Builds a sql string that, if executed, creates a prepared statement to
     tests retrive a row from *entity* by its primary key columns.
-
     Example
       select realtime.build_prepared_statment_sql('public.notes', '{"id"}'::text[], '{"bigint"}'::text[])
     */
@@ -613,14 +612,10 @@ CREATE FUNCTION realtime.build_prepared_statement_sql(prepared_statement_name te
       group by
         entity
     $$;
-
-
 ALTER FUNCTION realtime.build_prepared_statement_sql(prepared_statement_name text, entity regclass, columns realtime.wal_column[]) OWNER TO postgres;
-
 --
 -- Name: cast(text, regtype); Type: FUNCTION; Schema: realtime; Owner: postgres
 --
-
 CREATE FUNCTION realtime."cast"(val text, type_ regtype) RETURNS jsonb
     LANGUAGE plpgsql IMMUTABLE
     AS $$
@@ -631,14 +626,10 @@ CREATE FUNCTION realtime."cast"(val text, type_ regtype) RETURNS jsonb
       return res;
     end
     $$;
-
-
 ALTER FUNCTION realtime."cast"(val text, type_ regtype) OWNER TO postgres;
-
 --
 -- Name: check_equality_op(realtime.equality_op, regtype, text, text); Type: FUNCTION; Schema: realtime; Owner: postgres
 --
-
 CREATE FUNCTION realtime.check_equality_op(op realtime.equality_op, type_ regtype, val_1 text, val_2 text) RETURNS boolean
     LANGUAGE plpgsql IMMUTABLE
     AS $$
@@ -663,14 +654,10 @@ CREATE FUNCTION realtime.check_equality_op(op realtime.equality_op, type_ regtyp
       return res;
     end;
     $$;
-
-
 ALTER FUNCTION realtime.check_equality_op(op realtime.equality_op, type_ regtype, val_1 text, val_2 text) OWNER TO postgres;
-
 --
 -- Name: is_visible_through_filters(realtime.wal_column[], realtime.user_defined_filter[]); Type: FUNCTION; Schema: realtime; Owner: postgres
 --
-
 CREATE FUNCTION realtime.is_visible_through_filters(columns realtime.wal_column[], filters realtime.user_defined_filter[]) RETURNS boolean
     LANGUAGE sql IMMUTABLE
     AS $$
@@ -696,14 +683,10 @@ CREATE FUNCTION realtime.is_visible_through_filters(columns realtime.wal_column[
       join unnest(columns) col
           on f.column_name = col.name;
     $$;
-
-
 ALTER FUNCTION realtime.is_visible_through_filters(columns realtime.wal_column[], filters realtime.user_defined_filter[]) OWNER TO postgres;
-
 --
 -- Name: quote_wal2json(regclass); Type: FUNCTION; Schema: realtime; Owner: postgres
 --
-
 CREATE FUNCTION realtime.quote_wal2json(entity regclass) RETURNS text
     LANGUAGE sql IMMUTABLE STRICT
     AS $$
@@ -736,14 +719,10 @@ CREATE FUNCTION realtime.quote_wal2json(entity regclass) RETURNS text
       where
         pc.oid = entity
     $$;
-
-
 ALTER FUNCTION realtime.quote_wal2json(entity regclass) OWNER TO postgres;
-
 --
 -- Name: subscription_check_filters(); Type: FUNCTION; Schema: realtime; Owner: postgres
 --
-
 CREATE FUNCTION realtime.subscription_check_filters() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
@@ -770,7 +749,6 @@ CREATE FUNCTION realtime.subscription_check_filters() RETURNS trigger
         if not filter.column_name = any(col_names) then
           raise exception 'invalid column for filter %', filter.column_name;
         end if;
-
         -- Type is sanitized and safe for string interpolation
         col_type = (
           select atttypid::regtype
@@ -784,7 +762,6 @@ CREATE FUNCTION realtime.subscription_check_filters() RETURNS trigger
         -- raises an exception if value is not coercable to type
         perform realtime.cast(filter.value, col_type);
       end loop;
-
       -- Apply consistent order to filters so the unique constraint on
       -- (user_id, entity, filters) can't be tricked by a different filter order
       new.filters = coalesce(

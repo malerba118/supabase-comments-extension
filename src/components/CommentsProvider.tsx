@@ -1,8 +1,15 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
-import React, { createContext, FC, useContext, useMemo } from 'react';
+import React, {
+  createContext,
+  FC,
+  useContext,
+  useEffect,
+  useMemo,
+} from 'react';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { DisplayUser } from '../api';
 import { Auth } from '@supabase/ui';
+import { useCssPalette } from '..';
 
 const defaultQueryClient = new QueryClient();
 
@@ -42,6 +49,7 @@ interface CommentsProviderProps {
   onAuthRequested?: () => void;
   onUserClick?: (user: DisplayUser) => void;
   mode?: 'light' | 'dark';
+  accentColor?: string;
 }
 
 const CommentsProvider: FC<CommentsProviderProps> = ({
@@ -51,6 +59,7 @@ const CommentsProvider: FC<CommentsProviderProps> = ({
   onAuthRequested,
   onUserClick,
   mode = 'light',
+  accentColor = '#0000ff',
 }) => {
   const context = useMemo(
     () => ({
@@ -60,6 +69,18 @@ const CommentsProvider: FC<CommentsProviderProps> = ({
     }),
     [onAuthRequested, onUserClick, mode]
   );
+
+  useEffect(() => {
+    const subscription = supabaseClient.auth.onAuthStateChange(() => {
+      // refetch all queries when auth changes
+      queryClient.invalidateQueries();
+    });
+    return () => {
+      subscription.data?.unsubscribe();
+    };
+  }, [queryClient, supabaseClient]);
+
+  useCssPalette(accentColor, 'sce-accent', { darkMode: mode === 'dark' });
 
   return (
     <QueryClientProvider client={queryClient}>

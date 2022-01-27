@@ -226,12 +226,12 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
               />
             )}
           </p>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-alpha-20">
             <TimeAgo date={comment.created_at} locale="en-US" />
           </p>
         </div>
         <div className="flex items-center justify-between">
-          <div className="flex space-x-2">
+          <div className="flex h-6 space-x-2">
             <ReactionSelector
               activeReactions={activeReactions}
               toggleReaction={toggleReaction}

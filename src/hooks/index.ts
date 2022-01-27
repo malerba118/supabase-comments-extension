@@ -10,3 +10,4 @@ export { default as useRemoveReaction } from './useRemoveReaction';
 export { default as useCommentReactions } from './useCommentReactions';
 export { default as useSearchUsers } from './useSearchUsers';
 export { default as useUncontrolledState } from './useUncontrolledState';
+export { default as useCssPalette } from './useCssPalette';

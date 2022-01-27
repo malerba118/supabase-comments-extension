@@ -39,8 +39,8 @@ const ReactionSelector: FC<ReactionSelectorProps> = ({
         </Dropdown.Item>
       ))}
     >
-      <div className="flex items-center justify-center w-[24px] h-[24px] text-xs rounded-full border-[rgba(0, 0, 0, .05)] border-2">
-        <IconPlus className="w-[14px] h-[14px]" />
+      <div className="flex items-center justify-center w-[22px] h-[22px] text-xs rounded-full border-alpha-10 border-2">
+        <IconPlus className="w-[12px] h-[12px] text-alpha-50" />
       </div>
     </Dropdown>
   );

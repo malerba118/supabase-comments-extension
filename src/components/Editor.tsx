@@ -2,9 +2,15 @@ import React, { FC, ReactNode } from 'react';
 import { IconBold, IconCode, IconItalic } from '@supabase/ui';
 import { useEditor, EditorContent } from '@tiptap/react';
 import clsx from 'clsx';
+import Link from '@tiptap/extension-link';
 import StarterKit from '@tiptap/starter-kit';
 import MentionsExtension from './Mentions';
+import Placeholder from '@tiptap/extension-placeholder';
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
+
 import styles from './Editor.module.css';
+// @ts-ignore
+import { lowlight } from 'lowlight';
 
 interface EditorProps {
   defaultValue: string;
@@ -23,7 +29,20 @@ const Editor: FC<EditorProps> = ({
 }) => {
   const editor = useEditor({
     editable: !readOnly,
-    extensions: [StarterKit, MentionsExtension],
+    extensions: [
+      StarterKit,
+      Placeholder.configure({
+        placeholder: 'Write a message...',
+      }),
+      MentionsExtension,
+      CodeBlockLowlight.configure({ lowlight, defaultLanguage: null }),
+      Link.configure({
+        HTMLAttributes: {
+          class: 'tiptap-link',
+        },
+        openOnClick: false,
+      }),
+    ],
     content: defaultValue,
     onUpdate: ({ editor }) => {
       onChange?.(editor.getHTML());
@@ -37,7 +56,12 @@ const Editor: FC<EditorProps> = ({
   });
 
   return (
-    <div className={clsx(readOnly ? styles.viewer : styles.editor)}>
+    <div
+      className={clsx(
+        readOnly ? styles.viewer : styles.editor,
+        'tiptap-editor'
+      )}
+    >
       <EditorContent
         className={clsx('h-full', readOnly ? null : 'pb-8')}
         editor={editor}

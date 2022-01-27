@@ -63,7 +63,7 @@ const Comments: FC<CommentsProps> = ({ topic, parentId = null }) => {
   }, [queries.comments.isSuccess]);
 
   return (
-    <div className={clsx(context.mode === 'dark' && 'dark', 'relative')}>
+    <div className={clsx(context.mode, 'relative')}>
       {queries.comments.isLoading && (
         <div className="grid h-12 place-items-center">
           <Loading active>{null}</Loading>

@@ -31,3 +31,172 @@ pre code {
   background: none;
   font-size: 0.8rem;
 }
+
+.tiptap-editor pre {
+  background: #0d0d0d;
+  color: #fff;
+  font-family: 'JetBrainsMono', monospace;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+}
+
+.tiptap-editor code {
+  color: inherit;
+  padding: 0;
+  background: none;
+  font-size: 0.8rem;
+}
+
+.tiptap-editor .hljs-comment,
+.hljs-quote {
+  color: #616161;
+}
+
+.tiptap-editor .hljs-variable,
+.hljs-template-variable,
+.hljs-attribute,
+.hljs-tag,
+.hljs-name,
+.hljs-regexp,
+.hljs-link,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class {
+  color: #f98181;
+}
+
+.tiptap-editor .hljs-number,
+.hljs-meta,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params {
+  color: #fbbc88;
+}
+
+.tiptap-editor .hljs-string,
+.hljs-symbol,
+.hljs-bullet {
+  color: #b9f18d;
+}
+
+.tiptap-editor .hljs-title,
+.hljs-section {
+  color: #fad594;
+}
+
+.tiptap-editor .hljs-keyword,
+.hljs-selector-tag {
+  color: #70cff8;
+}
+
+.tiptap-editor .hljs-emphasis {
+  font-style: italic;
+}
+
+.tiptap-editor .hljs-strong {
+  font-weight: 700;
+}
+
+.tiptap-editor .tiptap-link {
+  text-decoration: underline;
+  filter: brightness(110%);
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  pointer-events: none;
+  font-size: 1rem;
+}
+
+.text-alpha {
+  @apply text-black dark:text-white;
+}
+
+.text-alpha-10 {
+  @apply text-alpha !text-opacity-10 dark:text-opacity-10;
+}
+
+.text-alpha-20 {
+  @apply text-alpha !text-opacity-20  dark:text-opacity-20;
+}
+
+.text-alpha-30 {
+  @apply text-alpha !text-opacity-30  dark:text-opacity-30;
+}
+
+.text-alpha-40 {
+  @apply text-alpha !text-opacity-40  dark:text-opacity-40;
+}
+
+.text-alpha-50 {
+  @apply text-alpha !text-opacity-50  dark:text-opacity-50;
+}
+
+.text-alpha-60 {
+  @apply text-alpha !text-opacity-60  dark:text-opacity-60;
+}
+
+.text-alpha-70 {
+  @apply text-alpha !text-opacity-70  dark:text-opacity-70;
+}
+
+.text-alpha-80 {
+  @apply text-alpha !text-opacity-80  dark:text-opacity-80;
+}
+
+.text-alpha-90 {
+  @apply text-alpha !text-opacity-90  dark:text-opacity-90;
+}
+
+.text-alpha-100 {
+  @apply text-alpha !text-opacity-100  dark:text-opacity-100;
+}
+
+.border-alpha {
+  @apply border-black dark:border-white;
+}
+.border-alpha-10 {
+  @apply border-alpha border-opacity-10 dark:border-opacity-10;
+}
+
+.border-alpha-20 {
+  @apply border-alpha !border-opacity-20;
+}
+
+.border-alpha-30 {
+  @apply border-alpha !border-opacity-30;
+}
+
+.border-alpha-40 {
+  @apply border-alpha !border-opacity-40;
+}
+
+.border-alpha-50 {
+  @apply border-alpha !border-opacity-50;
+}
+
+.border-alpha-60 {
+  @apply border-alpha !border-opacity-60;
+}
+
+.border-alpha-70 {
+  @apply border-alpha !border-opacity-70;
+}
+
+.border-alpha-80 {
+  @apply border-alpha !border-opacity-80;
+}
+
+.border-alpha-90 {
+  @apply border-alpha !border-opacity-90;
+}
+
+.border-alpha-100 {
+  @apply border-alpha !border-opacity-100;
+}
