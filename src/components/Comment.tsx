@@ -4,7 +4,6 @@ import {
   Typography,
   IconMoreVertical,
   Button,
-  Auth,
 } from '@supabase/ui';
 import React, { FC, useEffect, useState } from 'react';
 import type * as api from '../api';

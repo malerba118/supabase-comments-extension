@@ -80,7 +80,14 @@ const CommentsProvider: FC<CommentsProviderProps> = ({
     };
   }, [queryClient, supabaseClient]);
 
-  useCssPalette(accentColor, 'sce-accent', { darkMode: mode === 'dark' });
+  useCssPalette(accentColor, 'sce-accent');
+
+  useEffect(() => {
+    document.body.classList.add(mode);
+    return () => {
+      document.body.classList.remove(mode);
+    };
+  }, [mode]);
 
   return (
     <QueryClientProvider client={queryClient}>

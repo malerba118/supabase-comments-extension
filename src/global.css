@@ -49,7 +49,7 @@ pre code {
 
 .tiptap-editor .hljs-comment,
 .hljs-quote {
-  color: #616161;
+  color: #616161 !important;
 }
 
 .tiptap-editor .hljs-variable,
@@ -62,7 +62,7 @@ pre code {
 .hljs-name,
 .hljs-selector-id,
 .hljs-selector-class {
-  color: #f98181;
+  color: #f98181 !important;
 }
 
 .tiptap-editor .hljs-number,
@@ -72,27 +72,27 @@ pre code {
 .hljs-literal,
 .hljs-type,
 .hljs-params {
-  color: #fbbc88;
+  color: #fbbc88 !important;
 }
 
 .tiptap-editor .hljs-string,
 .hljs-symbol,
 .hljs-bullet {
-  color: #b9f18d;
+  color: #b9f18d !important;
 }
 
 .tiptap-editor .hljs-title,
 .hljs-section {
-  color: #fad594;
+  color: #fad594 !important;
 }
 
 .tiptap-editor .hljs-keyword,
 .hljs-selector-tag {
-  color: #70cff8;
+  color: #70cff8 !important;
 }
 
 .tiptap-editor .hljs-emphasis {
-  font-style: italic;
+  font-style: italic !important;
 }
 
 .tiptap-editor .hljs-strong {

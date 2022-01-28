@@ -24,7 +24,7 @@ const App = () => {
         setAuthRequested(true);
       }}
       supabaseClient={supabase}
-      mode="dark"
+      // mode="light"
       accentColor="rgb(36, 180, 126)"
     >
       <AuthModal
