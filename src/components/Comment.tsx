@@ -36,11 +36,11 @@ const CommentMenu: FC<CommentMenuProps> = ({ onEdit, onDelete }) => {
   return (
     <Dropdown
       overlay={[
-        <Dropdown.Item onClick={() => onEdit()}>
-          <Typography.Text>Edit</Typography.Text>
+        <Dropdown.Item key="edit" onClick={() => onEdit()}>
+          <Typography.Text className="text-sm">Edit</Typography.Text>
         </Dropdown.Item>,
-        <Dropdown.Item onClick={() => onDelete()}>
-          <Typography.Text>Delete</Typography.Text>
+        <Dropdown.Item key="delete" onClick={() => onDelete()}>
+          <Typography.Text className="text-sm">Delete</Typography.Text>
         </Dropdown.Item>,
       ]}
     >
@@ -226,7 +226,7 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
               />
             )}
           </p>
-          <p className="text-sm text-alpha-20">
+          <p className="text-sm text-alpha-40">
             <TimeAgo date={comment.created_at} locale="en-US" />
           </p>
         </div>
@@ -244,7 +244,7 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
               />
             ))}
           </div>
-          <div className="flex space-x-3 text-sm text-gray-500 ">
+          <div className="flex space-x-3 text-sm text-alpha-40">
             {!isReply && (
               <div
                 onClick={() => setRepliesVisible((prev) => !prev)}

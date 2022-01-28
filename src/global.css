@@ -115,54 +115,55 @@ pre code {
 }
 
 .text-alpha {
-  @apply text-black dark:text-white;
+  @apply text-[color:rgba(0,0,0,var(--tw-text-opacity))] dark:text-[color:rgba(255,255,255,var(--tw-text-opacity))];
 }
 
 .text-alpha-10 {
-  @apply text-alpha !text-opacity-10 dark:text-opacity-10;
+  @apply text-alpha !text-opacity-10;
 }
 
 .text-alpha-20 {
-  @apply text-alpha !text-opacity-20  dark:text-opacity-20;
+  @apply text-alpha !text-opacity-20;
 }
 
 .text-alpha-30 {
-  @apply text-alpha !text-opacity-30  dark:text-opacity-30;
+  @apply text-alpha !text-opacity-30;
 }
 
 .text-alpha-40 {
-  @apply text-alpha !text-opacity-40  dark:text-opacity-40;
+  @apply text-alpha !text-opacity-40;
 }
 
 .text-alpha-50 {
-  @apply text-alpha !text-opacity-50  dark:text-opacity-50;
+  @apply text-alpha !text-opacity-50;
 }
 
 .text-alpha-60 {
-  @apply text-alpha !text-opacity-60  dark:text-opacity-60;
+  @apply text-alpha !text-opacity-60;
 }
 
 .text-alpha-70 {
-  @apply text-alpha !text-opacity-70  dark:text-opacity-70;
+  @apply text-alpha !text-opacity-70;
 }
 
 .text-alpha-80 {
-  @apply text-alpha !text-opacity-80  dark:text-opacity-80;
+  @apply text-alpha !text-opacity-80;
 }
 
 .text-alpha-90 {
-  @apply text-alpha !text-opacity-90  dark:text-opacity-90;
+  @apply text-alpha !text-opacity-90;
 }
 
 .text-alpha-100 {
-  @apply text-alpha !text-opacity-100  dark:text-opacity-100;
+  @apply text-alpha !text-opacity-100;
 }
 
 .border-alpha {
-  @apply border-black dark:border-white;
+  @apply border-[color:rgba(0,0,0,var(--tw-border-opacity))] dark:border-[color:rgba(255,255,255,var(--tw-border-opacity))];
 }
+
 .border-alpha-10 {
-  @apply border-alpha border-opacity-10 dark:border-opacity-10;
+  @apply border-alpha !border-opacity-10;
 }
 
 .border-alpha-20 {

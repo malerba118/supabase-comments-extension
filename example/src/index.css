@@ -17,6 +17,5 @@ code {
 }
 
 body {
-  background: #111;
-  --foo: #ff0000;
+  /* background: #111; */
 }

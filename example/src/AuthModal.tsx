@@ -1,5 +1,6 @@
 import { SupabaseClient } from '@supabase/supabase-js';
-import { Auth, Button, IconInfo, Modal, Typography } from '@supabase/ui';
+import { Button, IconInfo, Modal, Typography } from '@supabase/ui';
+import { Auth } from 'supabase-comments-extension';
 import { useState, FC } from 'react';
 
 interface AuthModalProps {
@@ -19,6 +20,7 @@ const AuthModal: FC<AuthModalProps> = ({
       visible={visible}
       onCancel={onClose}
       hideFooter
+      size="medium"
     >
       <div className="!-mt-4 w-full">
         <Auth view="sign_up" supabaseClient={supabaseClient} />
