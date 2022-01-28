@@ -21,17 +21,36 @@ supabase-comments-extension run-migrations <supabase-connection-string>
 Then in your app code you can add comments with the following
 
 ```jsx
-<CommentsProvider
-  supabaseClient={supabase}
-  onUserClick={(user) => {
-    // go to user page
-  }}
-  onAuthRequested={() => {
-    // go to login page
-  }}
-  mode="dark"
-  accentColor="green"
->
-  <Comments topic="tutorial-one" />
-</CommentsProvider>
+import { useState } from 'react';
+import { createClient } from '@supabase/supabase-js';
+import {
+  Comments,
+  AuthModal, 
+  CommentsProvider
+} from 'supabase-comments-extension';
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY); 
+
+const App = () => {
+  const [modalVisible, setModalVisible] = useState(false);
+
+  return (
+    <CommentsProvider
+      supabaseClient={supabase}
+      onUserClick={(user) => {
+        // go to user page or do whatever you want
+      }}
+      onAuthRequested={() => setModalVisible(true)}
+      mode="dark"
+      accentColor="green"
+    >
+      <AuthModal 
+        visible={modalVisible} 
+        onAuthenticate={() => setModalVisible(false)} 
+        onClose={() => setModalVisible(false)} 
+      />
+      <Comments topic="tutorial-one" />
+    </CommentsProvider>
+  )
+}
 ```
