@@ -23,7 +23,7 @@ const AuthModal: FC<AuthModalProps> = ({
       size="medium"
     >
       <div className="!-mt-4 w-full">
-        <Auth view="sign_up" supabaseClient={supabaseClient} />
+        <Auth view="sign_in" supabaseClient={supabaseClient} />
       </div>
     </Modal>
   );

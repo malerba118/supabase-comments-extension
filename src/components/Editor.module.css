@@ -1,6 +1,6 @@
 .editor {
   height: 136px;
-  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-width: 2px;
   border-radius: 8px;
   position: relative;
 }
@@ -28,16 +28,3 @@ min-height helps mitigate that layout shift */
   border: none !important;
   outline: none !important;
 }
-
-.actionsBar {
-  border-top: 2px solid rgba(0, 0, 0, 0.1);
-}
-
-/* 
-.viewer {
-  min-height: 1rem;
-}
-
-.viewer .tiptap-editor {
-  height: 100%;
-} */

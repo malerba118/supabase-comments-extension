@@ -32,7 +32,7 @@ const Avatar: FC<AvatarProps> = ({ src, className, ...otherProps }) => {
             className="text-alpha-60"
             viewBox="0 0 128 128"
             role="img"
-            aria-label=" avatar"
+            aria-label="avatar"
           >
             <path
               fill="currentColor"

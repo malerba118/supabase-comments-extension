@@ -59,7 +59,7 @@ const Editor: FC<EditorProps> = ({
     <div
       className={clsx(
         readOnly ? styles.viewer : styles.editor,
-        'tiptap-editor'
+        'tiptap-editor text-alpha-80 border-alpha-10 rounded-md'
       )}
     >
       <EditorContent
@@ -69,7 +69,7 @@ const Editor: FC<EditorProps> = ({
       {!readOnly && (
         <div
           className={clsx(
-            styles.actionsBar,
+            'border-t-2 border-alpha-10',
             'absolute bottom-0 left-0 right-0 flex items-center h-8'
           )}
         >

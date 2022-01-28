@@ -105,13 +105,13 @@ pre code {
 }
 
 .ProseMirror p.is-editor-empty:first-child::before {
-  color: #adb5bd;
   content: attr(data-placeholder);
   position: absolute;
   top: 8px;
   left: 8px;
   pointer-events: none;
   font-size: 1rem;
+  @apply text-alpha-40;
 }
 
 .text-alpha {
@@ -200,4 +200,48 @@ pre code {
 
 .border-alpha-100 {
   @apply border-alpha !border-opacity-100;
+}
+
+.bg-alpha {
+  @apply bg-[color:rgba(0,0,0,var(--tw-bg-opacity))] dark:bg-[color:rgba(255,255,255,var(--tw-bg-opacity))];
+}
+
+.bg-alpha-10 {
+  @apply bg-alpha !bg-opacity-10;
+}
+
+.bg-alpha-20 {
+  @apply bg-alpha !bg-opacity-20;
+}
+
+.bg-alpha-30 {
+  @apply bg-alpha !bg-opacity-30;
+}
+
+.bg-alpha-40 {
+  @apply bg-alpha !bg-opacity-40;
+}
+
+.bg-alpha-50 {
+  @apply bg-alpha !bg-opacity-50;
+}
+
+.bg-alpha-60 {
+  @apply bg-alpha !bg-opacity-60;
+}
+
+.bg-alpha-70 {
+  @apply bg-alpha !bg-opacity-70;
+}
+
+.bg-alpha-80 {
+  @apply bg-alpha !bg-opacity-80;
+}
+
+.bg-alpha-90 {
+  @apply bg-alpha !bg-opacity-90;
+}
+
+.bg-alpha-100 {
+  @apply bg-alpha !bg-opacity-100;
 }
