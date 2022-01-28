@@ -1437,6 +1437,25 @@ COPY auth.audit_log_entries (instance_id, id, payload, created_at) FROM stdin;
 00000000-0000-0000-0000-000000000000	8d9905c9-3a2d-41e0-b884-82d250c97dab	{"action":"logout","actor_id":"f44c5d43-b81f-450f-9d63-a30b1394ea9f","actor_username":"austin.malerba@gmail.com","log_type":"account","timestamp":"2022-01-28T00:41:45Z"}	2022-01-28 00:41:45.928637+00
 00000000-0000-0000-0000-000000000000	a41cecc4-b106-4cab-bb9d-5d5ed2f3ed7e	{"action":"user_signedup","actor_id":"f2023f79-33a1-4279-acbe-d7e193c5f7e3","actor_username":"malerba118@gmail.com","log_type":"team","timestamp":"2022-01-28T00:42:06Z"}	2022-01-28 00:42:06.376701+00
 00000000-0000-0000-0000-000000000000	0700a9a4-fd05-40a2-9e9b-0566ceee99b4	{"action":"login","actor_id":"f2023f79-33a1-4279-acbe-d7e193c5f7e3","actor_username":"malerba118@gmail.com","log_type":"account","timestamp":"2022-01-28T00:42:06Z"}	2022-01-28 00:42:06.381819+00
+00000000-0000-0000-0000-000000000000	666ccea7-8125-40b3-a4d0-af222b5f255f	{"action":"logout","actor_id":"f2023f79-33a1-4279-acbe-d7e193c5f7e3","actor_username":"malerba118@gmail.com","log_type":"account","timestamp":"2022-01-28T01:01:27Z"}	2022-01-28 01:01:27.857646+00
+00000000-0000-0000-0000-000000000000	e488a6e9-0504-41e2-a2df-f397585a7cba	{"action":"login","actor_id":"f2023f79-33a1-4279-acbe-d7e193c5f7e3","actor_username":"malerba118@gmail.com","log_type":"account","timestamp":"2022-01-28T02:56:54Z"}	2022-01-28 02:56:54.743229+00
+00000000-0000-0000-0000-000000000000	80462c8c-a42f-41dd-9d80-792ae21667cb	{"action":"logout","actor_id":"f2023f79-33a1-4279-acbe-d7e193c5f7e3","actor_username":"malerba118@gmail.com","log_type":"account","timestamp":"2022-01-28T02:57:07Z"}	2022-01-28 02:57:07.778571+00
+00000000-0000-0000-0000-000000000000	19960595-40b9-44b5-b643-f5b4e88eec97	{"action":"login","actor_id":"f44c5d43-b81f-450f-9d63-a30b1394ea9f","actor_username":"austin.malerba@gmail.com","log_type":"account","timestamp":"2022-01-28T02:57:19Z"}	2022-01-28 02:57:19.512069+00
+00000000-0000-0000-0000-000000000000	ce7119d7-d278-4adc-97d2-6b89dc1a8758	{"action":"logout","actor_id":"f44c5d43-b81f-450f-9d63-a30b1394ea9f","actor_username":"austin.malerba@gmail.com","log_type":"account","timestamp":"2022-01-28T03:03:51Z"}	2022-01-28 03:03:51.508054+00
+00000000-0000-0000-0000-000000000000	09a8c5c3-60c3-43b1-a43f-1d1f6214361b	{"action":"login","actor_id":"f2023f79-33a1-4279-acbe-d7e193c5f7e3","actor_username":"malerba118@gmail.com","log_type":"account","timestamp":"2022-01-28T03:04:25Z"}	2022-01-28 03:04:25.19656+00
+00000000-0000-0000-0000-000000000000	27984625-dd3f-421a-a076-704dd2de7e19	{"action":"logout","actor_id":"f2023f79-33a1-4279-acbe-d7e193c5f7e3","actor_username":"malerba118@gmail.com","log_type":"account","timestamp":"2022-01-28T03:04:47Z"}	2022-01-28 03:04:47.155282+00
+00000000-0000-0000-0000-000000000000	13f601fa-4d95-47be-a585-da15cac8453c	{"action":"login","actor_id":"f2023f79-33a1-4279-acbe-d7e193c5f7e3","actor_username":"malerba118@gmail.com","log_type":"account","timestamp":"2022-01-28T03:07:44Z"}	2022-01-28 03:07:44.401965+00
+00000000-0000-0000-0000-000000000000	0c4c92cd-2536-41bb-96e3-c10acb9293e1	{"action":"logout","actor_id":"f2023f79-33a1-4279-acbe-d7e193c5f7e3","actor_username":"malerba118@gmail.com","log_type":"account","timestamp":"2022-01-28T03:08:22Z"}	2022-01-28 03:08:22.864999+00
+00000000-0000-0000-0000-000000000000	55348287-b192-4933-afd6-990be54a63c6	{"action":"login","actor_id":"f2023f79-33a1-4279-acbe-d7e193c5f7e3","actor_username":"malerba118@gmail.com","log_type":"account","timestamp":"2022-01-28T12:45:49Z"}	2022-01-28 12:45:49.646597+00
+00000000-0000-0000-0000-000000000000	44ea5825-0874-4fbe-b6c2-762aeca62f45	{"action":"logout","actor_id":"f2023f79-33a1-4279-acbe-d7e193c5f7e3","actor_username":"malerba118@gmail.com","log_type":"account","timestamp":"2022-01-28T12:53:27Z"}	2022-01-28 12:53:27.591233+00
+00000000-0000-0000-0000-000000000000	58aa52a2-228e-4562-8427-0c800c229272	{"action":"login","actor_id":"f2023f79-33a1-4279-acbe-d7e193c5f7e3","actor_username":"malerba118@gmail.com","log_type":"account","timestamp":"2022-01-28T12:54:36Z"}	2022-01-28 12:54:36.05991+00
+00000000-0000-0000-0000-000000000000	e2ef5afa-4c73-4b28-819c-b82139833a71	{"action":"logout","actor_id":"f2023f79-33a1-4279-acbe-d7e193c5f7e3","actor_username":"malerba118@gmail.com","log_type":"account","timestamp":"2022-01-28T13:33:46Z"}	2022-01-28 13:33:46.747857+00
+00000000-0000-0000-0000-000000000000	59bca150-f06d-49fa-8f21-b77d8aaaff5e	{"action":"login","actor_id":"f2023f79-33a1-4279-acbe-d7e193c5f7e3","actor_username":"malerba118@gmail.com","log_type":"account","timestamp":"2022-01-28T13:34:19Z"}	2022-01-28 13:34:19.052112+00
+00000000-0000-0000-0000-000000000000	93ec55ff-f6d7-439e-ac1c-ee2cec85778e	{"action":"logout","actor_id":"f2023f79-33a1-4279-acbe-d7e193c5f7e3","actor_username":"malerba118@gmail.com","log_type":"account","timestamp":"2022-01-28T13:36:23Z"}	2022-01-28 13:36:23.530104+00
+00000000-0000-0000-0000-000000000000	c49c7b51-2662-4bc6-b629-0a1b17d12cd5	{"action":"login","actor_id":"f2023f79-33a1-4279-acbe-d7e193c5f7e3","actor_username":"malerba118@gmail.com","log_type":"account","timestamp":"2022-01-28T13:36:34Z"}	2022-01-28 13:36:34.821839+00
+00000000-0000-0000-0000-000000000000	74c08293-8086-4381-9633-d71be33afa20	{"action":"logout","actor_id":"f2023f79-33a1-4279-acbe-d7e193c5f7e3","actor_username":"malerba118@gmail.com","log_type":"account","timestamp":"2022-01-28T13:36:45Z"}	2022-01-28 13:36:45.456652+00
+00000000-0000-0000-0000-000000000000	cafdf443-7bb1-460d-97a8-8f11249f95cc	{"action":"login","actor_id":"f2023f79-33a1-4279-acbe-d7e193c5f7e3","actor_username":"malerba118@gmail.com","log_type":"account","timestamp":"2022-01-28T13:37:33Z"}	2022-01-28 13:37:33.794164+00
+00000000-0000-0000-0000-000000000000	98ff461c-9adf-4596-a74f-6c8ab26ddb46	{"action":"logout","actor_id":"f2023f79-33a1-4279-acbe-d7e193c5f7e3","actor_username":"malerba118@gmail.com","log_type":"account","timestamp":"2022-01-28T13:37:37Z"}	2022-01-28 13:37:37.748135+00
 \.
 
 
@@ -1463,7 +1482,6 @@ COPY auth.instances (id, uuid, raw_base_config, created_at, updated_at) FROM std
 --
 
 COPY auth.refresh_tokens (instance_id, id, token, user_id, revoked, created_at, updated_at, parent) FROM stdin;
-00000000-0000-0000-0000-000000000000	76	s7ofyjaVrMCEW0l5LQCXRg	f2023f79-33a1-4279-acbe-d7e193c5f7e3	f	2022-01-28 00:42:06.383428+00	2022-01-28 00:42:06.383428+00	\N
 \.
 
 
@@ -1495,8 +1513,8 @@ COPY auth.schema_migrations (version) FROM stdin;
 --
 
 COPY auth.users (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, invited_at, confirmation_token, confirmation_sent_at, recovery_token, recovery_sent_at, email_change_token_new, email_change, email_change_sent_at, last_sign_in_at, raw_app_meta_data, raw_user_meta_data, is_super_admin, created_at, updated_at, phone, phone_confirmed_at, phone_change, phone_change_token, phone_change_sent_at, email_change_token_current, email_change_confirm_status) FROM stdin;
-00000000-0000-0000-0000-000000000000	f44c5d43-b81f-450f-9d63-a30b1394ea9f		authenticated	austin.malerba@gmail.com	$2a$10$uBA1TsA1zuRbwE.d//Sz6eHzkjLKvvjfuE.vKFTxwtq3jHQ02Q9hu	2022-01-28 00:39:29.093425+00	\N		\N		\N			\N	2022-01-28 00:39:29.098881+00	{"provider": "email", "providers": ["email"]}	{"name": "Austin Malerba", "avatar": "https://secure.gravatar.com/avatar/d51d4f060c004e4a36eff384b6b18dff"}	f	2022-01-28 00:39:29.070092+00	2022-01-28 00:39:29.070092+00	\N	\N			\N		0
-00000000-0000-0000-0000-000000000000	f2023f79-33a1-4279-acbe-d7e193c5f7e3		authenticated	malerba118@gmail.com	$2a$10$oyxFKm6lOJXx1SqA9xDUG.N5vV6vedygulvT3BMzIpd9B9.LUVOKm	2022-01-28 00:42:06.378147+00	\N		\N		\N			\N	2022-01-28 00:42:06.383264+00	{"provider": "email", "providers": ["email"]}	{"name": "malerba118"}	f	2022-01-28 00:42:06.368155+00	2022-01-28 00:42:06.368155+00	\N	\N			\N		0
+00000000-0000-0000-0000-000000000000	f44c5d43-b81f-450f-9d63-a30b1394ea9f		authenticated	austin.malerba@gmail.com	$2a$10$uBA1TsA1zuRbwE.d//Sz6eHzkjLKvvjfuE.vKFTxwtq3jHQ02Q9hu	2022-01-28 00:39:29.093425+00	\N		\N		\N			\N	2022-01-28 02:57:19.514707+00	{"provider": "email", "providers": ["email"]}	{"name": "Austin Malerba", "avatar": "https://secure.gravatar.com/avatar/d51d4f060c004e4a36eff384b6b18dff"}	f	2022-01-28 00:39:29.070092+00	2022-01-28 00:39:29.070092+00	\N	\N			\N		0
+00000000-0000-0000-0000-000000000000	f2023f79-33a1-4279-acbe-d7e193c5f7e3		authenticated	malerba118@gmail.com	$2a$10$oyxFKm6lOJXx1SqA9xDUG.N5vV6vedygulvT3BMzIpd9B9.LUVOKm	2022-01-28 00:42:06.378147+00	\N		\N		\N			\N	2022-01-28 13:37:33.797555+00	{"provider": "email", "providers": ["email"]}	{"name": "malerba118"}	f	2022-01-28 00:42:06.368155+00	2022-01-28 00:42:06.368155+00	\N	\N			\N		0
 \.
 
 
@@ -1506,16 +1524,13 @@ COPY auth.users (instance_id, id, aud, role, email, encrypted_password, email_co
 
 COPY public.comment_reactions (id, created_at, comment_id, user_id, reaction_type) FROM stdin;
 a550dd70-f0aa-4088-99b4-e4128c5c5ff1	2022-01-28 00:39:48.408214+00	4e91c6db-767d-4d00-b96c-a792b29fa185	f44c5d43-b81f-450f-9d63-a30b1394ea9f	party-blob
-74486e24-2920-4b14-9dc9-142d47b57523	2022-01-28 00:42:33.731955+00	39f8e07d-02b8-439d-9bb3-4e189505a109	f2023f79-33a1-4279-acbe-d7e193c5f7e3	party-blob
 91261358-5ac5-4120-a3a6-95d8e984d432	2022-01-28 00:42:35.39892+00	39f8e07d-02b8-439d-9bb3-4e189505a109	f2023f79-33a1-4279-acbe-d7e193c5f7e3	heart
 51b12cdd-5086-4571-9554-912ad35443ec	2022-01-28 00:42:37.299912+00	39f8e07d-02b8-439d-9bb3-4e189505a109	f2023f79-33a1-4279-acbe-d7e193c5f7e3	like
-7fbc007f-f1ec-4023-8f8e-62191e5f2473	2022-01-28 00:59:25.057792+00	4e91c6db-767d-4d00-b96c-a792b29fa185	f2023f79-33a1-4279-acbe-d7e193c5f7e3	like
-2429ce9a-f331-4c45-83a3-17d4ac6d9b22	2022-01-28 00:59:38.933929+00	4e91c6db-767d-4d00-b96c-a792b29fa185	f2023f79-33a1-4279-acbe-d7e193c5f7e3	smile
-7a17c06b-10a9-4a9b-bf90-095154b5df6a	2022-01-28 00:59:48.176003+00	4e91c6db-767d-4d00-b96c-a792b29fa185	f2023f79-33a1-4279-acbe-d7e193c5f7e3	heart
 1623f32b-25f9-460b-b619-a5f6d15da146	2022-01-28 00:59:57.388833+00	3be46f35-2c7d-456d-b768-edc5e5244c92	f2023f79-33a1-4279-acbe-d7e193c5f7e3	party-blob
 9877902a-db88-44f1-a109-21ae17011f4c	2022-01-28 01:00:38.209989+00	3be46f35-2c7d-456d-b768-edc5e5244c92	f2023f79-33a1-4279-acbe-d7e193c5f7e3	heart
 e3c4895e-f08a-494c-8056-0b06fcc4ee9e	2022-01-28 01:00:42.257525+00	3be46f35-2c7d-456d-b768-edc5e5244c92	f2023f79-33a1-4279-acbe-d7e193c5f7e3	like
-c6b13d45-978a-4eb5-a157-dbb1255dd75a	2022-01-28 01:00:44.94291+00	3be46f35-2c7d-456d-b768-edc5e5244c92	f2023f79-33a1-4279-acbe-d7e193c5f7e3	smile
+42f3b3f9-897f-470d-90a7-1af4dd52266f	2022-01-28 03:07:55.454976+00	e09e2dff-19b8-4359-abdf-4b6d336924ae	f2023f79-33a1-4279-acbe-d7e193c5f7e3	heart
+0e0cf3d3-b0b6-444a-95dd-1c242a2f3853	2022-01-28 03:08:19.505116+00	4e91c6db-767d-4d00-b96c-a792b29fa185	f2023f79-33a1-4279-acbe-d7e193c5f7e3	heart
 \.
 
 
@@ -1528,6 +1543,8 @@ COPY public.comments (id, created_at, topic, comment, user_id, parent_id, mentio
 e09e2dff-19b8-4359-abdf-4b6d336924ae	2022-01-28 00:40:01.715519+00	tutorial-one	<p><span data-type="mention" class="mention" data-id="f44c5d43-b81f-450f-9d63-a30b1394ea9f" data-label="Austin Malerba">@Austin Malerba</span>. test</p>	f44c5d43-b81f-450f-9d63-a30b1394ea9f	4e91c6db-767d-4d00-b96c-a792b29fa185	{f44c5d43-b81f-450f-9d63-a30b1394ea9f}
 39f8e07d-02b8-439d-9bb3-4e189505a109	2022-01-28 00:42:15.514874+00	tutorial-one	<p><span data-type="mention" class="mention" data-id="f44c5d43-b81f-450f-9d63-a30b1394ea9f" data-label="Austin Malerba">@Austin Malerba</span> yoo</p>	f2023f79-33a1-4279-acbe-d7e193c5f7e3	4e91c6db-767d-4d00-b96c-a792b29fa185	{f44c5d43-b81f-450f-9d63-a30b1394ea9f}
 3be46f35-2c7d-456d-b768-edc5e5244c92	2022-01-28 00:42:21.427987+00	tutorial-one	<p>yo</p>	f2023f79-33a1-4279-acbe-d7e193c5f7e3	\N	{}
+4427d2ff-d032-400b-bcdf-c0f559ac8e4c	2022-01-28 03:08:05.097598+00	tutorial-one	<p><span data-type="mention" class="mention" data-id="f2023f79-33a1-4279-acbe-d7e193c5f7e3" data-label="malerba118">@malerba118</span> sdfsdf</p>	f2023f79-33a1-4279-acbe-d7e193c5f7e3	4e91c6db-767d-4d00-b96c-a792b29fa185	{f2023f79-33a1-4279-acbe-d7e193c5f7e3}
+7385c569-ef44-45ea-a012-40b3648c52ae	2022-01-28 12:46:12.083231+00	tutorial-one	<pre><code>const foo = 1\n\nfunction foo() {\n console.log(2)\n}</code></pre>	f2023f79-33a1-4279-acbe-d7e193c5f7e3	\N	{}
 \.
 
 
@@ -1536,7 +1553,6 @@ e09e2dff-19b8-4359-abdf-4b6d336924ae	2022-01-28 00:40:01.715519+00	tutorial-one	
 --
 
 COPY public.reactions (type, created_at, metadata) FROM stdin;
-smile	2022-01-14 15:05:45+00	{"url": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJoLTYgdy02IiBmaWxsPSJub25lIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHN0cm9rZT0iY3VycmVudENvbG9yIj4KICA8cGF0aCBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMiIgZD0iTTE0LjgyOCAxNC44MjhhNCA0IDAgMDEtNS42NTYgME05IDEwaC4wMU0xNSAxMGguMDFNMjEgMTJhOSA5IDAgMTEtMTggMCA5IDkgMCAwMTE4IDB6IiAvPgo8L3N2Zz4=", "label": "Smile"}
 like	2022-01-27 21:39:21+00	{"url": "https://emojis.slackmojis.com/emojis/images/1588108689/8789/fb-like.png?1588108689", "label": "Like"}
 heart	2022-01-14 15:05:34+00	{"url": "https://emojis.slackmojis.com/emojis/images/1596061862/9845/meow_heart.png?1596061862", "label": "Heart"}
 party-blob	2022-01-27 21:52:38+00	{"url": "https://emojis.slackmojis.com/emojis/images/1547582922/5197/party_blob.gif?1547582922", "label": "Party Blob"}
@@ -1608,7 +1624,7 @@ COPY storage.objects (id, bucket_id, name, owner, created_at, updated_at, last_a
 -- Name: refresh_tokens_id_seq; Type: SEQUENCE SET; Schema: auth; Owner: supabase_auth_admin
 --
 
-SELECT pg_catalog.setval('auth.refresh_tokens_id_seq', 76, true);
+SELECT pg_catalog.setval('auth.refresh_tokens_id_seq', 85, true);
 
 
 --

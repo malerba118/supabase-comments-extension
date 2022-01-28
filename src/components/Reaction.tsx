@@ -13,7 +13,7 @@ const Reaction: FC<ReactionProps> = ({ type }) => {
   return (
     <div
       className={clsx(
-        'h-4 w-4 rounded-full grid place-items-center dark:text-white'
+        'h-4 w-4 rounded-full grid place-items-center text-alpha-50'
       )}
     >
       <Image className={'h-4 w-4'} source={query.data?.metadata?.url} />

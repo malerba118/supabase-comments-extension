@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Auth, Button } from '@supabase/ui';
-import { Comments, CommentsProvider } from 'supabase-comments-extension';
+import {
+  Comments,
+  CommentsProvider,
+  AuthModal,
+} from 'supabase-comments-extension';
 import supabase from './supabase';
-import AuthModal from './AuthModal';
 
 const App = () => {
   const auth = Auth.useUser();
-  const [authRequested, setAuthRequested] = useState(false);
-
-  useEffect(() => {
-    if (auth.user) {
-      setAuthRequested(false);
-    }
-  }, [auth.user]);
+  const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <CommentsProvider
@@ -21,18 +18,20 @@ const App = () => {
         alert('hi');
       }}
       onAuthRequested={() => {
-        setAuthRequested(true);
+        setModalVisible(true);
       }}
       supabaseClient={supabase}
-      // mode="light"
+      mode="dark"
       accentColor="rgb(36, 180, 126)"
     >
       <AuthModal
-        visible={authRequested && !auth.user}
-        onClose={() => {
-          setAuthRequested(false);
+        visible={modalVisible}
+        onAuthenticate={() => {
+          setModalVisible(false);
         }}
-        supabaseClient={supabase}
+        onClose={() => {
+          setModalVisible(false);
+        }}
       />
       <div>
         <div>
