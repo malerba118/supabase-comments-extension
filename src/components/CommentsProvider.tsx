@@ -59,7 +59,7 @@ const CommentsProvider: FC<CommentsProviderProps> = ({
   onAuthRequested,
   onUserClick,
   mode = 'light',
-  accentColor = '#0000ff',
+  accentColor = 'rgb(36, 180, 126)',
 }) => {
   const context = useMemo(
     () => ({

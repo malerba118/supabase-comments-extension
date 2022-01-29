@@ -27,7 +27,7 @@ const ReactionSelector: FC<ReactionSelectorProps> = ({
               className={clsx(
                 'p-0.5 -ml-2 border-2 rounded-full',
                 activeReactions.has(reaction.type)
-                  ? 'bg-green-50 border-green-200'
+                  ? 'bg-[color:var(--sce-accent-50)] border-[color:var(--sce-accent-200)] dark:bg-[color:var(--sce-accent-900)] dark:border-[color:var(--sce-accent-600)]'
                   : 'bg-transparent border-transparent'
               )}
             >

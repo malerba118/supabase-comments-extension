@@ -245,3 +245,16 @@ pre code {
 .bg-alpha-100 {
   @apply bg-alpha !bg-opacity-100;
 }
+
+.tiptap-editor .sbui-btn-primary {
+  background-color: var(--sce-accent-500) !important;
+  color: var(--sce-accent-50) !important;
+}
+
+.tiptap-editor .sbui-btn-primary:hover {
+  background-color: var(--sce-accent-400) !important;
+}
+
+.dark .tiptap-editor .sbui-btn-primary:hover {
+  background-color: var(--sce-accent-600) !important;
+}

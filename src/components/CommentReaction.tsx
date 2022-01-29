@@ -64,7 +64,7 @@ const CommentReaction: FC<CommentReactionProps> = ({
         className={clsx(
           'flex space-x-2 py-0.5 px-1 rounded-full items-center border-2',
           metadata.active_for_user
-            ? `bg-[color:var(--sce-accent-50)] dark:bg-[color:var(--sce-accent-900)] border-[color:var(--sce-accent-200)] dark:border-[color:var(--sce-accent-700)]`
+            ? `bg-[color:var(--sce-accent-50)] dark:bg-[color:var(--sce-accent-900)] border-[color:var(--sce-accent-200)] dark:border-[color:var(--sce-accent-600)]`
             : 'bg-transparent border-alpha-10'
         )}
       >

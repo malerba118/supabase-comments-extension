@@ -86,7 +86,7 @@ const Comments: FC<CommentsProps> = ({ topic, parentId = null }) => {
               <Comment key={comment.id} id={comment.id} />
             ))}
           </div>
-          <div className="ml-10 space-y-2">
+          <div className="ml-12 space-y-2">
             <Editor
               key={commentState.key}
               defaultValue={commentState.defaultValue}

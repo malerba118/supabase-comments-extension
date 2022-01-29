@@ -14,7 +14,7 @@ const Avatar: FC<AvatarProps> = ({ src, className, ...otherProps }) => {
     <div
       {...otherProps}
       className={clsx(
-        'relative inline-block w-8 h-8 overflow-hidden rounded-full bg-black bg-opacity-10 dark:bg-white dark:bg-opacity-10',
+        'relative inline-block w-10 h-10 overflow-hidden rounded-full bg-black bg-opacity-10 dark:bg-white dark:bg-opacity-10',
         className
       )}
     >
