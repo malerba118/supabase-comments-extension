@@ -2,10 +2,11 @@
 const { Command } = require('commander');
 const { DbClient } = require('./db');
 const files = require('./files');
+const packageJson = require('../package.json');
 
 const program = new Command();
 
-program.version('0.0.0');
+program.version(packageJson.version);
 
 program
   .command('run-migrations')
@@ -18,6 +19,7 @@ program
     console.log('\nRUNNING MIGRATIONS\n');
 
     const migrationNames = await files.getMigrationNames();
+
     for (migrationName of migrationNames) {
       try {
         const hasRun = await db.hasRunMigration(migrationName);
