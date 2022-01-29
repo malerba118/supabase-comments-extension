@@ -70,6 +70,7 @@
     "javascript-time-ago": "^2.3.10",
     "lowlight": "^2.4.0",
     "md5": "^2.3.0",
+    "pg": "^8.7.1",
     "react-image": "^4.0.3",
     "react-time-ago": "^7.1.7",
     "tippy.js": "^6.3.7",
