@@ -6,6 +6,10 @@ import {
   AuthModal,
 } from 'supabase-comments-extension';
 import supabase from './supabase';
+import AceEditor from 'react-ace';
+
+import 'ace-builds/src-noconflict/theme-twilight';
+import 'ace-builds/src-noconflict/mode-jsx';
 
 interface Example {
   key: string;
@@ -166,6 +170,18 @@ const App = () => {
           )}
         </nav>
         <div className="flex-1 overflow-y-auto">
+          <AceEditor
+            mode="jsx"
+            theme="twilight"
+            defaultValue="const foo = 1;"
+            name="UNIQUE_ID_OF_DIV"
+            editorProps={{ $blockScrolling: true }}
+            scrollMargin={[10, 10]}
+            readOnly
+            height="380px"
+            width="650px"
+            className="w-full max-w-xl mx-auto my-12 rounded-lg"
+          />
           <Component key={activeExample} topic={activeExample} />
         </div>
       </div>
