@@ -9,7 +9,9 @@ import supabase from './supabase';
 import AceEditor from 'react-ace';
 
 import 'ace-builds/src-noconflict/theme-twilight';
+import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/mode-jsx';
+import 'ace-builds/src-noconflict/mode-tsx';
 
 interface Example {
   key: string;
@@ -17,6 +19,7 @@ interface Example {
   Component: FC<{
     topic: string;
   }>;
+  code: string;
 }
 
 const examples: Record<string, Example> = {
@@ -40,6 +43,23 @@ const examples: Record<string, Example> = {
         </CommentsProvider>
       );
     },
+    code: `const App = () => {
+  return (
+    <CommentsProvider
+      supabaseClient={supabase}
+      onAuthRequested={() => {
+        window.alert('Auth Requested');
+      }}
+      onUserClick={(user) => {
+        window.alert(user.name);
+      }}
+    >
+      <div className="max-w-lg mx-auto my-12">
+        <Comments topic="basic" />
+      </div>
+    </CommentsProvider>
+  );
+};`,
   },
   darkMode: {
     key: 'darkMode',
@@ -71,6 +91,24 @@ const examples: Record<string, Example> = {
         </CommentsProvider>
       );
     },
+    code: `const App = () => {
+  return (
+    <CommentsProvider
+      supabaseClient={supabase}
+      mode="dark"
+      onAuthRequested={() => {
+        window.alert('Auth Requested');
+      }}
+      onUserClick={(user) => {
+        window.alert(user.name);
+      }}
+    >
+      <div className="max-w-lg mx-auto my-12">
+        <Comments topic="dark-mode" />
+      </div>
+    </CommentsProvider>
+  );
+};`,
   },
   withAuth: {
     key: 'withAuth',
@@ -104,6 +142,35 @@ const examples: Record<string, Example> = {
         </CommentsProvider>
       );
     },
+    code: `const App = () => {
+  const [modalVisible, setModalVisible] = useState(false);
+
+  return (
+    <CommentsProvider
+      supabaseClient={supabase}
+      onAuthRequested={() => {
+        setModalVisible(true);
+      }}
+      onUserClick={(user) => {
+        window.alert(user.name);
+      }}
+      accentColor="#8405FF"
+    >
+      <AuthModal
+        visible={modalVisible}
+        onAuthenticate={() => {
+          setModalVisible(false);
+        }}
+        onClose={() => {
+          setModalVisible(false);
+        }}
+      />
+      <div className="max-w-lg mx-auto my-12">
+        <Comments topic="with-auth-modal" />
+      </div>
+    </CommentsProvider>
+  );
+};`,
   },
 };
 
@@ -136,6 +203,7 @@ const App = () => {
   const [activeExample, setActiveExample] = useState('basic');
 
   const Component = examples[activeExample].Component;
+  const code = examples[activeExample].code;
 
   return (
     <div className="flex h-screen">
@@ -171,16 +239,16 @@ const App = () => {
         </nav>
         <div className="flex-1 overflow-y-auto">
           <AceEditor
-            mode="jsx"
+            mode="tsx"
             theme="twilight"
-            defaultValue="const foo = 1;"
-            name="UNIQUE_ID_OF_DIV"
+            value={code}
+            name={activeExample}
             editorProps={{ $blockScrolling: true }}
             scrollMargin={[10, 10]}
             readOnly
             height="380px"
             width="650px"
-            className="w-full max-w-xl mx-auto my-12 rounded-lg"
+            className="w-full max-w-xl mx-auto my-12 border-2 rounded-lg border-alpha-10"
           />
           <Component key={activeExample} topic={activeExample} />
         </div>
