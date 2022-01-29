@@ -2,7 +2,8 @@ const fs = require('fs/promises');
 const path = require('path');
 
 const getMigrationNames = async () => {
-  return fs.readdir(path.join(__dirname, './migrations'));
+  const migrationNames = await fs.readdir(path.join(__dirname, './migrations'));
+  return migrationNames.sort();
 };
 
 const getMigrationSql = async (migrationName) => {

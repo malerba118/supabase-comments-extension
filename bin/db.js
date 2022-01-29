@@ -13,6 +13,10 @@ const MIGRATION_EXISTS_SQL = `
 SELECT EXISTS (SELECT * FROM sce_migrations where migration = $1);
 `;
 
+const INSERT_MIGRATION_SQL = `
+INSERT INTO sce_migrations(migration) VALUES ($1);
+`;
+
 const DbClient = async (connectionString) => {
   const client = new Client({
     connectionString,
@@ -22,13 +26,18 @@ const DbClient = async (connectionString) => {
     const result = await client.query(INIT_MIGRATIONS_TABLE_SQL);
     return result.rows;
   };
-  const hasMigration = async (migrationName) => {
+  const hasRunMigration = async (migrationName) => {
     const result = await client.query(MIGRATION_EXISTS_SQL, [migrationName]);
     return result.rows[0]?.exists;
   };
+  const runMigration = async (migrationName, migrationSql) => {
+    await client.query(migrationSql);
+    await client.query(INSERT_MIGRATION_SQL, [migrationName]);
+  };
   return {
     initMigrationsTable,
-    hasMigration,
+    hasRunMigration,
+    runMigration,
   };
 };
 

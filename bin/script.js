@@ -1,9 +1,7 @@
 #!/usr/bin/env node
 const { Command } = require('commander');
 const { DbClient } = require('./db');
-const { getMigrationNames, getMigrationSql } = require('./files');
-
-getMigrationSql('01_init.sql').then(console.log);
+const files = require('./files');
 
 const program = new Command();
 
@@ -13,29 +11,31 @@ program
   .command('run-migrations')
   .argument('<pg-connection-string>')
   .action(async (connectionUrl) => {
-    console.log({ connectionUrl });
-
-    const db = await DbClient(
-      'postgresql://postgres:postgres@localhost:54322/postgres'
-    );
+    const db = await DbClient(connectionUrl);
 
     await db.initMigrationsTable();
 
-    await db.hasMigration('01_init.sql').then(console.log);
+    console.log('\nRUNNING MIGRATIONS\n');
 
-    console.log('\n\nMADE IT\n\n');
-
-    // await db.initMigrationTable();
-
-    // const migrations = await fs.getMigrations();
-
-    // for (migration of migrations) {
-    //   const hasRun = await db.hasMigration(migration.id);
-    //   if (!hasRun) {
-    //     await db.runMigration(migration);
-    //   }
+    const migrationNames = await files.getMigrationNames();
+    for (migrationName of migrationNames) {
+      try {
+        const hasRun = await db.hasRunMigration(migrationName);
+        if (hasRun) {
+          console.log(`SKIPPING MIGRATION (Already Applied): ${migrationName}`);
+        } else {
+          console.log(`RUNNING MIGRATION (Not Yet Applied): ${migrationName}`);
+          const migrationSql = await files.getMigrationSql(migrationName);
+          await db.runMigration(migrationName, migrationSql);
+        }
+      } catch (err) {
+        console.error(`\nERROR RUNNING MIGRATION: ${migrationName}\n`);
+        console.error(err.message);
+        console.log('\nSKIPPING REMAINING MIGRATIONS\n');
+        break;
+      }
+    }
     process.exit(0);
-    // }
   });
 
 program.parseAsync(process.argv);
