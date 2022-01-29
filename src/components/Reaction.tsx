@@ -18,8 +18,8 @@ const Reaction: FC<ReactionProps> = ({ type }) => {
     >
       <Image
         className={'h-4 w-4'}
-        source={query.data?.metadata?.url}
-        alt={query.data?.metadata?.label}
+        source={query.data?.url}
+        alt={query.data?.label}
       />
     </div>
   );

@@ -36,7 +36,7 @@ const ReactionSelector: FC<ReactionSelectorProps> = ({
           }
         >
           <Typography.Text className="text-sm">
-            {reaction.metadata.label}
+            {reaction.label}
           </Typography.Text>
         </Dropdown.Item>
       ))}

@@ -32,6 +32,8 @@ export interface Comment {
 export interface Reaction {
   type: string;
   created_at: string;
+  label: string;
+  url: string;
   metadata: any;
 }
 
