@@ -491,5 +491,7 @@ function EmailAuth({
 Auth.ForgottenPassword = SupabaseAuth.ForgottenPassword;
 Auth.UpdatePassword = SupabaseAuth.UpdatePassword;
 Auth.MagicLink = SupabaseAuth.MagicLink;
+Auth.UserContextProvider = SupabaseAuth.UserContextProvider;
+Auth.useUser = SupabaseAuth.useUser;
 
 export default Auth;

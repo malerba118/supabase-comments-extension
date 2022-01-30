@@ -6,9 +6,9 @@ import React, {
   useEffect,
   useMemo,
 } from 'react';
+import Auth from './Auth';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { DisplayUser } from '../api';
-import { Auth } from '@supabase/ui';
 import { useCssPalette } from '..';
 
 const defaultQueryClient = new QueryClient();
