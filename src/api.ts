@@ -105,9 +105,9 @@ export const createApiClient = (supabase: SupabaseClient) => {
     parentId = null,
   }: GetCommentsOptions): Promise<Comment[]> => {
     const query = supabase
-      .from<Comment>('comments_with_metadata')
+      .from<Comment>('sce_comments_with_metadata')
       .select(
-        '*,user:display_users!user_id(*),reactions_metadata:comment_reactions_metadata(*)'
+        '*,user:sce_display_users!user_id(*),reactions_metadata:sce_comment_reactions_metadata(*)'
       )
       .eq('topic', topic)
       .order('created_at', { ascending: true });
@@ -126,9 +126,9 @@ export const createApiClient = (supabase: SupabaseClient) => {
 
   const getComment = async (id: string): Promise<Comment> => {
     const query = supabase
-      .from<Comment>('comments_with_metadata')
+      .from<Comment>('sce_comments_with_metadata')
       .select(
-        '*,user:display_users!user_id(*),reactions_metadata:comment_reactions_metadata(*)'
+        '*,user:sce_display_users!user_id(*),reactions_metadata:sce_comment_reactions_metadata(*)'
       )
       .eq('id', id)
       .single();
@@ -140,7 +140,7 @@ export const createApiClient = (supabase: SupabaseClient) => {
 
   const addComment = async (payload: AddCommentPayload): Promise<Comment> => {
     const query = supabase
-      .from('comments')
+      .from('sce_comments')
       .insert({
         ...payload,
         user_id: supabase.auth.user()?.id,
@@ -157,7 +157,7 @@ export const createApiClient = (supabase: SupabaseClient) => {
     payload: UpdateCommentPayload
   ): Promise<Comment> => {
     const query = supabase
-      .from('comments')
+      .from('sce_comments')
       .update(payload)
       .match({ id })
       .single();
@@ -168,7 +168,7 @@ export const createApiClient = (supabase: SupabaseClient) => {
   };
 
   const deleteComment = async (id: string): Promise<Comment> => {
-    const query = supabase.from('comments').delete().match({ id }).single();
+    const query = supabase.from('sce_comments').delete().match({ id }).single();
 
     const response = await query;
     assertResponseOk(response);
@@ -177,7 +177,7 @@ export const createApiClient = (supabase: SupabaseClient) => {
 
   const getReactions = async (): Promise<Reaction[]> => {
     const query = supabase
-      .from<Reaction>('reactions')
+      .from<Reaction>('sce_reactions')
       .select('*')
       .order('type', { ascending: true });
 
@@ -188,7 +188,7 @@ export const createApiClient = (supabase: SupabaseClient) => {
 
   const getReaction = async (type: string): Promise<Reaction> => {
     const query = supabase
-      .from<Reaction>('reactions')
+      .from<Reaction>('sce_reactions')
       .select('*')
       .eq('type', type)
       .single();
@@ -203,8 +203,8 @@ export const createApiClient = (supabase: SupabaseClient) => {
     comment_id,
   }: GetCommentReactionsOptions): Promise<CommentReaction[]> => {
     const query = supabase
-      .from('comment_reactions')
-      .select('*,user:display_users!user_id(*)')
+      .from('sce_comment_reactions')
+      .select('*,user:sce_display_users!user_id(*)')
       .eq('comment_id', comment_id)
       .eq('reaction_type', reaction_type);
 
@@ -217,7 +217,7 @@ export const createApiClient = (supabase: SupabaseClient) => {
     payload: AddCommentReactionPayload
   ): Promise<CommentReaction> => {
     const query = supabase
-      .from('comment_reactions')
+      .from('sce_comment_reactions')
       .insert({
         ...payload,
         user_id: supabase.auth.user()?.id,
@@ -234,7 +234,7 @@ export const createApiClient = (supabase: SupabaseClient) => {
     comment_id,
   }: RemoveCommentReactionPayload): Promise<CommentReaction> => {
     const query = supabase
-      .from('comment_reactions')
+      .from('sce_comment_reactions')
       .delete({ returning: 'representation' })
       .match({ reaction_type, comment_id, user_id: supabase.auth.user()?.id })
       .single();
@@ -246,7 +246,7 @@ export const createApiClient = (supabase: SupabaseClient) => {
 
   const searchUsers = async (search: string): Promise<DisplayUser[]> => {
     const query = supabase
-      .from<DisplayUser>('display_users')
+      .from<DisplayUser>('sce_display_users')
       .select('*')
       .ilike('name', `%${search}%`);
 

@@ -31,3 +31,8 @@ nala
 # example
 /example/node_modules
 /example/.next
+
+# Supabase
+**/supabase/.branches
+**/supabase/.temp
+**/supabase/.env

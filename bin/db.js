@@ -34,10 +34,14 @@ const DbClient = async (connectionString) => {
     await client.query(migrationSql);
     await client.query(INSERT_MIGRATION_SQL, [migrationName]);
   };
+  const reloadSchema = async () => {
+    await client.query(`NOTIFY pgrst, 'reload schema';`);
+  };
   return {
     initMigrationsTable,
     hasRunMigration,
     runMigration,
+    reloadSchema,
   };
 };
 

@@ -37,6 +37,7 @@ program
         break;
       }
     }
+    await db.reloadSchema();
     process.exit(0);
   });
 
