@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { Modal, Typography } from '@supabase/ui';
+import { Loading, Modal, Typography } from '@supabase/ui';
 import { useCommentReactions } from '../hooks';
 import Avatar from './Avatar';
 import Reaction from './Reaction';
@@ -29,6 +29,13 @@ const CommentReactionsModal = ({
         size="tiny"
         hideFooter
       >
+        {query.isLoading && (
+          <div className="grid w-full h-10 place-items-center">
+            <div className="mr-4">
+              <Loading active>{null}</Loading>
+            </div>
+          </div>
+        )}
         {query.data?.map((commentReaction) => (
           <div key={commentReaction.id} className="flex items-center space-x-2">
             <Avatar src={commentReaction.user.avatar} />

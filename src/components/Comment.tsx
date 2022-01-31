@@ -58,8 +58,10 @@ const Comment: FC<CommentProps> = ({ id }) => {
   return (
     <div className="space-y-1">
       {query.isLoading && (
-        <div className="grid h-12 place-items-center">
-          <Loading active>{null}</Loading>
+        <div className="grid p-4 place-items-center">
+          <div className="mr-4">
+            <Loading active>{null}</Loading>
+          </div>
         </div>
       )}
       {query.data && !query.data.parent_id && (

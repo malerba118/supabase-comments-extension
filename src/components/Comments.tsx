@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useLayoutEffect, useState } from 'react';
-import { Loading, Button, Typography } from '@supabase/ui';
+import { Loading, Button, Typography, IconAlertCircle } from '@supabase/ui';
 import clsx from 'clsx';
 import {
   useComments,
@@ -65,19 +65,24 @@ const Comments: FC<CommentsProps> = ({ topic, parentId = null }) => {
   return (
     <div className={clsx(context.mode, 'relative')}>
       {queries.comments.isLoading && (
-        <div className="grid h-12 place-items-center">
-          <Loading active>{null}</Loading>
+        <div className="grid p-4 place-items-center">
+          <div className="mr-4">
+            <Loading active>{null}</Loading>
+          </div>
         </div>
       )}
       {queries.comments.isError && (
-        <div className="grid h-12 place-items-center">
-          <Typography.Text>Unable to load comments.</Typography.Text>
+        <div className="grid p-4 place-items-center">
+          <div className="flex flex-col items-center space-y-0.5 text-center">
+            <IconAlertCircle />
+            <Typography.Text>Unable to load comments.</Typography.Text>
+          </div>
         </div>
       )}
       {queries.comments.data && (
         <div
           className={clsx(
-            'relative space-y-0 rounded-md',
+            'relative space-y-1 rounded-md',
             !layoutReady ? 'invisible' : 'visible'
           )}
         >
