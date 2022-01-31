@@ -27,7 +27,7 @@
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.0.4",
     "@supabase/react-data-grid": "7.1.0-beta.1",
-    "@supabase/ui": "0.34.4",
+    "@supabase/ui": "^0.36.3",
     "@tailwindcss/forms": "^0.3.3",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
@@ -57,7 +57,6 @@
     "typescript": "^4.4.2"
   },
   "dependencies": {
-    "@supabase/ui": ">0.30.0",
     "@tiptap/extension-code-block-lowlight": "^2.0.0-beta.68",
     "@tiptap/extension-link": "^2.0.0-beta.36",
     "@tiptap/extension-mention": "^2.0.0-beta.92",

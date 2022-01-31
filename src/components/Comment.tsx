@@ -155,7 +155,7 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
         />
       </div>
       <div className="flex-1 space-y-2">
-        <div className="relative p-3 py-2 bg-black rounded-md bg-opacity-5 text-alpha-90 dark:bg-white dark:bg-opacity-5">
+        <div className="relative p-3 py-2 rounded-md bg-alpha-5 text-alpha-90">
           <div className="absolute top-0 right-0">
             {comment.user_id === auth?.user?.id && (
               <CommentMenu

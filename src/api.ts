@@ -250,6 +250,18 @@ export const createApiClient = (supabase: SupabaseClient) => {
     return response.data as DisplayUser[];
   };
 
+  const getUser = async (id: string): Promise<DisplayUser> => {
+    const query = supabase
+      .from<DisplayUser>('sce_display_users')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    const response = await query;
+    assertResponseOk(response);
+    return response.data as DisplayUser;
+  };
+
   return {
     getComments,
     getComment,
@@ -262,5 +274,6 @@ export const createApiClient = (supabase: SupabaseClient) => {
     addCommentReaction,
     removeCommentReaction,
     searchUsers,
+    getUser,
   };
 };

@@ -114,6 +114,16 @@ pre code {
   @apply text-alpha-40;
 }
 
+.tiptap-editor ul {
+  padding: 0 1rem;
+  list-style-type: disc;
+}
+
+.tiptap-editor ol {
+  padding: 0 1rem;
+  list-style-type: decimal;
+}
+
 .text-alpha {
   @apply text-[color:rgba(0,0,0,var(--tw-text-opacity))] dark:text-[color:rgba(255,255,255,var(--tw-text-opacity))];
 }
@@ -204,6 +214,10 @@ pre code {
 
 .bg-alpha {
   @apply bg-[color:rgba(0,0,0,var(--tw-bg-opacity))] dark:bg-[color:rgba(255,255,255,var(--tw-bg-opacity))];
+}
+
+.bg-alpha-5 {
+  @apply bg-alpha !bg-opacity-5;
 }
 
 .bg-alpha-10 {

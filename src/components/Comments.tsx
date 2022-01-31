@@ -13,6 +13,8 @@ import { useReplyManager } from './ReplyManagerProvider';
 import { getMentionedUserIds } from '../utils';
 import useAuthUtils from '../hooks/useAuthUtils';
 import { useCommentsContext } from './CommentsProvider';
+import Avatar from './Avatar';
+import useUser from '../hooks/useUser';
 
 interface CommentsProps {
   topic: string;
@@ -24,9 +26,11 @@ const Comments: FC<CommentsProps> = ({ topic, parentId = null }) => {
   const [layoutReady, setLayoutReady] = useState(false);
   const replyManager = useReplyManager();
   const commentState = useUncontrolledState({ defaultValue: '' });
-  const { isAuthenticated, runIfAuthenticated } = useAuthUtils();
+  const { auth, isAuthenticated, runIfAuthenticated } = useAuthUtils();
+
   const queries = {
     comments: useComments({ topic, parentId }),
+    user: useUser({ id: auth.user?.id!, enabled: !!auth.user?.id }),
   };
 
   const mutations = {
@@ -39,7 +43,7 @@ const Comments: FC<CommentsProps> = ({ topic, parentId = null }) => {
   useEffect(() => {
     if (replyManager?.replyingTo) {
       commentState.setDefaultValue(
-        `<span data-type="mention" data-id="${replyManager?.replyingTo.user.id}" data-label="${replyManager?.replyingTo.user.name}" contenteditable="false"></span>`
+        `<span data-type="mention" data-id="${replyManager?.replyingTo.user.id}" data-label="${replyManager?.replyingTo.user.name}" contenteditable="false"></span><span>&nbsp</span>`
       );
     } else {
       commentState.setDefaultValue('');
@@ -62,6 +66,8 @@ const Comments: FC<CommentsProps> = ({ topic, parentId = null }) => {
     }
   }, [queries.comments.isSuccess]);
 
+  const user = queries.user.data;
+
   return (
     <div className={clsx(context.mode, 'relative')}>
       {queries.comments.isLoading && (
@@ -74,7 +80,9 @@ const Comments: FC<CommentsProps> = ({ topic, parentId = null }) => {
       {queries.comments.isError && (
         <div className="grid p-4 place-items-center">
           <div className="flex flex-col items-center space-y-0.5 text-center">
-            <IconAlertCircle />
+            <Typography.Text>
+              <IconAlertCircle />
+            </Typography.Text>
             <Typography.Text>Unable to load comments.</Typography.Text>
           </div>
         </div>
@@ -91,36 +99,50 @@ const Comments: FC<CommentsProps> = ({ topic, parentId = null }) => {
               <Comment key={comment.id} id={comment.id} />
             ))}
           </div>
-          <div className="ml-12">
-            <Editor
-              key={commentState.key}
-              defaultValue={commentState.defaultValue}
-              onChange={(val) => {
-                commentState.setValue(val);
-              }}
-              autoFocus={!!replyManager?.replyingTo}
-              actions={
-                <Button
-                  onClick={() => {
-                    runIfAuthenticated(() => {
-                      mutations.addComment.mutate({
-                        topic,
-                        parentId,
-                        comment: commentState.value,
-                        mentionedUserIds: getMentionedUserIds(
-                          commentState.value
-                        ),
+          <div className="flex space-x-2">
+            <div className="min-w-fit">
+              <Avatar
+                key={user?.avatar}
+                className={clsx(user && 'cursor-pointer')}
+                onClick={() => {
+                  if (user) {
+                    context.onUserClick?.(user);
+                  }
+                }}
+                src={user?.avatar}
+              />
+            </div>
+            <div className="flex-1">
+              <Editor
+                key={commentState.key}
+                defaultValue={commentState.defaultValue}
+                onChange={(val) => {
+                  commentState.setValue(val);
+                }}
+                autoFocus={!!replyManager?.replyingTo}
+                actions={
+                  <Button
+                    onClick={() => {
+                      runIfAuthenticated(() => {
+                        mutations.addComment.mutate({
+                          topic,
+                          parentId,
+                          comment: commentState.value,
+                          mentionedUserIds: getMentionedUserIds(
+                            commentState.value
+                          ),
+                        });
                       });
-                    });
-                  }}
-                  loading={mutations.addComment.isLoading}
-                  size="tiny"
-                  className="!px-[6px] !py-[3px] m-[3px]"
-                >
-                  {!isAuthenticated ? 'Sign In' : 'Submit'}
-                </Button>
-              }
-            />
+                    }}
+                    loading={mutations.addComment.isLoading}
+                    size="tiny"
+                    className="!px-[6px] !py-[3px] m-[3px]"
+                  >
+                    {!isAuthenticated ? 'Sign In' : 'Submit'}
+                  </Button>
+                }
+              />
+            </div>
           </div>
         </div>
       )}

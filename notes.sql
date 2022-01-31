@@ -46,12 +46,6 @@ insert into sce_reactions(type, label, url) values ('heart', 'Heart', 'https://e
 insert into sce_reactions(type, label, url) values ('like', 'Like', 'https://emojis.slackmojis.com/emojis/images/1588108689/8789/fb-like.png?1588108689');
 insert into sce_reactions(type, label, url) values ('party-blob', 'Party Blob', 'https://emojis.slackmojis.com/emojis/images/1547582922/5197/party_blob.gif?1547582922');
 
-  
-
-
-
-
-
 -- GENERATED FROM MIGRA
 create table "public"."comment_reactions" (
     "id" uuid not null default uuid_generate_v4(),

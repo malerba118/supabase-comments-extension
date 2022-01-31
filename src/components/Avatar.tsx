@@ -4,17 +4,17 @@ import React, { FC } from 'react';
 import { useImage } from 'react-image';
 
 interface AvatarProps extends React.HTMLProps<HTMLDivElement> {
-  src: string;
+  src?: string;
 }
 
 const Avatar: FC<AvatarProps> = ({ src, className, ...otherProps }) => {
-  const image = useImage({ srcList: src, useSuspense: false });
+  const image = useImage({ srcList: src || [], useSuspense: false });
 
   return (
     <div
       {...otherProps}
       className={clsx(
-        'relative inline-block w-10 h-10 overflow-hidden rounded-full bg-black bg-opacity-10 dark:bg-white dark:bg-opacity-10',
+        'relative inline-block w-10 h-10 overflow-hidden rounded-full bg-alpha-10',
         className
       )}
     >
