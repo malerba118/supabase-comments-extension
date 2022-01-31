@@ -77,7 +77,7 @@ const Comments: FC<CommentsProps> = ({ topic, parentId = null }) => {
       {queries.comments.data && (
         <div
           className={clsx(
-            'relative space-y-3 rounded-md',
+            'relative space-y-0 rounded-md',
             !layoutReady ? 'invisible' : 'visible'
           )}
         >
@@ -86,7 +86,7 @@ const Comments: FC<CommentsProps> = ({ topic, parentId = null }) => {
               <Comment key={comment.id} id={comment.id} />
             ))}
           </div>
-          <div className="ml-12 space-y-2">
+          <div className="ml-12">
             <Editor
               key={commentState.key}
               defaultValue={commentState.defaultValue}

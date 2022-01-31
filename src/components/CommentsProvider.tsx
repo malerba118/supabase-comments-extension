@@ -1,4 +1,4 @@
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { Query, QueryClient, QueryClientProvider } from 'react-query';
 import React, {
   createContext,
   FC,
@@ -8,7 +8,7 @@ import React, {
 } from 'react';
 import Auth from './Auth';
 import { SupabaseClient } from '@supabase/supabase-js';
-import { DisplayUser } from '../api';
+import { ApiError, DisplayUser } from '../api';
 import { useCssPalette } from '..';
 
 const defaultQueryClient = new QueryClient();
@@ -50,6 +50,7 @@ interface CommentsProviderProps {
   onUserClick?: (user: DisplayUser) => void;
   mode?: 'light' | 'dark';
   accentColor?: string;
+  onError?: (error: ApiError, query: Query) => void;
 }
 
 const CommentsProvider: FC<CommentsProviderProps> = ({
@@ -60,6 +61,7 @@ const CommentsProvider: FC<CommentsProviderProps> = ({
   onUserClick,
   mode = 'light',
   accentColor = 'rgb(36, 180, 126)',
+  onError,
 }) => {
   const context = useMemo(
     () => ({
@@ -88,6 +90,16 @@ const CommentsProvider: FC<CommentsProviderProps> = ({
       document.body.classList.remove(mode);
     };
   }, [mode]);
+
+  // Convenience api for handling errors
+  useEffect(() => {
+    const queryCache = queryClient.getQueryCache();
+    const originalErrorHandler = queryCache.config.onError;
+    queryCache.config.onError = (error, query) => {
+      onError?.(error as ApiError, query);
+      originalErrorHandler?.(error, query);
+    };
+  }, [queryClient]);
 
   return (
     <QueryClientProvider client={queryClient}>

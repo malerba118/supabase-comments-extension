@@ -22,3 +22,6 @@ export const getMentionedUserIds = (doc: string): string[] => {
   });
   return userIds;
 };
+
+export const timeout = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));

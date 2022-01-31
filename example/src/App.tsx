@@ -36,6 +36,7 @@ const examples: Record<string, Example> = {
           onUserClick={(user) => {
             window.alert(user.name);
           }}
+          onError={console.log}
         >
           <div className="max-w-lg mx-auto my-12">
             <Comments topic="basic" />
