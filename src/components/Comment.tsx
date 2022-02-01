@@ -25,6 +25,7 @@ import ReplyManagerProvider, { useReplyManager } from './ReplyManagerProvider';
 import { useCommentsContext } from './CommentsProvider';
 import { getMentionedUserIds } from '../utils';
 import useAuthUtils from '../hooks/useAuthUtils';
+import User from './User';
 
 interface CommentMenuProps {
   onEdit: () => void;
@@ -146,13 +147,7 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
   return (
     <div className="flex space-x-2">
       <div className="min-w-fit">
-        <Avatar
-          className={'cursor-pointer'}
-          onClick={() => {
-            context.onUserClick?.(comment.user);
-          }}
-          src={comment.user.avatar}
-        />
+        <User id={comment.user.id} showAvatar showName={false} />
       </div>
       <div className="flex-1 space-y-2">
         <div className="relative p-3 py-2 rounded-md bg-alpha-5 text-alpha-90">

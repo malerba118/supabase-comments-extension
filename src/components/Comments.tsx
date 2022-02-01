@@ -15,6 +15,7 @@ import useAuthUtils from '../hooks/useAuthUtils';
 import { useCommentsContext } from './CommentsProvider';
 import Avatar from './Avatar';
 import useUser from '../hooks/useUser';
+import User from './User';
 
 interface CommentsProps {
   topic: string;
@@ -101,16 +102,7 @@ const Comments: FC<CommentsProps> = ({ topic, parentId = null }) => {
           </div>
           <div className="flex space-x-2">
             <div className="min-w-fit">
-              <Avatar
-                key={user?.avatar}
-                className={clsx(user && 'cursor-pointer')}
-                onClick={() => {
-                  if (user) {
-                    context.onUserClick?.(user);
-                  }
-                }}
-                src={user?.avatar}
-              />
+              <User id={user?.id} showAvatar showName={false} />
             </div>
             <div className="flex-1">
               <Editor

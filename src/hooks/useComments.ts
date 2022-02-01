@@ -25,6 +25,7 @@ const useComments = ({ topic, parentId = null }: UseCommentsOptions) => {
       onSuccess: (data) => {
         data?.forEach((comment) => {
           queryClient.setQueryData(['comments', comment.id], comment);
+          queryClient.setQueryData(['users', comment.user.id], comment.user);
         });
       },
     }

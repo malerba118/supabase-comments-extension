@@ -5,6 +5,7 @@ import Avatar from './Avatar';
 import Reaction from './Reaction';
 import { CommentReactionMetadata } from '../api';
 import clsx from 'clsx';
+import User from './User';
 
 const CommentReactionsModal = ({
   visible,
@@ -29,19 +30,24 @@ const CommentReactionsModal = ({
         size="tiny"
         hideFooter
       >
-        {query.isLoading && (
-          <div className="grid w-full h-10 place-items-center">
-            <div className="mr-4">
-              <Loading active>{null}</Loading>
+        <div className="max-h-[320px] overflow-y-auto space-y-3 w-full">
+          {query.isLoading && (
+            <div className="grid w-full h-10 place-items-center">
+              <div className="mr-4">
+                <Loading active>{null}</Loading>
+              </div>
             </div>
-          </div>
-        )}
-        {query.data?.map((commentReaction) => (
-          <div key={commentReaction.id} className="flex items-center space-x-2">
-            <Avatar src={commentReaction.user.avatar} />
-            <Typography.Text>{commentReaction.user.name}</Typography.Text>
-          </div>
-        ))}
+          )}
+          {query.data?.map((commentReaction) => (
+            <User
+              key={commentReaction.id}
+              id={commentReaction.user_id}
+              showAvatar
+              showName
+              className="font-bold"
+            />
+          ))}
+        </div>
       </Modal>
     </div>
   );
