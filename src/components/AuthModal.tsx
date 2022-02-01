@@ -5,12 +5,13 @@ import { useSupabaseClient } from './CommentsProvider';
 import { useLatestRef } from '../hooks/useLatestRef';
 import { Session } from '@supabase/gotrue-js';
 
-interface AuthModalProps
+export interface AuthModalProps
   extends Omit<ComponentProps<typeof Auth>, 'supabaseClient'> {
   visible: boolean;
   onClose?: () => void;
   onAuthenticate?: (session: Session) => void;
 }
+
 const AuthModal: FC<AuthModalProps> = ({
   visible,
   onAuthenticate,

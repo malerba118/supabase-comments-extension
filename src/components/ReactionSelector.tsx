@@ -4,7 +4,7 @@ import React, { FC } from 'react';
 import useReactions from '../hooks/useReactions';
 import Reaction from './Reaction';
 
-interface ReactionSelectorProps {
+export interface ReactionSelectorProps {
   activeReactions: Set<string>;
   toggleReaction: (reactionType: string) => void;
 }

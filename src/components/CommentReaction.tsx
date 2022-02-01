@@ -53,7 +53,7 @@ const CommentReactionsModal = ({
   );
 };
 
-interface CommentReactionProps {
+export interface CommentReactionProps {
   metadata: CommentReactionMetadata;
   toggleReaction: (reactionType: string) => void;
 }

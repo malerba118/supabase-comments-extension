@@ -13,11 +13,10 @@ import { useReplyManager } from './ReplyManagerProvider';
 import { getMentionedUserIds } from '../utils';
 import useAuthUtils from '../hooks/useAuthUtils';
 import { useCommentsContext } from './CommentsProvider';
-import Avatar from './Avatar';
 import useUser from '../hooks/useUser';
 import User from './User';
 
-interface CommentsProps {
+export interface CommentsProps {
   topic: string;
   parentId?: string | null;
 }

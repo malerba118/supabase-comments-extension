@@ -48,7 +48,7 @@ type ViewType =
 
 type RedirectTo = undefined | string;
 
-export interface Props {
+export interface AuthProps {
   supabaseClient: SupabaseClient;
   className?: string;
   children?: React.ReactNode;
@@ -76,7 +76,7 @@ function Auth({
   redirectTo,
   onlyThirdPartyProviders = false,
   magicLink = false,
-}: Props): JSX.Element | null {
+}: AuthProps): JSX.Element | null {
   const [authView, setAuthView] = useState(view);
   const [defaultEmail, setDefaultEmail] = useState('');
   const [defaultPassword, setDefaultPassword] = useState('');
@@ -179,7 +179,7 @@ function SocialAuth({
   onlyThirdPartyProviders,
   magicLink,
   ...props
-}: Props) {
+}: AuthProps) {
   const buttonStyles: any = {
     azure: {
       backgroundColor: '#008AD7',

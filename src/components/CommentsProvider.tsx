@@ -30,11 +30,11 @@ export const useSupabaseClient = () => {
   return supabaseClient;
 };
 
-interface ComponentOverrideOptions {
+export interface ComponentOverrideOptions {
   CommentReactions?: ComponentType<CommentReactionsProps>;
 }
 
-interface CommentsContextApi {
+export interface CommentsContextApi {
   onAuthRequested?: () => void;
   onUserClick?: (user: DisplayUser) => void;
   mode: 'light' | 'dark';
@@ -53,7 +53,7 @@ export const useCommentsContext = () => {
   return context;
 };
 
-interface CommentsProviderProps {
+export interface CommentsProviderProps {
   queryClient?: QueryClient;
   supabaseClient: SupabaseClient;
   onAuthRequested?: () => void;

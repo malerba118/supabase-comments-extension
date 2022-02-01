@@ -4,6 +4,7 @@ import {
   Comments,
   CommentsProvider,
   AuthModal,
+  CommentReactionsProps,
 } from 'supabase-comments-extension';
 import supabase from './supabase';
 import AceEditor from 'react-ace';
@@ -22,7 +23,7 @@ interface Example {
   code: string;
 }
 
-const CustomCommentReactions: FC<any> = ({
+const CustomCommentReactions: FC<CommentReactionsProps> = ({
   activeReactions,
   toggleReaction,
 }) => {
@@ -95,7 +96,6 @@ const examples: Record<string, Example> = {
           onUserClick={(user) => {
             window.alert(user.name);
           }}
-          // accentColor="#E500D7"
         >
           <div className="max-w-lg mx-auto my-12">
             <Comments topic="dark-mode" />

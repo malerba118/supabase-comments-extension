@@ -46,7 +46,7 @@ const CommentMenu: FC<CommentMenuProps> = ({ onEdit, onDelete }) => {
   );
 };
 
-interface CommentProps {
+export interface CommentProps {
   id: string;
 }
 
