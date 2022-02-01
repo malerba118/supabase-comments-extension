@@ -127,6 +127,7 @@ const Comments: FC<CommentsProps> = ({ topic, parentId = null }) => {
                       });
                     }}
                     loading={mutations.addComment.isLoading}
+                    loadingCentered
                     size="tiny"
                     className="!px-[6px] !py-[3px] m-[3px]"
                   >

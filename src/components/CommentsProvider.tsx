@@ -1,5 +1,6 @@
 import { Query, QueryClient, QueryClientProvider } from 'react-query';
 import React, {
+  ComponentType,
   createContext,
   FC,
   useContext,
@@ -10,6 +11,10 @@ import Auth from './Auth';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { ApiError, DisplayUser } from '../api';
 import { useCssPalette } from '..';
+import {
+  CommentReactionsProps,
+  CommentReactions as DefaultCommentReactions,
+} from './CommentReactions';
 
 const defaultQueryClient = new QueryClient();
 
@@ -25,10 +30,15 @@ export const useSupabaseClient = () => {
   return supabaseClient;
 };
 
+interface ComponentOverrideOptions {
+  CommentReactions?: ComponentType<CommentReactionsProps>;
+}
+
 interface CommentsContextApi {
   onAuthRequested?: () => void;
   onUserClick?: (user: DisplayUser) => void;
   mode: 'light' | 'dark';
+  components: Required<ComponentOverrideOptions>;
 }
 
 const CommentsContext = createContext<CommentsContextApi | null>(null);
@@ -51,6 +61,7 @@ interface CommentsProviderProps {
   mode?: 'light' | 'dark';
   accentColor?: string;
   onError?: (error: ApiError, query: Query) => void;
+  components?: ComponentOverrideOptions;
 }
 
 const CommentsProvider: FC<CommentsProviderProps> = ({
@@ -62,14 +73,20 @@ const CommentsProvider: FC<CommentsProviderProps> = ({
   mode = 'light',
   accentColor = 'rgb(36, 180, 126)',
   onError,
+  components,
 }) => {
+  components;
   const context = useMemo(
     () => ({
       onAuthRequested,
       onUserClick,
       mode,
+      components: {
+        CommentReactions:
+          components?.CommentReactions || DefaultCommentReactions,
+      },
     }),
-    [onAuthRequested, onUserClick, mode]
+    [onAuthRequested, onUserClick, mode, components?.CommentReactions]
   );
 
   useEffect(() => {

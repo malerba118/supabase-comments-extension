@@ -22,6 +22,17 @@ interface Example {
   code: string;
 }
 
+const CustomCommentReactions: FC<any> = ({
+  activeReactions,
+  toggleReaction,
+}) => {
+  return (
+    <Button className="!py-0.5" onClick={() => toggleReaction('like')}>
+      {activeReactions.has('like') ? 'unlike' : 'like'}
+    </Button>
+  );
+};
+
 const examples: Record<string, Example> = {
   basic: {
     key: 'basic',
@@ -168,6 +179,61 @@ const examples: Record<string, Example> = {
       />
       <div className="max-w-lg mx-auto my-12">
         <Comments topic="with-auth-modal" />
+      </div>
+    </CommentsProvider>
+  );
+};`,
+  },
+  customReactions: {
+    key: 'customReactions',
+    label: 'Custom Reactions',
+    Component: () => {
+      return (
+        <CommentsProvider
+          supabaseClient={supabase}
+          onAuthRequested={() => {
+            window.alert('Auth Requested');
+          }}
+          onUserClick={(user) => {
+            window.alert(user.name);
+          }}
+          components={{
+            CommentReactions: CustomCommentReactions,
+          }}
+        >
+          <div className="max-w-lg mx-auto my-12">
+            <Comments topic="custom-reactions" />
+          </div>
+        </CommentsProvider>
+      );
+    },
+    code: `const CustomCommentReactions: FC<CommentReactionsProps> = ({ 
+  activeReactions, 
+  toggleReaction 
+}) => {
+  return (
+    <Button className="!py-0.5" onClick={() => toggleReaction('like')}>
+      {activeReactions.has('like') ? 'unlike' : 'like'}
+    </Button>
+  );
+};
+
+const App = () => {
+  return (
+    <CommentsProvider
+      supabaseClient={supabase}
+      onAuthRequested={() => {
+        window.alert('Auth Requested');
+      }}
+      onUserClick={(user) => {
+        window.alert(user.name);
+      }}
+      components={{
+        CommentReactions: CustomCommentReactions,
+      }}
+    >
+      <div className="max-w-lg mx-auto my-12">
+        <Comments topic="custom-reactions" />
       </div>
     </CommentsProvider>
   );

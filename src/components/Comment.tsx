@@ -15,12 +15,9 @@ import {
   useRemoveReaction,
   useUncontrolledState,
 } from '../hooks';
-import Avatar from './Avatar';
 import Editor from './Editor';
 import TimeAgo from './TimeAgo';
 import Comments from './Comments';
-import CommentReaction from './CommentReaction';
-import ReactionSelector from './ReactionSelector';
 import ReplyManagerProvider, { useReplyManager } from './ReplyManagerProvider';
 import { useCommentsContext } from './CommentsProvider';
 import { getMentionedUserIds } from '../utils';
@@ -212,6 +209,7 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
                         });
                       }}
                       loading={mutations.updateComment.isLoading}
+                      loadingCentered
                       size="tiny"
                       className="!px-[6px] !py-[3px]"
                     >
@@ -227,18 +225,12 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
           </p>
         </div>
         <div className="flex items-center justify-between">
-          <div className="flex h-6 space-x-2">
-            <ReactionSelector
-              activeReactions={activeReactions}
+          <div className="relative h-6">
+            <context.components.CommentReactions
               toggleReaction={toggleReaction}
+              activeReactions={activeReactions}
+              reactionsMetadata={comment.reactions_metadata}
             />
-            {comment.reactions_metadata.map((reactionMetadata) => (
-              <CommentReaction
-                key={reactionMetadata.reaction_type}
-                metadata={reactionMetadata}
-                toggleReaction={toggleReaction}
-              />
-            ))}
           </div>
           <div className="flex space-x-3 text-sm text-alpha-40">
             {!isReply && (
