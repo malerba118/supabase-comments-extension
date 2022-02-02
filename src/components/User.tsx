@@ -7,15 +7,19 @@ import clsx from 'clsx';
 
 interface UserProps {
   id?: string;
+  size?: 'sm' | 'lg';
   showName?: boolean;
   showAvatar?: boolean;
+  propagateClick?: boolean;
   className?: string;
 }
 
 const User: FC<UserProps> = ({
   id,
+  size = 'lg',
   showName = true,
   showAvatar = true,
+  propagateClick = true,
   className,
 }) => {
   const context = useCommentsContext();
@@ -27,13 +31,15 @@ const User: FC<UserProps> = ({
     <div className={clsx('flex items-center space-x-2', className)}>
       {showAvatar && (
         <Avatar
+          key={user?.avatar}
           className={clsx(user && 'cursor-pointer')}
           onClick={() => {
-            if (user) {
+            if (user && propagateClick) {
               context.onUserClick?.(user);
             }
           }}
           src={user?.avatar}
+          size={size}
         />
       )}
       {user && showName && (
@@ -42,7 +48,9 @@ const User: FC<UserProps> = ({
             className="cursor-pointer"
             tabIndex={0}
             onClick={() => {
-              context.onUserClick?.(user);
+              if (propagateClick) {
+                context.onUserClick?.(user);
+              }
             }}
           >
             {user.name}

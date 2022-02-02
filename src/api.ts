@@ -243,7 +243,8 @@ export const createApiClient = (supabase: SupabaseClient) => {
     const query = supabase
       .from<DisplayUser>('sce_display_users')
       .select('*')
-      .ilike('name', `%${search}%`);
+      .ilike('name', `%${search}%`)
+      .limit(10);
 
     const response = await query;
     assertResponseOk(response);

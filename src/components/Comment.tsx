@@ -209,7 +209,6 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
                         });
                       }}
                       loading={mutations.updateComment.isLoading}
-                      loadingCentered
                       size="tiny"
                       className="!px-[6px] !py-[3px]"
                     >

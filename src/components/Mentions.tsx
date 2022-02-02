@@ -5,10 +5,16 @@ import {
   ReactNodeViewRenderer,
   ReactRenderer,
 } from '@tiptap/react';
-import React, { useState, useEffect, forwardRef } from 'react';
+import React, {
+  useState,
+  useEffect,
+  forwardRef,
+  useImperativeHandle,
+} from 'react';
 import { useSearchUsers } from '..';
 import { Loading, Menu } from '@supabase/ui';
 import Mention from '@tiptap/extension-mention';
+import User from './User';
 
 const MentionList = forwardRef((props: any, ref) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -24,56 +30,64 @@ const MentionList = forwardRef((props: any, ref) => {
     }
   };
 
-  // const upHandler = () => {
-  //   setSelectedIndex(
-  //     (selectedIndex + query.data.length - 1) % query.data.length
-  //   );
-  // };
+  const upHandler = () => {
+    if (!query.data) {
+      return;
+    }
+    setSelectedIndex(
+      (selectedIndex + query.data.length - 1) % query.data.length
+    );
+  };
 
-  // const downHandler = () => {
-  //   setSelectedIndex((selectedIndex + 1) % query.data.length);
-  // };
+  const downHandler = () => {
+    if (!query.data) {
+      return;
+    }
+    setSelectedIndex((selectedIndex + 1) % query.data.length);
+  };
 
-  // const enterHandler = () => {
-  //   selectItem(selectedIndex);
-  // };
+  const enterHandler = () => {
+    selectItem(selectedIndex);
+  };
 
-  // useImperativeHandle(ref, () => ({
-  //   onKeyDown: ({ event }: any) => {
-  //     if (event.key === "ArrowUp") {
-  //       upHandler();
-  //       return true;
-  //     }
+  useImperativeHandle(ref, () => ({
+    onKeyDown: ({ event }: any) => {
+      if (event.key === 'ArrowUp') {
+        upHandler();
+        return true;
+      }
 
-  //     if (event.key === "ArrowDown") {
-  //       downHandler();
-  //       return true;
-  //     }
+      if (event.key === 'ArrowDown') {
+        downHandler();
+        return true;
+      }
 
-  //     if (event.key === "Enter") {
-  //       enterHandler();
-  //       return true;
-  //     }
+      if (event.key === 'Enter') {
+        enterHandler();
+        return true;
+      }
 
-  //     return false;
-  //   },
-  // }));
-
-  if (query.isLoading) {
-    return <Loading active>{null}</Loading>;
-  }
+      return false;
+    },
+  }));
 
   return (
-    <Menu className="overflow-hidden bg-gray-100 rounded-lg">
+    <Menu className="overflow-hidden rounded-lg dark:bg-neutral-800/90 bg-neutral-100/90">
       {query.isLoading && <Loading active>{null}</Loading>}
       {query.data &&
         query.data.length > 0 &&
         query.data.map((item: any, index: number) => (
-          <Menu.Item key={index} onClick={() => selectItem(index)}>
-            {item.name}
+          <Menu.Item
+            active={selectedIndex === index}
+            key={index}
+            onClick={() => selectItem(index)}
+          >
+            <User key={item.id} id={item.id} size="sm" propagateClick={false} />
           </Menu.Item>
         ))}
-      {query.data && query.data.length === 0 && <div>No result</div>}
+      {query.data && query.data.length === 0 && (
+        <div className="px-4 py-2">No result</div>
+      )}
     </Menu>
   );
 });

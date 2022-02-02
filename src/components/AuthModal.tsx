@@ -4,12 +4,15 @@ import Auth from './Auth';
 import { useSupabaseClient } from './CommentsProvider';
 import { useLatestRef } from '../hooks/useLatestRef';
 import { Session } from '@supabase/gotrue-js';
+import clsx from 'clsx';
 
 export interface AuthModalProps
   extends Omit<ComponentProps<typeof Auth>, 'supabaseClient'> {
   visible: boolean;
   onClose?: () => void;
   onAuthenticate?: (session: Session) => void;
+  title?: string;
+  description?: string;
 }
 
 const AuthModal: FC<AuthModalProps> = ({
@@ -17,6 +20,9 @@ const AuthModal: FC<AuthModalProps> = ({
   onAuthenticate,
   onClose,
   view = 'sign_in',
+  title = 'Please Sign In',
+  description,
+  className,
   ...otherProps
 }) => {
   const supabase = useSupabaseClient();
@@ -34,14 +40,22 @@ const AuthModal: FC<AuthModalProps> = ({
 
   return (
     <Modal
-      title="Please Sign In"
-      //   description="Please sign in to leave a comment or reaction"
+      title={title}
+      description={description}
       visible={visible}
       onCancel={onClose}
       hideFooter
       size="medium"
+      className={className}
     >
-      <div className="!-mt-4 w-full">
+      <div
+        className={clsx(
+          'w-full',
+          otherProps.providers && otherProps.providers?.length > 0
+            ? null
+            : '!-mt-4'
+        )}
+      >
         <Auth {...otherProps} view={view} supabaseClient={supabase} />
       </div>
     </Modal>

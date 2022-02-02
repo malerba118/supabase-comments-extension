@@ -3,18 +3,25 @@ import clsx from 'clsx';
 import React, { FC } from 'react';
 import { useImage } from 'react-image';
 
-interface AvatarProps extends React.HTMLProps<HTMLDivElement> {
+interface AvatarProps extends Omit<React.HTMLProps<HTMLDivElement>, 'size'> {
   src?: string;
+  size?: 'sm' | 'lg';
 }
 
-const Avatar: FC<AvatarProps> = ({ src, className, ...otherProps }) => {
+const Avatar: FC<AvatarProps> = ({
+  src,
+  className,
+  size = 'lg',
+  ...otherProps
+}) => {
   const image = useImage({ srcList: src || [], useSuspense: false });
 
   return (
     <div
       {...otherProps}
       className={clsx(
-        'relative inline-block w-10 h-10 overflow-hidden rounded-full bg-alpha-10',
+        size === 'sm' ? 'w-6 h-6' : 'w-10 h-10',
+        'relative inline-block overflow-hidden rounded-full bg-alpha-10',
         className
       )}
     >

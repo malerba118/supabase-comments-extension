@@ -147,6 +147,12 @@ const examples: Record<string, Example> = {
             onClose={() => {
               setModalVisible(false);
             }}
+            providers={['twitter']}
+            redirectTo={
+              process.env.NODE_ENV === 'development'
+                ? 'http://localhost:3000'
+                : 'https://malerba118.github.io/supabase-comments-extension'
+            }
           />
           <div className="max-w-lg mx-auto my-12">
             <Comments topic="with-auth-modal" />
@@ -291,6 +297,12 @@ const App = () => {
               onClose={() => {
                 setModalVisible(false);
               }}
+              providers={['twitter']}
+              redirectTo={
+                process.env.NODE_ENV === 'development'
+                  ? 'http://localhost:3000'
+                  : 'https://malerba118.github.io/supabase-comments-extension'
+              }
             />
           </CommentsProvider>
           {!auth.user && (
