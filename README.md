@@ -8,6 +8,11 @@ This library provides comments, replies, reactions, mentions, and authentication
 
 https://malerba118.github.io/supabase-comments-extension
 
+## Getting Started
+
+
+First things first, this project is powered by [supabase](https://supabase.com/) so if you don't already have a supabase db, [head over there and make one](https://app.supabase.io/) (it's super simple and literally takes a few seconds)
+
 ## Installation
 
 Not yet available but coming soon :)
@@ -16,13 +21,17 @@ Not yet available but coming soon :)
 npm install --save supabase-comments-extension @supabase/ui @supabase/supabase-js react-query
 ```
 
-## Usage
+### Running Migrations 
 
-First you'll need to add required tables and sql goodies to your supabase db
+Once you've got yourself a supabase db, you'll need to add a few tables and other sql goodies to it with the following command
 
 ```bash
-npx supabase-comments-extension run-migrations <supabase-connection-string>  # eg: postgresql://postgres:some-made-up-password@db.ddziybrgjepxqpsflsiv.supabase.co:5432/postgres
+npx supabase-comments-extension run-migrations <supabase-connection-string>
 ```
+
+You can find your connection string on the supabase dashboard: https://app.supabase.io/project/PUT-YOUR-PROJECT-ID-HERE/settings/database
+
+It should look something like this: `postgresql://postgres:some-made-up-password@db.ddziybrgjepxqpsflsiv.supabase.co:5432/postgres`
 
 ### With Auth
 
