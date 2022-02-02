@@ -72,7 +72,7 @@ const MentionList = forwardRef((props: any, ref) => {
   }));
 
   return (
-    <Menu className="overflow-hidden rounded-lg dark:bg-neutral-800/90 bg-neutral-100/90">
+    <Menu className="overflow-hidden rounded-lg dark:bg-neutral-800 bg-neutral-100">
       {query.isLoading && <Loading active>{null}</Loading>}
       {query.data &&
         query.data.length > 0 &&
