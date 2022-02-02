@@ -245,6 +245,46 @@ const App = () => {
   );
 };`,
   },
+  withoutMentions: {
+    key: 'withoutMentions',
+    label: 'Without Mentions',
+    Component: () => {
+      return (
+        <CommentsProvider
+          supabaseClient={supabase}
+          onAuthRequested={() => {
+            window.alert('Auth Requested');
+          }}
+          onUserClick={(user) => {
+            window.alert(user.name);
+          }}
+          enableMentions={false}
+        >
+          <div className="max-w-lg mx-auto my-12">
+            <Comments topic="without-mentions" />
+          </div>
+        </CommentsProvider>
+      );
+    },
+    code: `const App = () => {
+  return (
+    <CommentsProvider
+      supabaseClient={supabase}
+      onAuthRequested={() => {
+        window.alert('Auth Requested');
+      }}
+      onUserClick={(user) => {
+        window.alert(user.name);
+      }}
+      enableMentions={false}
+    >
+      <div className="max-w-lg mx-auto my-12">
+        <Comments topic="without-mentions" />
+      </div>
+    </CommentsProvider>
+  );
+};`,
+  },
 };
 
 const Sidenav = ({ activeExample, onExampleChange }: any) => {

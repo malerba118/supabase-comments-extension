@@ -3,7 +3,7 @@ import { SupabaseClient } from '@supabase/supabase-js';
 export interface CommentReactionMetadata {
   comment_id: string;
   reaction_type: string;
-  reaction_count: string;
+  reaction_count: number;
   active_for_user: boolean;
 }
 

@@ -1,10 +1,10 @@
 # Supabase Comments Extension
 
-Add a robust comment system to your react app in less than 5 minutes! 
+Add a robust comment system to your react app in less than 5 minutes!
 
 This library provides comments, replies, reactions, mentions, and authentication all out of the box.
 
-## Demo 
+## Demo
 
 https://malerba118.github.io/supabase-comments-extension
 
@@ -96,9 +96,7 @@ You can add your own reactions by adding rows to the `sce_reactions` table.
 
 <img width="838" alt="Screen Shot 2022-02-01 at 4 31 55 PM" src="https://user-images.githubusercontent.com/5760059/152088763-8de5ac3f-ebc6-4337-8ad7-073ce63b288b.png">
 
-
 It's easy to add rows via the supabase dashboard or if you prefer you can write some sql to insert new rows.
-
 
 ```sql
 insert into sce_reactions(type, label, url) values ('heart', 'Heart', 'https://emojis.slackmojis.com/emojis/images/1596061862/9845/meow_heart.png?1596061862');
@@ -115,13 +113,17 @@ You can pass your own `CommentReactions` component to control exactly how reacti
 import { useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { Button } from '@supabase/ui';
-import { Comments, CommentsProvider, CommentReactionsProps } from 'supabase-comments-extension';
+import {
+  Comments,
+  CommentsProvider,
+  CommentReactionsProps,
+} from 'supabase-comments-extension';
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-const CustomCommentReactions: FC<CommentReactionsProps> = ({ 
-  activeReactions, 
-  toggleReaction 
+const CustomCommentReactions: FC<CommentReactionsProps> = ({
+  activeReactions,
+  toggleReaction,
 }) => {
   return (
     <Button className="!py-0.5" onClick={() => toggleReaction('like')}>
@@ -144,10 +146,40 @@ const App = () => {
 };
 ```
 
-
 The above code will render the following ui
-
 
 <img width="548" alt="Screen Shot 2022-02-01 at 8 34 33 PM" src="https://user-images.githubusercontent.com/5760059/152089497-515113e0-5281-4a2e-8c58-5f8c2e40f812.png">
 
+## Handling Mentions
 
+This library includes support for mentions, however mentions are fairly useless without a way to notify the users who are mentioned. You can listen to mentions via postgres triggers and perform some action in response such as insert into a notifications table or send an http request to a custom endpoint.
+
+```sql
+CREATE OR REPLACE FUNCTION notify_mentioned_users()
+  RETURNS trigger AS
+$$
+DECLARE
+  mentioned_user_id uuid;
+BEGIN
+  FOREACH mentioned_user_id IN ARRAY NEW.mentioned_user_ids LOOP
+	  INSERT INTO your_notifications_table (actor, action, receiver) VALUES(NEW.user_id, 'mention', mentioned_user_id);
+  END LOOP;
+RETURN NEW;
+END;
+$$
+LANGUAGE 'plpgsql';
+
+CREATE TRIGGER comment_insert_trigger
+  AFTER INSERT
+  ON sce_comments
+  FOR EACH ROW
+  EXECUTE PROCEDURE notify_mentioned_users();
+```
+
+If you don't care about mentions, then you can disable them via the `CommentsProvider`
+
+```tsx
+<CommentsProvider supabaseClient={supabase} enableMentions={false}>
+  <Comments topic="mentions-disabled" />
+</CommentsProvider>
+```

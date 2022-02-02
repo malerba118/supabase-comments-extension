@@ -71,6 +71,10 @@ const MentionList = forwardRef((props: any, ref) => {
     },
   }));
 
+  if (!props.editor.options.editable) {
+    return null;
+  }
+
   return (
     <Menu className="overflow-hidden rounded-lg dark:bg-neutral-800 bg-neutral-100">
       {query.isLoading && <Loading active>{null}</Loading>}

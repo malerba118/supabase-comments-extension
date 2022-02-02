@@ -11,6 +11,7 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import styles from './Editor.module.css';
 // @ts-ignore
 import { lowlight } from 'lowlight';
+import { useCommentsContext } from './CommentsProvider';
 
 interface EditorProps {
   defaultValue: string;
@@ -27,22 +28,26 @@ const Editor: FC<EditorProps> = ({
   autoFocus = false,
   actions = null,
 }) => {
+  const context = useCommentsContext();
+  const extensions: any[] = [
+    StarterKit,
+    Placeholder.configure({
+      placeholder: 'Write a message...',
+    }),
+    CodeBlockLowlight.configure({ lowlight, defaultLanguage: null }),
+    Link.configure({
+      HTMLAttributes: {
+        class: 'tiptap-link',
+      },
+      openOnClick: false,
+    }),
+  ];
+  if (context.enableMentions) {
+    extensions.push(MentionsExtension);
+  }
   const editor = useEditor({
     editable: !readOnly,
-    extensions: [
-      StarterKit,
-      Placeholder.configure({
-        placeholder: 'Write a message...',
-      }),
-      MentionsExtension,
-      CodeBlockLowlight.configure({ lowlight, defaultLanguage: null }),
-      Link.configure({
-        HTMLAttributes: {
-          class: 'tiptap-link',
-        },
-        openOnClick: false,
-      }),
-    ],
+    extensions,
     content: defaultValue,
     onUpdate: ({ editor }) => {
       onChange?.(editor.getHTML());

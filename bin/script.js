@@ -20,13 +20,15 @@ program
 
     const migrationNames = await files.getMigrationNames();
 
+    let successful = true;
+
     for (migrationName of migrationNames) {
       try {
         const hasRun = await db.hasRunMigration(migrationName);
         if (hasRun) {
-          console.log(`SKIPPING MIGRATION (Already Applied): ${migrationName}`);
+          console.log(`SKIPPING MIGRATION: ${migrationName}`);
         } else {
-          console.log(`RUNNING MIGRATION (Not Yet Applied): ${migrationName}`);
+          console.log(`RUNNING MIGRATION: ${migrationName}`);
           const migrationSql = await files.getMigrationSql(migrationName);
           await db.runMigration(migrationName, migrationSql);
         }
@@ -34,10 +36,14 @@ program
         console.error(`\nERROR RUNNING MIGRATION: ${migrationName}\n`);
         console.error(err.message);
         console.log('\nSKIPPING REMAINING MIGRATIONS\n');
+        successful = false;
         break;
       }
     }
     await db.reloadSchema();
+    if (successful) {
+      console.log('\nMIGRATIONS APPLIED SUCCESSFULLY\n');
+    }
     process.exit(0);
   });
 

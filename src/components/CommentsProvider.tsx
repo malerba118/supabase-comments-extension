@@ -39,6 +39,7 @@ export interface CommentsContextApi {
   onUserClick?: (user: DisplayUser) => void;
   mode: 'light' | 'dark';
   components: Required<ComponentOverrideOptions>;
+  enableMentions: boolean;
 }
 
 const CommentsContext = createContext<CommentsContextApi | null>(null);
@@ -62,6 +63,7 @@ export interface CommentsProviderProps {
   accentColor?: string;
   onError?: (error: ApiError, query: Query) => void;
   components?: ComponentOverrideOptions;
+  enableMentions?: boolean;
 }
 
 const CommentsProvider: FC<CommentsProviderProps> = ({
@@ -74,6 +76,7 @@ const CommentsProvider: FC<CommentsProviderProps> = ({
   accentColor = 'rgb(36, 180, 126)',
   onError,
   components,
+  enableMentions = true,
 }) => {
   components;
   const context = useMemo(
@@ -81,12 +84,19 @@ const CommentsProvider: FC<CommentsProviderProps> = ({
       onAuthRequested,
       onUserClick,
       mode,
+      enableMentions,
       components: {
         CommentReactions:
           components?.CommentReactions || DefaultCommentReactions,
       },
     }),
-    [onAuthRequested, onUserClick, mode, components?.CommentReactions]
+    [
+      onAuthRequested,
+      onUserClick,
+      mode,
+      enableMentions,
+      components?.CommentReactions,
+    ]
   );
 
   useEffect(() => {
