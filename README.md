@@ -13,7 +13,7 @@ https://malerba118.github.io/supabase-comments-extension
 
 First things first, this project is powered by [supabase](https://supabase.com/) so if you don't already have a supabase db, [head over there and make one](https://app.supabase.io/) (it's super simple and literally takes a few seconds)
 
-## Installation
+### Installation
 
 Not yet available but coming soon :)
 
@@ -33,7 +33,7 @@ You can find your connection string on the supabase dashboard: https://app.supab
 
 It should look something like this: `postgresql://postgres:some-made-up-password@db.ddziybrgjepxqpsflsiv.supabase.co:5432/postgres`
 
-### With Auth
+### Usage With Auth
 
 Then in your app code you can add comments with the following
 
@@ -72,10 +72,10 @@ const App = () => {
 };
 ```
 
-### Without Auth
+### Usage Without Auth
 
-If you already have an app set up with Supabase authentication,
-then you can skip the AuthModal and direct the user to your
+If you already have an app set up with supabase authentication,
+then you can skip the `AuthModal` and direct the user to your
 existing sign-in system.
 
 ```jsx
@@ -99,7 +99,11 @@ const App = () => {
 };
 ```
 
-## Bring Your Own Reactions
+## Advanced Features
+
+supabase-comments-extension includes a handful of customization options to meet your app's needs
+
+### Bring Your Own Reactions
 
 You can add your own reactions by adding rows to the `sce_reactions` table.
 
@@ -113,7 +117,7 @@ insert into sce_reactions(type, label, url) values ('like', 'Like', 'https://emo
 insert into sce_reactions(type, label, url) values ('party-blob', 'Party Blob', 'https://emojis.slackmojis.com/emojis/images/1547582922/5197/party_blob.gif?1547582922');
 ```
 
-## Custom Reaction Rendering
+### Custom Reaction Rendering
 
 If you want to customize the way comment reactions are rendered then you're in luck!
 You can pass your own `CommentReactions` component to control exactly how reactions are rendered beneath each comment.
@@ -159,7 +163,7 @@ The above code will render the following ui
 
 <img width="548" alt="Screen Shot 2022-02-01 at 8 34 33 PM" src="https://user-images.githubusercontent.com/5760059/152089497-515113e0-5281-4a2e-8c58-5f8c2e40f812.png">
 
-## Handling Mentions
+### Handling Mentions
 
 This library includes support for mentions, however mentions are fairly useless without a way to notify the users who are mentioned. You can listen to mentions via postgres triggers and perform some action in response such as insert into a notifications table or send an http request to a custom endpoint.
 
