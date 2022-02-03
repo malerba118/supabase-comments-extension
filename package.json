@@ -40,7 +40,6 @@
     "@types/react-dom": "^17.0.9",
     "@types/traverse": "^0.6.32",
     "autoprefixer": "^10.3.4",
-    "commander": "^8.3.0",
     "cssnano": "^5.0.8",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^26.6.3",
@@ -64,6 +63,7 @@
     "@tiptap/html": "^2.0.0-beta.162",
     "@tiptap/react": "^2.0.0-beta.105",
     "@tiptap/starter-kit": "^2.0.0-beta.171",
+    "commander": "^8.3.0",
     "clsx": "^1.1.1",
     "color": "^4.2.0",
     "javascript-time-ago": "^2.3.10",
@@ -83,7 +83,6 @@
   },
   "files": [
     "dist",
-    "src",
     "bin"
   ],
   "release": {
