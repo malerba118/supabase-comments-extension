@@ -62,12 +62,7 @@ const App = () => {
   return (
     <CommentsProvider
       supabaseClient={supabase}
-      onUserClick={(user) => {
-        // go to user page or do whatever you want
-      }}
       onAuthRequested={() => setModalVisible(true)}
-      mode="dark"
-      accentColor="pink"
     >
       <AuthModal
         visible={modalVisible}
