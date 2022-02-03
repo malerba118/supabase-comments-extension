@@ -13,7 +13,7 @@ import User from './User';
 
 const MentionList = forwardRef((props: any, ref) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const query = useSearchUsers(props.query);
+  const query = useSearchUsers({ search: props.query });
 
   useEffect(() => setSelectedIndex(0), [query.data]);
 
