@@ -4,9 +4,11 @@ Add a robust comment system to your react app in less than 5 minutes!
 
 This library provides comments, replies, reactions, mentions, and authentication all out of the box.
 
-## Demo
+## Demos
 
-https://malerba118.github.io/supabase-comments-extension
+<!-- Choose your flavor: -->
+  - https://malerba118.github.io/supabase-comments-extension
+  - https://codesandbox.io/s/supabase-comments-extension-demo-8hg9s?file=/src/App.tsx
 
 ## Getting Started
 
@@ -15,10 +17,16 @@ First things first, this project is powered by [supabase](https://supabase.com/)
 
 ### Installation
 
-Not yet available but coming soon :)
+Install this package and its peer dependencies with npm
 
 ```bash
 npm install --save supabase-comments-extension @supabase/ui @supabase/supabase-js react-query
+```
+
+Or if you prefer, you can install them with yarn
+
+```bash
+yarn add supabase-comments-extension @supabase/ui @supabase/supabase-js react-query
 ```
 
 ### Running Migrations 
