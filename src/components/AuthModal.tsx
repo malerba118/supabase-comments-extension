@@ -46,7 +46,7 @@ const AuthModal: FC<AuthModalProps> = ({
       onCancel={onClose}
       hideFooter
       size="medium"
-      className={className}
+      className={clsx(' min-w-[300px]', className)}
     >
       <div
         className={clsx(

@@ -5,12 +5,15 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Auth } from '@supabase/ui';
 import supabase from './supabase';
+import { ChakraProvider } from '@chakra-ui/react';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Auth.UserContextProvider supabaseClient={supabase}>
-      <App />
-    </Auth.UserContextProvider>
+    <ChakraProvider>
+      <Auth.UserContextProvider supabaseClient={supabase}>
+        <App />
+      </Auth.UserContextProvider>
+    </ChakraProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

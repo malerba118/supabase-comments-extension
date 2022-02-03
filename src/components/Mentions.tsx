@@ -1,10 +1,5 @@
 import tippy from 'tippy.js';
-import {
-  NodeViewContent,
-  NodeViewWrapper,
-  ReactNodeViewRenderer,
-  ReactRenderer,
-} from '@tiptap/react';
+import { ReactRenderer } from '@tiptap/react';
 import React, {
   useState,
   useEffect,
@@ -12,7 +7,7 @@ import React, {
   useImperativeHandle,
 } from 'react';
 import { useSearchUsers } from '..';
-import { Loading, Menu } from '@supabase/ui';
+import { Loading, Menu, Typography } from '@supabase/ui';
 import Mention from '@tiptap/extension-mention';
 import User from './User';
 
@@ -90,7 +85,9 @@ const MentionList = forwardRef((props: any, ref) => {
           </Menu.Item>
         ))}
       {query.data && query.data.length === 0 && (
-        <div className="px-4 py-2">No result</div>
+        <div className="px-4 py-2">
+          <Typography.Text>No results.</Typography.Text>
+        </div>
       )}
     </Menu>
   );
@@ -116,7 +113,7 @@ export const suggestionConfig = {
           showOnCreate: true,
           interactive: true,
           trigger: 'manual',
-          placement: 'bottom-start',
+          placement: 'top-start',
         });
       },
       onUpdate(props: any) {

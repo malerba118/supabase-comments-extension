@@ -8,6 +8,7 @@ import {
 } from 'supabase-comments-extension';
 import supabase from './supabase';
 import AceEditor from 'react-ace';
+import { useBreakpointValue } from '@chakra-ui/media-query';
 
 import 'ace-builds/src-noconflict/theme-twilight';
 import 'ace-builds/src-noconflict/mode-javascript';
@@ -35,45 +36,6 @@ const CustomCommentReactions: FC<CommentReactionsProps> = ({
 };
 
 const examples: Record<string, Example> = {
-  basic: {
-    key: 'basic',
-    label: 'Basic',
-    Component: () => {
-      return (
-        <CommentsProvider
-          supabaseClient={supabase}
-          onAuthRequested={() => {
-            window.alert('Auth Requested');
-          }}
-          onUserClick={(user) => {
-            window.alert(user.name);
-          }}
-          onError={console.log}
-        >
-          <div className="max-w-lg mx-auto my-12">
-            <Comments topic="basic" />
-          </div>
-        </CommentsProvider>
-      );
-    },
-    code: `const App = () => {
-  return (
-    <CommentsProvider
-      supabaseClient={supabase}
-      onAuthRequested={() => {
-        window.alert('Auth Requested');
-      }}
-      onUserClick={(user) => {
-        window.alert(user.name);
-      }}
-    >
-      <div className="max-w-lg mx-auto my-12">
-        <Comments topic="basic" />
-      </div>
-    </CommentsProvider>
-  );
-};`,
-  },
   darkMode: {
     key: 'darkMode',
     label: 'Dark Mode',
@@ -89,17 +51,15 @@ const examples: Record<string, Example> = {
       return (
         <CommentsProvider
           supabaseClient={supabase}
-          mode="dark"
           onAuthRequested={() => {
             window.alert('Auth Requested');
           }}
           onUserClick={(user) => {
             window.alert(user.name);
           }}
+          mode="dark"
         >
-          <div className="max-w-lg mx-auto my-12">
-            <Comments topic="dark-mode" />
-          </div>
+          <Comments topic="dark-mode" />
         </CommentsProvider>
       );
     },
@@ -107,17 +67,52 @@ const examples: Record<string, Example> = {
   return (
     <CommentsProvider
       supabaseClient={supabase}
-      mode="dark"
       onAuthRequested={() => {
         window.alert('Auth Requested');
       }}
       onUserClick={(user) => {
         window.alert(user.name);
       }}
+      mode="dark"
     >
-      <div className="max-w-lg mx-auto my-12">
-        <Comments topic="dark-mode" />
-      </div>
+      <Comments topic="dark-mode" />
+    </CommentsProvider>
+  );
+};`,
+  },
+  lightMode: {
+    key: 'lightMode',
+    label: 'Light Mode',
+    Component: () => {
+      return (
+        <CommentsProvider
+          supabaseClient={supabase}
+          onAuthRequested={() => {
+            window.alert('Auth Requested');
+          }}
+          onUserClick={(user) => {
+            window.alert(user.name);
+          }}
+          onError={console.log}
+          mode="light"
+        >
+          <Comments topic="light-mode" />
+        </CommentsProvider>
+      );
+    },
+    code: `const App = () => {
+  return (
+    <CommentsProvider
+      supabaseClient={supabase}
+      onAuthRequested={() => {
+        window.alert('Auth Requested');
+      }}
+      onUserClick={(user) => {
+        window.alert(user.name);
+      }}
+      mode="light"
+    >
+      <Comments topic="basic" />
     </CommentsProvider>
   );
 };`,
@@ -154,9 +149,7 @@ const examples: Record<string, Example> = {
                 : 'https://malerba118.github.io/supabase-comments-extension'
             }
           />
-          <div className="max-w-lg mx-auto my-12">
-            <Comments topic="with-auth-modal" />
-          </div>
+          <Comments topic="with-auth-modal" />
         </CommentsProvider>
       );
     },
@@ -183,9 +176,7 @@ const examples: Record<string, Example> = {
           setModalVisible(false);
         }}
       />
-      <div className="max-w-lg mx-auto my-12">
-        <Comments topic="with-auth-modal" />
-      </div>
+      <Comments topic="with-auth-modal" />
     </CommentsProvider>
   );
 };`,
@@ -207,9 +198,7 @@ const examples: Record<string, Example> = {
             CommentReactions: CustomCommentReactions,
           }}
         >
-          <div className="max-w-lg mx-auto my-12">
-            <Comments topic="custom-reactions" />
-          </div>
+          <Comments topic="custom-reactions" />
         </CommentsProvider>
       );
     },
@@ -238,9 +227,7 @@ const App = () => {
         CommentReactions: CustomCommentReactions,
       }}
     >
-      <div className="max-w-lg mx-auto my-12">
-        <Comments topic="custom-reactions" />
-      </div>
+      <Comments topic="custom-reactions" />
     </CommentsProvider>
   );
 };`,
@@ -260,9 +247,7 @@ const App = () => {
           }}
           enableMentions={false}
         >
-          <div className="max-w-lg mx-auto my-12">
-            <Comments topic="without-mentions" />
-          </div>
+          <Comments topic="without-mentions" />
         </CommentsProvider>
       );
     },
@@ -278,9 +263,7 @@ const App = () => {
       }}
       enableMentions={false}
     >
-      <div className="max-w-lg mx-auto my-12">
-        <Comments topic="without-mentions" />
-      </div>
+      <Comments topic="without-mentions" />
     </CommentsProvider>
   );
 };`,
@@ -313,14 +296,15 @@ const Sidenav = ({ activeExample, onExampleChange }: any) => {
 const App = () => {
   const auth = Auth.useUser();
   const [modalVisible, setModalVisible] = useState(false);
-  const [activeExample, setActiveExample] = useState('basic');
+  const [activeExample, setActiveExample] = useState('darkMode');
+  const editorWidth = useBreakpointValue({ base: '24rem', md: '600px' });
 
   const Component = examples[activeExample].Component;
   const code = examples[activeExample].code;
 
   return (
     <div className="flex h-screen">
-      <div className="w-[280px] border-r-2 border-alpha-10">
+      <div className="w-[280px] hidden md:block  border-r-2 border-alpha-10">
         <Sidenav
           activeExample={activeExample}
           onExampleChange={setActiveExample}
@@ -366,10 +350,12 @@ const App = () => {
             scrollMargin={[10, 10]}
             readOnly
             height="380px"
-            width="650px"
+            width={editorWidth}
             className="w-full max-w-xl mx-auto my-12 border-2 rounded-lg border-alpha-10"
           />
-          <Component key={activeExample} topic={activeExample} />
+          <div className="max-w-sm mx-auto my-12 md:max-w-lg">
+            <Component key={activeExample} topic={activeExample} />
+          </div>
         </div>
       </div>
     </div>

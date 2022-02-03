@@ -2,13 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-.mention {
+.tiptap-editor .mention {
   font-size: 0.92rem;
   font-weight: 400;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   padding: 2px 3px;
   user-select: text !important;
+}
+
+.dark .tiptap-editor .mention {
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 code {
