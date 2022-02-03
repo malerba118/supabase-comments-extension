@@ -17,8 +17,16 @@ First things first, this project is powered by [supabase](https://supabase.com/)
 
 ### Installation
 
+Install this package and its peer dependencies with npm
+
 ```bash
 npm install --save supabase-comments-extension @supabase/ui @supabase/supabase-js react-query
+```
+
+Or if you prefer, you can install them with yarn
+
+```bash
+yarn add supabase-comments-extension @supabase/ui @supabase/supabase-js react-query
 ```
 
 ### Running Migrations 
