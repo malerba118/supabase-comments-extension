@@ -1,7 +1,7 @@
 {
   "name": "supabase-comments-extension",
   "author": "malerba118@gmail.com",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A comment system for supabase",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
