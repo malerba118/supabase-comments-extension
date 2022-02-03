@@ -1,20 +1,24 @@
-import { useQuery, useQueryClient } from "react-query";
-import useApi from "./useApi";
+import { useQuery, useQueryClient } from 'react-query';
+import useApi from './useApi';
 
-const useReactions = () => {
+interface UseReactionsOptions {
+  enabled?: boolean;
+}
+const useReactions = (options: UseReactionsOptions = {}) => {
   const api = useApi();
   const queryClient = useQueryClient();
 
   return useQuery(
-    ["reactions"],
+    ['reactions'],
     () => {
       return api.getReactions();
     },
     {
+      enabled: options.enabled,
       staleTime: Infinity,
       onSuccess: (data) => {
         data?.forEach((reaction) => {
-          queryClient.setQueryData(["reactions", reaction.type], reaction);
+          queryClient.setQueryData(['reactions', reaction.type], reaction);
         });
       },
     }

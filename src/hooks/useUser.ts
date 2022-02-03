@@ -1,12 +1,15 @@
 import { useQuery } from 'react-query';
 import useApi from './useApi';
 
-interface UseUserOptions {
+interface UseUserQuery {
   id: string;
+}
+
+interface UseUserOptions {
   enabled?: boolean;
 }
 
-const useUser = ({ id, enabled = true }: UseUserOptions) => {
+const useUser = ({ id }: UseUserQuery, options: UseUserOptions = {}) => {
   const api = useApi();
 
   return useQuery(
@@ -16,7 +19,7 @@ const useUser = ({ id, enabled = true }: UseUserOptions) => {
     },
     {
       staleTime: Infinity,
-      enabled,
+      enabled: options.enabled,
     }
   );
 };

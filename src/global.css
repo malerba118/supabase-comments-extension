@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.sce-comments .sbui-loading-spinner {
+  color: var(--sce-accent-400) !important;
+}
+
 .tiptap-editor .mention {
   font-size: 0.92rem;
   font-weight: 400;
@@ -15,12 +19,12 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-code {
+.tiptap-editor code {
   background-color: rgba(#616161, 0.1);
   color: #616161;
 }
 
-pre {
+.tiptap-editor pre {
   background: #0d0d0d;
   color: #fff;
   font-family: 'JetBrainsMono', monospace;
@@ -29,7 +33,7 @@ pre {
   margin: 0.25rem 0rem !important;
 }
 
-pre code {
+.tiptap-editor pre code {
   color: inherit;
   padding: 0;
   background: none;

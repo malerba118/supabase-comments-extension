@@ -3,7 +3,8 @@ import clsx from 'clsx';
 import React, { FC } from 'react';
 import { useImage } from 'react-image';
 
-interface AvatarProps extends Omit<React.HTMLProps<HTMLDivElement>, 'size'> {
+export interface AvatarProps
+  extends Omit<React.HTMLProps<HTMLDivElement>, 'size'> {
   src?: string;
   size?: 'sm' | 'lg';
 }

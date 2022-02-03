@@ -1,7 +1,18 @@
 import { useQuery, useQueryClient } from 'react-query';
 import useApi from './useApi';
 
-const useSearchUsers = (search: string) => {
+interface UseSearchUsersQuery {
+  search: string;
+}
+
+interface UseSearchUsersOptions {
+  enabled?: boolean;
+}
+
+const useSearchUsers = (
+  { search }: UseSearchUsersQuery,
+  options: UseSearchUsersOptions = {}
+) => {
   const api = useApi();
   const queryClient = useQueryClient();
 
@@ -11,6 +22,7 @@ const useSearchUsers = (search: string) => {
       return api.searchUsers(search);
     },
     {
+      enabled: options.enabled,
       staleTime: Infinity,
       onSuccess: (data) => {
         data?.forEach((user) => {

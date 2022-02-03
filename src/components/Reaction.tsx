@@ -3,12 +3,12 @@ import { Image } from '@supabase/ui';
 import { useReaction } from '../hooks';
 import clsx from 'clsx';
 
-interface ReactionProps {
+export interface ReactionProps {
   type: string;
 }
 
 const Reaction: FC<ReactionProps> = ({ type }) => {
-  const query = useReaction(type);
+  const query = useReaction({ type });
 
   return (
     <div

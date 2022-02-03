@@ -30,7 +30,7 @@ const Comments: FC<CommentsProps> = ({ topic, parentId = null }) => {
 
   const queries = {
     comments: useComments({ topic, parentId }),
-    user: useUser({ id: auth.user?.id!, enabled: !!auth.user?.id }),
+    user: useUser({ id: auth.user?.id! }, { enabled: !!auth.user?.id }),
   };
 
   const mutations = {
@@ -69,7 +69,7 @@ const Comments: FC<CommentsProps> = ({ topic, parentId = null }) => {
   const user = queries.user.data;
 
   return (
-    <div className={clsx(context.mode, 'relative')}>
+    <div className={clsx(context.mode, 'sce-comments relative')}>
       {queries.comments.isLoading && (
         <div className="grid p-4 place-items-center">
           <div className="mr-4">

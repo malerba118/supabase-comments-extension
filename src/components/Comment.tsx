@@ -51,7 +51,7 @@ export interface CommentProps {
 }
 
 const Comment: FC<CommentProps> = ({ id }) => {
-  const query = useComment(id);
+  const query = useComment({ id });
 
   return (
     <div className="space-y-1">
@@ -142,12 +142,12 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
   };
 
   return (
-    <div className="flex space-x-2">
-      <div className="min-w-fit">
+    <div className="flex space-x-2 sce-comment">
+      <div className="min-w-fit sce-comment-avatar">
         <User id={comment.user.id} showAvatar showName={false} />
       </div>
       <div className="flex-1 space-y-2">
-        <div className="relative p-3 py-2 rounded-md bg-alpha-5 text-alpha-90">
+        <div className="relative p-3 py-2 rounded-md sce-comment-body bg-alpha-5 text-alpha-90">
           <div className="absolute top-0 right-0">
             {comment.user_id === auth?.user?.id && (
               <CommentMenu
@@ -224,7 +224,7 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
           </p>
         </div>
         <div className="flex items-center justify-between">
-          <div className="relative h-6">
+          <div className="relative h-6 sce-comment-reactions">
             <context.components.CommentReactions
               toggleReaction={toggleReaction}
               activeReactions={activeReactions}

@@ -5,7 +5,7 @@ import Avatar from './Avatar';
 import { useCommentsContext } from './CommentsProvider';
 import clsx from 'clsx';
 
-interface UserProps {
+export interface UserProps {
   id?: string;
   size?: 'sm' | 'lg';
   showName?: boolean;
@@ -23,7 +23,7 @@ const User: FC<UserProps> = ({
   className,
 }) => {
   const context = useCommentsContext();
-  const query = useUser({ id: id!, enabled: !!id });
+  const query = useUser({ id: id! }, { enabled: !!id });
 
   const user = query.data;
 

@@ -13,11 +13,13 @@ const CommentReactionsModal = ({
   reactionType,
   onClose,
 }: any) => {
-  const query = useCommentReactions({
-    commentId,
-    reactionType,
-    enabled: visible,
-  });
+  const query = useCommentReactions(
+    {
+      commentId,
+      reactionType,
+    },
+    { enabled: visible }
+  );
 
   return (
     <div className="fixed inset-0 -z-10">

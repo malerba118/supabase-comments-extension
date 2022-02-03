@@ -2,12 +2,19 @@ import { useQuery, useQueryClient } from 'react-query';
 import { timeout } from '../utils';
 import useApi from './useApi';
 
-interface UseCommentsOptions {
+interface UseCommentsQuery {
   topic: string;
   parentId: string | null;
 }
 
-const useComments = ({ topic, parentId = null }: UseCommentsOptions) => {
+interface UseCommentsOptions {
+  enabled?: boolean;
+}
+
+const useComments = (
+  { topic, parentId = null }: UseCommentsQuery,
+  options: UseCommentsOptions = {}
+) => {
   const api = useApi();
   const queryClient = useQueryClient();
 
@@ -22,6 +29,7 @@ const useComments = ({ topic, parentId = null }: UseCommentsOptions) => {
       return comments;
     },
     {
+      enabled: options.enabled,
       onSuccess: (data) => {
         data?.forEach((comment) => {
           queryClient.setQueryData(['comments', comment.id], comment);

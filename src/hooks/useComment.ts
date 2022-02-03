@@ -1,7 +1,18 @@
 import { useQuery } from 'react-query';
 import useApi from './useApi';
 
-const useComment = (id: string) => {
+interface UseCommentQuery {
+  id: string;
+}
+
+interface UseCommentOptions {
+  enabled?: boolean;
+}
+
+const useComment = (
+  { id }: UseCommentQuery,
+  options: UseCommentOptions = {}
+) => {
   const api = useApi();
 
   return useQuery(
@@ -11,6 +22,7 @@ const useComment = (id: string) => {
     },
     {
       staleTime: Infinity,
+      enabled: options.enabled,
     }
   );
 };

@@ -16,6 +16,7 @@ const removeOrDecrement = (reactionType: string, comment: Comment): Comment => {
       return {
         ...item,
         reaction_count: item.reaction_count - 1,
+        active_for_user: false,
       };
     } else {
       return item;

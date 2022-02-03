@@ -58,6 +58,7 @@ const examples: Record<string, Example> = {
             window.alert(user.name);
           }}
           mode="dark"
+          accentColor="#924b9b"
         >
           <Comments topic="dark-mode" />
         </CommentsProvider>
@@ -74,6 +75,7 @@ const examples: Record<string, Example> = {
         window.alert(user.name);
       }}
       mode="dark"
+      accentColor="#924b9b"
     >
       <Comments topic="dark-mode" />
     </CommentsProvider>
