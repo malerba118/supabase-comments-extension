@@ -1,6 +1,6 @@
 # Supabase Comments Extension
 
-Add a robust comment system to your react app in less than 5 minutes!
+Add a robust comment system to your react app in ~10 minutes!
 
 This library provides comments, replies, reactions, mentions, and authentication all out of the box.
 
@@ -193,3 +193,83 @@ If you don't care about mentions, then you can disable them via the `CommentsPro
   <Comments topic="mentions-disabled" />
 </CommentsProvider>
 ```
+
+## API 
+
+Here's the prop options for primary components you'll be working with
+
+```tsx
+interface CommentsProviderProps {
+  queryClient?: QueryClient;
+  supabaseClient: SupabaseClient;
+  onAuthRequested?: () => void;
+  onUserClick?: (user: DisplayUser) => void;
+  mode?: 'light' | 'dark';
+  accentColor?: string;
+  onError?: (error: ApiError, query: Query) => void;
+  components?: {
+    CommentReactions?: ComponentType<{
+      activeReactions: Set<string>;
+      reactionsMetadata: api.CommentReactionMetadata[];
+      toggleReaction: (reactionType: string) => void;
+    }>;
+  };
+  enableMentions?: boolean;
+}
+
+interface CommentsProps {
+  topic: string;
+}
+
+interface AuthModalProps extends AuthProps {
+  visible: boolean;
+  onClose?: () => void;
+  onAuthenticate?: (session: Session) => void;
+  title?: string;
+  description?: string;
+}
+
+// This comes from @supabase/ui (https://ui.supabase.io/components/auth)
+// supabase-comments-extension provides an adapted version of supabase ui's
+// Auth component with support for display names/avatars
+interface AuthProps {
+  supabaseClient: SupabaseClient
+  className?: string
+  children?: React.ReactNode
+  style?: React.CSSProperties
+  socialLayout?: 'horizontal' | 'vertical'
+  socialColors?: boolean
+  socialButtonSize?: 'tiny' | 'small' | 'medium' | 'large' | 'xlarge'
+  providers?: Provider[]
+  verticalSocialLayout?: any
+  view?: ViewType
+  redirectTo?: RedirectTo
+  onlyThirdPartyProviders?: boolean
+  magicLink?: boolean
+}
+```
+<!-- 
+In addition, supabase-comments-extension exports a bunch of lower level building blocks which you may or may not need
+
+```jsx
+// components
+Avatar
+Comment
+CommentReaction
+CommentReactions
+Reaction
+ReactionSelector
+// hooks
+useComment
+useComments
+useAddComment
+useUpdateComment
+useDeleteComment
+useReaction
+useReactions
+useAddReaction
+useRemoveReaction
+useCommentReactions
+useSearchUsers
+useUser
+``` -->
