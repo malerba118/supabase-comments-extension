@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/supabase-comments-extension/static/css/main.3f1c52a9.css",
-    "main.js": "/supabase-comments-extension/static/js/main.f458a19f.js",
+    "main.js": "/supabase-comments-extension/static/js/main.facc64b5.js",
     "static/js/787.280bb290.chunk.js": "/supabase-comments-extension/static/js/787.280bb290.chunk.js",
     "index.html": "/supabase-comments-extension/index.html",
     "main.3f1c52a9.css.map": "/supabase-comments-extension/static/css/main.3f1c52a9.css.map",
-    "main.f458a19f.js.map": "/supabase-comments-extension/static/js/main.f458a19f.js.map",
+    "main.facc64b5.js.map": "/supabase-comments-extension/static/js/main.facc64b5.js.map",
     "787.280bb290.chunk.js.map": "/supabase-comments-extension/static/js/787.280bb290.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.3f1c52a9.css",
-    "static/js/main.f458a19f.js"
+    "static/js/main.facc64b5.js"
   ]
 }
