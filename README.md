@@ -62,11 +62,35 @@ const App = () => {
         visible={modalVisible}
         onAuthenticate={() => setModalVisible(false)}
         onClose={() => setModalVisible(false)}
+	providers={['google', 'facebook']}
       />
       <Comments topic="tutorial-one" />
     </CommentsProvider>
   );
 };
+```
+
+Note that [supabase supports social auth with dozens of providers out-of-the-box](https://supabase.com/docs/guides/auth#authentication) so you can sign in with Google, Facebook, Twitter, Github and many more.
+
+supabase-comments-extension exports two auth components, `Auth` and `AuthModal`. The `Auth` component is a small adaptation of [@supabase/ui's Auth component](https://ui.supabase.io/components/auth) and supports all of the same props. `AuthModal` also supports all of the same props as the `Auth` component along with [a few additional props](https://github.com/malerba118/supabase-comments-extension/edit/main/README.md#api).
+
+Lastly, if you want to write your own authentication ui, then know that the supbase client provides a method `supabase.auth.signIn` which can authenticate the supabase client without forcing any ui on you.
+
+```tsx
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// Social Auth
+const { user, error } = await supabase.auth.signIn({
+  provider: 'facebook',
+})
+
+// Email/Password Auth
+const { user, error } = await supabase.auth.signIn({
+  email: 'example@email.com',
+  password: 'example-password',
+})
 ```
 
 ### Usage Without Auth
