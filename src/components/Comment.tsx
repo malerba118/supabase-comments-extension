@@ -5,7 +5,7 @@ import {
   IconMoreVertical,
   Button,
 } from '@supabase/ui';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import type * as api from '../api';
 import {
   useComment,
@@ -15,7 +15,7 @@ import {
   useRemoveReaction,
   useUncontrolledState,
 } from '../hooks';
-import Editor from './Editor';
+import Editor, { EditorRefHandle } from './Editor';
 import TimeAgo from './TimeAgo';
 import Comments from './Comments';
 import ReplyManagerProvider, { useReplyManager } from './ReplyManagerProvider';
@@ -79,6 +79,7 @@ interface CommentDataProps {
 }
 
 const CommentData: FC<CommentDataProps> = ({ comment }) => {
+  const editorRef = useRef<EditorRefHandle | null>(null);
   const context = useCommentsContext();
   const [editing, setEditing] = useState(false);
   const [repliesVisible, setRepliesVisible] = useState(false);
@@ -180,16 +181,17 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
             )}
             {editing && (
               <Editor
+                ref={editorRef}
                 key={commentState.key}
                 defaultValue={commentState.defaultValue}
                 onChange={(val) => {
                   commentState.setValue(val);
                 }}
                 autoFocus={!!replyManager?.replyingTo}
-                actions={({ editor }) => (
+                actions={
                   <div className="flex mx-[3px] space-x-[3px]">
                     <Button
-                      onMouseDown={() => {
+                      onClick={() => {
                         setEditing(false);
                       }}
                       size="tiny"
@@ -199,7 +201,7 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
                       Cancel
                     </Button>
                     <Button
-                      onMouseDown={() => {
+                      onClick={() => {
                         mutations.updateComment.mutate({
                           id: comment.id,
                           comment: commentState.value,
@@ -211,12 +213,12 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
                       loading={mutations.updateComment.isLoading}
                       size="tiny"
                       className="!px-[6px] !py-[3px]"
-                      disabled={editor?.isEmpty}
+                      disabled={editorRef.current?.editor()?.isEmpty}
                     >
                       Save
                     </Button>
                   </div>
-                )}
+                }
               />
             )}
           </p>
