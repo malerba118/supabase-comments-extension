@@ -186,10 +186,10 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
                   commentState.setValue(val);
                 }}
                 autoFocus={!!replyManager?.replyingTo}
-                actions={
+                actions={({ editor }) => (
                   <div className="flex mx-[3px] space-x-[3px]">
                     <Button
-                      onClick={() => {
+                      onMouseDown={() => {
                         setEditing(false);
                       }}
                       size="tiny"
@@ -199,7 +199,7 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
                       Cancel
                     </Button>
                     <Button
-                      onClick={() => {
+                      onMouseDown={() => {
                         mutations.updateComment.mutate({
                           id: comment.id,
                           comment: commentState.value,
@@ -211,11 +211,12 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
                       loading={mutations.updateComment.isLoading}
                       size="tiny"
                       className="!px-[6px] !py-[3px]"
+                      disabled={editor?.isEmpty}
                     >
                       Save
                     </Button>
                   </div>
-                }
+                )}
               />
             )}
           </p>

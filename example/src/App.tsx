@@ -134,7 +134,7 @@ const examples: Record<string, Example> = {
           onUserClick={(user) => {
             window.alert(user.name);
           }}
-          accentColor="#8405FF"
+          accentColor="#904a99"
         >
           <AuthModal
             visible={modalVisible}
@@ -167,7 +167,7 @@ const examples: Record<string, Example> = {
       onUserClick={(user) => {
         window.alert(user.name);
       }}
-      accentColor="#8405FF"
+      accentColor="#904a99"
     >
       <AuthModal
         visible={modalVisible}
