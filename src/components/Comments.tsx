@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useLayoutEffect, useState } from 'react';
+import React, { FC, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Loading, Button, Typography, IconAlertCircle } from '@supabase/ui';
 import clsx from 'clsx';
 import {
@@ -7,7 +7,7 @@ import {
   useAddComment,
   useUncontrolledState,
 } from '../hooks';
-import Editor from './Editor';
+import Editor, { EditorRefHandle } from './Editor';
 import Comment from './Comment';
 import { useReplyManager } from './ReplyManagerProvider';
 import { getMentionedUserIds } from '../utils';
@@ -22,6 +22,7 @@ export interface CommentsProps {
 }
 
 const Comments: FC<CommentsProps> = ({ topic, parentId = null }) => {
+  const editorRef = useRef<EditorRefHandle | null>(null);
   const context = useCommentsContext();
   const [layoutReady, setLayoutReady] = useState(false);
   const replyManager = useReplyManager();
@@ -105,15 +106,16 @@ const Comments: FC<CommentsProps> = ({ topic, parentId = null }) => {
             </div>
             <div className="flex-1">
               <Editor
+                ref={editorRef}
                 key={commentState.key}
                 defaultValue={commentState.defaultValue}
                 onChange={(val) => {
                   commentState.setValue(val);
                 }}
                 autoFocus={!!replyManager?.replyingTo}
-                actions={({ editor }) => (
+                actions={
                   <Button
-                    onMouseDown={(e) => {
+                    onClick={() => {
                       runIfAuthenticated(() => {
                         mutations.addComment.mutate({
                           topic,
@@ -128,11 +130,13 @@ const Comments: FC<CommentsProps> = ({ topic, parentId = null }) => {
                     loading={mutations.addComment.isLoading}
                     size="tiny"
                     className="!px-[6px] !py-[3px] m-[3px]"
-                    disabled={isAuthenticated && editor?.isEmpty}
+                    disabled={
+                      isAuthenticated && editorRef.current?.editor()?.isEmpty
+                    }
                   >
                     {!isAuthenticated ? 'Sign In' : 'Submit'}
                   </Button>
-                )}
+                }
               />
             </div>
           </div>
