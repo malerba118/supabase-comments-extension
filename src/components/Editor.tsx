@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react';
+import React, { FC, forwardRef, ReactNode, useImperativeHandle } from 'react';
 import { IconBold, IconCode, IconItalic, IconList } from '@supabase/ui';
 import { useEditor, EditorContent } from '@tiptap/react';
 import clsx from 'clsx';
@@ -7,6 +7,7 @@ import StarterKit from '@tiptap/starter-kit';
 import MentionsExtension from './Mentions';
 import Placeholder from '@tiptap/extension-placeholder';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
+import { Editor as EditorType } from '@tiptap/core';
 
 import styles from './Editor.module.css';
 // @ts-ignore
@@ -18,16 +19,19 @@ interface EditorProps {
   onChange?: (value: string) => void;
   readOnly?: boolean;
   autoFocus?: boolean;
-  actions?: ReactNode;
+  actions?: (params: { editor: EditorType | null }) => ReactNode;
 }
 
-const Editor: FC<EditorProps> = ({
-  defaultValue,
-  onChange,
-  readOnly = false,
-  autoFocus = false,
-  actions = null,
-}) => {
+const Editor: FC<EditorProps> = (
+  {
+    defaultValue,
+    onChange,
+    readOnly = false,
+    autoFocus = false,
+    actions = null,
+  },
+  ref
+) => {
   const context = useCommentsContext();
   const extensions: any[] = [
     StarterKit,
@@ -77,7 +81,7 @@ const Editor: FC<EditorProps> = ({
         <div
           className={clsx(
             'border-t-2 border-alpha-10',
-            'absolute bottom-0 left-0 right-0 flex items-center h-8'
+            'absolute bottom-0 left-0 right-0 flex items-center h-8 z-10'
           )}
         >
           <div
@@ -176,11 +180,10 @@ const Editor: FC<EditorProps> = ({
             </svg>
           </div>
           <div className="flex-1" />
-          <div>{actions}</div>
+          <div>{actions?.({ editor })}</div>
         </div>
       )}
     </div>
   );
 };
-
 export default Editor;

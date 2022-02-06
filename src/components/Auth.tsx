@@ -721,7 +721,10 @@ function SocialAuth({
                       onClick={() => handleProviderSignIn(provider)}
                       className="flex items-center"
                     >
-                      {verticalSocialLayout && 'Sign up with ' + provider.charAt(0).toUpperCase() + provider.slice(1)}
+                      {verticalSocialLayout &&
+                        'Sign up with ' +
+                          provider.charAt(0).toUpperCase() +
+                          provider.slice(1)}
                     </Button>
                   </div>
                 );

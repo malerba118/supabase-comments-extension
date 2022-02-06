@@ -111,9 +111,9 @@ const Comments: FC<CommentsProps> = ({ topic, parentId = null }) => {
                   commentState.setValue(val);
                 }}
                 autoFocus={!!replyManager?.replyingTo}
-                actions={
+                actions={({ editor }) => (
                   <Button
-                    onClick={() => {
+                    onMouseDown={(e) => {
                       runIfAuthenticated(() => {
                         mutations.addComment.mutate({
                           topic,
@@ -128,10 +128,11 @@ const Comments: FC<CommentsProps> = ({ topic, parentId = null }) => {
                     loading={mutations.addComment.isLoading}
                     size="tiny"
                     className="!px-[6px] !py-[3px] m-[3px]"
+                    disabled={isAuthenticated && editor?.isEmpty}
                   >
                     {!isAuthenticated ? 'Sign In' : 'Submit'}
                   </Button>
-                }
+                )}
               />
             </div>
           </div>
