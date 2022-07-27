@@ -23,5 +23,18 @@ export const getMentionedUserIds = (doc: string): string[] => {
   return userIds;
 };
 
+export const randomString = (length = 8) => {
+  const chars =
+    '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+  let result = '';
+
+  for (let i = length; i > 0; --i) {
+    result += chars[Math.floor(Math.random() * chars.length)];
+  }
+
+  return result;
+};
+
 export const timeout = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
