@@ -89,7 +89,7 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
     addReaction: useAddReaction(),
     removeReaction: useRemoveReaction(),
     updateComment: useUpdateComment(),
-    deleteComment: useDeleteComment(),
+    deleteComment: useDeleteComment(comment),
   };
   const { isAuthenticated, runIfAuthenticated, auth } = useAuthUtils();
 

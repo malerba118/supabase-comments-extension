@@ -1,11 +1,12 @@
 import { useMutation, useQueryClient } from 'react-query';
+import { Comment } from '../api';
 import useApi from './useApi';
 
 interface UseDeleteCommentPayload {
   id: string;
 }
 
-const useDeleteComment = () => {
+const useDeleteComment = (comment: Comment) => {
   const queryClient = useQueryClient();
   const api = useApi();
 
@@ -14,6 +15,12 @@ const useDeleteComment = () => {
       return api.deleteComment(id);
     },
     {
+      onMutate: ({ id }) => {
+        queryClient.setQueryData<Comment[]>(
+          ['comments', { topic: comment.topic, parentId: comment.parent_id }],
+          (comments = []) => comments.filter((comment) => comment.id !== id)
+        );
+      },
       onSuccess: (data) => {
         queryClient.invalidateQueries([
           'comments',
