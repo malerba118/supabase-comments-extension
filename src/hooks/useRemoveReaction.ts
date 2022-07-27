@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from 'react-query';
-import { Comment } from '../api';
+import { Comment, CommentReaction } from '../api';
+import { useSupabaseClient } from '../components/CommentsProvider';
 import useApi from './useApi';
 
 interface UseRemoveReactionPayload {
@@ -35,6 +36,7 @@ const removeOrDecrement = (reactionType: string, comment: Comment): Comment => {
 const useRemoveReaction = () => {
   const api = useApi();
   const queryClient = useQueryClient();
+  const supabaseClient = useSupabaseClient();
 
   return useMutation(
     (payload: UseRemoveReactionPayload) => {
@@ -44,12 +46,37 @@ const useRemoveReaction = () => {
       });
     },
     {
-      onSuccess: (data, params) => {
+      onMutate: (payload) => {
         // Manually patch the comment while it refetches
         queryClient.setQueryData(
-          ['comments', params.commentId],
-          (prev: Comment) => removeOrDecrement(params.reactionType, prev)
+          ['comments', payload.commentId],
+          (prev: Comment) => removeOrDecrement(payload.reactionType, prev)
         );
+
+        queryClient.setQueryData<CommentReaction[]>(
+          [
+            'comment-reactions',
+            {
+              commentId: payload.commentId,
+              reactionType: payload.reactionType,
+            },
+          ],
+          (reactions) => {
+            if (!reactions?.length) return [];
+
+            const user = supabaseClient.auth.user();
+
+            if (!user) return reactions;
+
+            return reactions.filter(
+              (reaction) =>
+                reaction.user_id !== user.id &&
+                reaction.reaction_type !== payload.reactionType
+            );
+          }
+        );
+      },
+      onSuccess: (data, params) => {
         queryClient.invalidateQueries(['comments', params.commentId]);
         queryClient.invalidateQueries([
           'comment-reactions',
