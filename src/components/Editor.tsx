@@ -40,7 +40,10 @@ const Editor: FC<EditorProps> = forwardRef(
   ) => {
     const context = useCommentsContext();
     const extensions: any[] = [
-      StarterKit,
+      //Possible bug? Console keeps nagging about duplicate codeblock so 'StarterKits' codeblock needs to be false
+      StarterKit.configure({
+        codeBlock: false,
+      }),
       Placeholder.configure({
         placeholder: 'Write a message...',
       }),
