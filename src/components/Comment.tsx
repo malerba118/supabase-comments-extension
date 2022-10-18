@@ -149,6 +149,8 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
       </div>
       <div className="flex-1 space-y-2">
         <div className="relative p-3 py-2 rounded-md sce-comment-body bg-alpha-5 text-alpha-90">
+          // console keeps complaining about invalid DOM nesting, switch up `p`
+          with `div` :p
           <div className="absolute top-0 right-0">
             {comment.user_id === auth?.user?.id && (
               <CommentMenu
@@ -161,7 +163,7 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
               />
             )}
           </div>
-          <p>
+          <div>
             <span
               className="font-bold cursor-pointer"
               onClick={() => {
@@ -170,8 +172,16 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
             >
               {comment.user.name}
             </span>
-          </p>
-          <p>
+            <a
+              className="italic text-gray-300 cursor-pointer"
+              href={`https://mobile.twitter.com/${comment.user.handle}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {` `} {`@${comment.user.handle}`}
+            </a>
+          </div>
+          <div>
             {!editing && (
               <Editor
                 key={comment.comment}
@@ -221,10 +231,10 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
                 }
               />
             )}
-          </p>
-          <p className="text-sm text-alpha-40">
+          </div>
+          <div className="text-sm text-alpha-40">
             <TimeAgo date={comment.created_at} locale="en-US" />
-          </p>
+          </div>
         </div>
         <div className="flex items-center justify-between">
           <div className="relative h-6 sce-comment-reactions">
@@ -248,7 +258,7 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
               </div>
             )}
             {!isReplyingTo && (
-              <p
+              <div
                 tabIndex={0}
                 className="cursor-pointer"
                 onClick={() => {
@@ -256,10 +266,10 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
                 }}
               >
                 reply
-              </p>
+              </div>
             )}
             {isReplyingTo && (
-              <p
+              <div
                 tabIndex={0}
                 className="cursor-pointer"
                 onClick={() => {
@@ -267,7 +277,7 @@ const CommentData: FC<CommentDataProps> = ({ comment }) => {
                 }}
               >
                 cancel
-              </p>
+              </div>
             )}
           </div>
         </div>

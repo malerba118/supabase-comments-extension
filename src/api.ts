@@ -7,10 +7,12 @@ export interface CommentReactionMetadata {
   active_for_user: boolean;
 }
 
+//added handle for twitter profile link
 export interface DisplayUser {
   id: string;
   name: string;
   avatar: string;
+  handle?: string;
 }
 
 export interface Comment {
